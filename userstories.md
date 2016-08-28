@@ -18,7 +18,9 @@ _CRITERIO DE ACEPTACION:_ Hacer una demostración donde se envía la posición a
 ### Mathi
 
 **como** moderador
+
 **quiero** poder agregar un bar nuevo
+
 **para** que pueda ser sugerido por la aplicación a los usuarios
 
 _CRITERIO DE ACEPTACION:_
@@ -31,7 +33,9 @@ _CRITERIO DE ACEPTACION:_
 6. Un moderador puede borrar el bar
 
 **como** moderador
+
 **quiero** poder borrar un bar existente
+
 **para** que no pueda ser sugerido por la aplicación a los usuarios
 
 _CRITERIO DE ACEPTACION:_
@@ -41,7 +45,9 @@ _CRITERIO DE ACEPTACION:_
 3. Si un usuario esta puntuando o comentando cuando se elimina el bar este recibirá una notificación comunicando que dicha acción ya no esta disponible
 
 **como** moderador
+
 **quiero** poder editar la información de un bar existente
+
 **para** actualizar datos incorrectos o incompletos
 
 _CRITERIO DE ACEPTACION:_
