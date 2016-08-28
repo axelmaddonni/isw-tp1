@@ -8,8 +8,11 @@
 
 **para** poder conocer qué bares cerca de mí tienen wifi y enchufes.
 
-
 _CRITERIO DE ACEPTACION:_ Hacer una demostración donde se envía la posición actual del usuario al sistema y este devuelve la lista de bares a menos de 400m.
+_TASKS:_ 
+1. Crear página de búsqueda, que toma como parámetro la posición del usuario.
+2. Crear función que recorra la base de datos y se quede con los bares que están a menos de 400m.
+3. Devolver una lista de jsons para cada bar con su nombre, su distancia, su valoracion y un link a su página dentro de la aplicación.
 
 #### Filtrar búsquedas
 
@@ -18,6 +21,11 @@ _CRITERIO DE ACEPTACION:_ Hacer una demostración donde se envía la posición a
 **quiero** filtrar los resultados de una búsqueda según puntaje del wifi, puntaje de los enchufes o puntaje del bar
 
 **para** poder descartar de los resultados los bares que tengan baja puntuación en la(s) categoría(s) seleccionada(s).
+
+_TASKS:_
+1. Hacer función que chequee si un bar pasa los criterios especificados.
+2. Filtrar los resultados que se le muestran al usuario utilizando la función dicha antes.
+
 
 
 ### Mathi
