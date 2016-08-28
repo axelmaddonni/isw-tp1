@@ -129,3 +129,63 @@ _CRITERIO DE ACEPTACIÓN:_ Escribir un comentario en el pérfil de un bar de pru
 
 _Business Value:_ 8
 _CRITERIO DE ACEPTACIÓN:_ Dado un conjunto de bares de prueba cuyos caminos óptimos son conocidos de antemano, ver que los caminos sugeridos por la aplicación coinciden.
+
+### Axel
+
+####Vista de bar
+
+**como** usuario de la aplicación
+
+**quiero** poder acceder a la vista de un bar
+
+**para** ver sus características 
+
+_Business Value:_ 10
+_CRITERIO DE ACEPTACION:_ La vista del bar debe contener todos los datos actualizados: Nombre, valoración del wifi, cantidad de enchufes, ubicación, comentarios de usuarios.
+
+_Tareas_
+1. Agregar un template para la página correspondiente a la vista de un bar. 
+2. Agregar función para traer los datos actualizados del bar en un json desde la base de datos.
+3. Agregar funciones para cargar y mostrar los datos del bar en la página. La ubicación deberá mostrarse en un mapa usando la API de GoogleMaps.
+
+####Seleccionar bar
+
+**como** usuario de la aplicación
+
+**quiero** poder seleccionar un bar de una lista de resultados
+
+**para** acceder a la vista del bar buscado
+
+_Business Value:_ 10
+_CRITERIO DE ACEPTACION:_ Dada una lista de resultados de una búsqueda, al hacer click sobre un bar, ver que se muestre la vista correspondiente al bar seleccionado.
+
+####Distancia de búsqueda de bares
+
+**como** usuario de la aplicación
+
+**quiero** poder modificar la máxima distancia de búsqueda de bares
+
+**para** poder buscar y distinguir bares según la distancia a la que se encuentran
+
+_Business Value:_ 6
+_CRITERIO DE ACEPTACION:_ Demostrar que al modificar la preferencia de distancia máxima de búsqueda, los bares resultantes de una búsqueda se encuentran a menor o igual distancia que la seteada.
+
+_Tareas_
+1. Agregar una preferencia de usuario correspondiente a la distancia máxima de búsqueda de bares.
+2. Agregar función para modificar la preferencia de distancia máxima de búsqueda de bares.
+3. Agregar opción a la interfaz de usuario: "Modificar distancia de búsqueda".
+
+####Página de Resultados
+
+**como** usuario de la aplicación
+
+**quiero** poder volver a ver los resultados obtenidos en una búsqueda desde la vista de un bar seleccionado a partir de la misma
+
+**para** poder acceder a las vistas de otros bares obtenidos en la búsqueda sin tener que volver a realizarla
+
+_Business Value:_ 5
+_CRITERIO DE ACEPTACION:_ Desde una vista de bar, al hacer clic sobre el botón para volver a los resultados deben mostrarse el listado de bares obtenidos en la última búsqueda sin volver a ejecutarla (no deben traerse de nuevo los datos de la base de datos). 
+
+_Tareas_
+1. Agregar una opción a la Vista de Bar que permita volver a los resultados obtenidos en la última búsqueda.
+
