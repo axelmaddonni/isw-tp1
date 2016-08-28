@@ -39,6 +39,12 @@ _CRITERIO DE ACEPTACION:_
 5. Un moderador puede editar sus datos
 6. Un moderador puede borrar el bar
 
+_Tareas_
+
+1. Agregar boton en el menu de acciones del moderador para agregar a la base de datos un nuevo bar
+2. Hacer que al presionar el botón se cargue un formulario para rellenar con los datos del bar y una vez hecho se carguen al sistema
+3. Si dos moderadores intentan crear simultaneamente el mismo bar el último que intente actualizar los datos recibirá un error.
+
 #### Borrar bares
 
 **como** moderador
@@ -52,6 +58,12 @@ _CRITERIO DE ACEPTACION:_
 1. El moderador puede seleccionar un bar que este en el catalogo para eliminarlo
 2. Si un usuario busca el bar eliminado este no deberá aparecer
 3. Si un usuario esta puntuando o comentando cuando se elimina el bar este recibirá una notificación comunicando que dicha acción ya no esta disponible
+4. Si dos moderadores intentan borrar simultaneamente el mismo bar el último que intente actualizar los datos recibirá un error.
+
+_Tareas_
+
+1. Agregar boton en el menu de acciones que tiene el moderador sobre cada bar para que pueda **Borrar Bar**
+2. Hacer que al presionar el botón se elimine el bar de la base de datos
 
 #### Editar bares
 
@@ -63,11 +75,16 @@ _CRITERIO DE ACEPTACION:_
 
 _CRITERIO DE ACEPTACION:_
 
-1. El moderador puede seleccionar un bar que este en el catalogo para editarlo
-2. Si un usuario busca el bar editado este aparecerá con los datos actualizados
+1. El moderador puede seleccionar un bar que este en el catalogo para editarlo.
+2. Si un usuario busca el bar editado este aparecerá con los datos actualizados.
 3. Si se cambia la dirección del bar, cuando un usuario consulte como llegar al mismo se cargará el recorrido actualizado.
-4. Si se cambia la dirección dele bar, cuando un usuario busque por bares cercanos el bar aparecerá o no según su nueva dirección y no la antigua.
+4. Si se cambia la dirección del bar, cuando un usuario busque por bares cercanos el bar aparecerá o no según su nueva dirección y no la antigua.
+5. Si dos moderadores intentan editar simultaneamente el mismo bar el último que intente actualizar los datos recibirá un error.
 
+_Tareas_
+
+1. Agregar boton en el menu de acciones que tiene el moderador sobre cada bar para que pueda **Editar Bar**
+2. Hacer que al presionar el botón se cargue un formulario con la información actual del bar la cual podrá ser editada y actualizada en la base de datos al presionar **Actualizar Datos**
 
 ### Manu
 
