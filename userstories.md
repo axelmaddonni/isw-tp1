@@ -15,6 +15,7 @@ _CRITERIO DE ACEPTACION:_ Hacer una demostración donde se envía la posición a
 
 **para** poder descartar de los resultados los bares que tengan baja puntuación en la(s) categoría(s) seleccionada(s).
 
+
 ### Mathi
 
 **como** moderador
@@ -56,3 +57,40 @@ _CRITERIO DE ACEPTACION:_
 2. Si un usuario busca el bar editado este aparecerá con los datos actualizados
 3. Si se cambia la dirección del bar, cuando un usuario consulte como llegar al mismo se cargará el recorrido actualizado.
 4. Si se cambia la dirección dele bar, cuando un usuario busque por bares cercanos el bar aparecerá o no según su nueva dirección y no la antigua.
+
+
+### Manu
+
+####Votación
+
+**como** usuario de la aplicación
+
+**quiero** poder calificar a un bar con una cantidad de estrellas del 1 (peor) al 5 (mejor) en las siguientes categorías: nivel de la señal de wi-fi, cantidad de enchufes, horarios de atención, nivel de ruido, calidad de la comida, precios, atención e higiene de los baños
+
+**para** dar una valoración rápida y concreta que ayude al resto de la comunidad en futuras búsquedas  
+
+
+_Business Value:_ 9
+_CRITERIO DE ACEPTACION:_ Hacer una demostración en la cual calificamos a un bar de prueba en las distintas categorías.
+
+####Comentarios
+
+**como** usuario de la aplicación
+
+**quiero** poder escribir comentarios sobre los bares que visito (sería correcto fijar un largo para los mismos a esta altura?)
+
+**para** poder compartir detalles que considere importantes para ayudar al resto de la comunidad en futuras búsquedas
+
+_Business Value:_ 7
+_CRITERIO DE ACEPTACIÓN:_ Escribir un comentario en el pérfil de un bar de prueba.
+
+#### ¿Cómo llegar?
+
+**como** usuario de la aplicación
+
+**quiero** conocer la ruta más rápida para llegar al bar deseado desde mi posición actual
+
+**para** minimizar mi pérdida de tiempo y esfuerzo
+
+_Business Value:_ 8
+_CRITERIO DE ACEPTACIÓN:_ Dado un conjunto de bares de prueba cuyos caminos óptimos son conocidos de antemano, ver que los caminos sugeridos por la aplicación coinciden.
