@@ -1,4 +1,7 @@
 ### Gonza
+
+#### Buscar bares
+
 **como** usuario de la aplicación
 
 **quiero** buscar bares cerca de mí
@@ -8,6 +11,7 @@
 
 _CRITERIO DE ACEPTACION:_ Hacer una demostración donde se envía la posición actual del usuario al sistema y este devuelve la lista de bares a menos de 400m.
 
+#### Filtrar búsquedas
 
 **como** usuario de la aplicación
 
@@ -17,6 +21,8 @@ _CRITERIO DE ACEPTACION:_ Hacer una demostración donde se envía la posición a
 
 
 ### Mathi
+
+#### Agregar bares
 
 **como** moderador
 
@@ -33,6 +39,8 @@ _CRITERIO DE ACEPTACION:_
 5. Un moderador puede editar sus datos
 6. Un moderador puede borrar el bar
 
+#### Borrar bares
+
 **como** moderador
 
 **quiero** poder borrar un bar existente
@@ -44,6 +52,8 @@ _CRITERIO DE ACEPTACION:_
 1. El moderador puede seleccionar un bar que este en el catalogo para eliminarlo
 2. Si un usuario busca el bar eliminado este no deberá aparecer
 3. Si un usuario esta puntuando o comentando cuando se elimina el bar este recibirá una notificación comunicando que dicha acción ya no esta disponible
+
+#### Editar bares
 
 **como** moderador
 
