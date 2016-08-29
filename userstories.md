@@ -279,7 +279,7 @@ _CRITERIO DE ACEPTACIÓN:_
 
 _Tareas_
 
-1. Agregar un botón a la interfaz de comentarios para borrarlos en caso de ser Mod.
+1. Agregar un botón a la interfaz (en el caso de ser Mod) de comentarios que permita borrarlos y suspender al autor.
 2. Agregar una función que elimine comentarios de la Base de Datos.
-3. Agregar una interfaz para que el Mod pueda explicarle al usuario por qué su comentario fue removido, con la opción de suspenderlo.
-4. Agregar interfaz para que el usuario sea alertado cuando un Mod toma acción contra él.y pueda leer la explicación provista.
+3. Agregar una interfaz para que el Mod pueda explicarle al usuario por qué su comentario fue removido.
+4. Agregar una interfaz para que el usuario sea alertado cuando un Mod toma acción contra él.y pueda leer la explicación provista.
