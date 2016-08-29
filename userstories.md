@@ -198,23 +198,35 @@ _Tareas_
 
 ### Gabriel
 
+#### Sugerir nuevo bar
+
 **como** usuario
 
 **quiero** poder sugerir que se agregue un nuevo bar, posiblemente como dueño de éste
 
 **para** que pueda ser aprobado por un mod y de esa forma sea agregado al catálogo, posiblemente siendo identificado como dueño del bar
 
+_Business Value:_ 10
+
 _CRITERIO DE ACEPTACIÓN:_
 
 1. El usuario debe poder subir los datos de un bar que aún no forma parte del catálogo.
 2. El usuario debe poder marcarse como dueño del bar, y proveer pruebas de que efectivamente lo es.
-2. La sugerencia debe ser agregada a una cola para que los Mods puedan aceptarla o rechazarla.
+3. La sugerencia debe ser agregada a una cola para que los Mods puedan aceptarla o rechazarla.
+
+_Tareas_
+
+1. Configurar una Base de Datos para la información de las sugerencias.
+2. Agregar una cola para las sugerencias.
+3. Agregar una interfaz y funcionalidad para que lo usuarios puedan encolar sugerencias.
 
 **como** usuario
 
 **quiero** poder proponerme como dueño de un bar que ya se encuentra en el catálogo
 
 **para** ser reconocido como dueño del bar, en caso de ser aprobado por un mod
+
+_Business Value:_ 4
 
 _CRITERIO DE ACEPTACIÓN:_
 
@@ -228,6 +240,8 @@ _CRITERIO DE ACEPTACIÓN:_
 
 **para** que sea procesada y removida de la cola
 
+_Business Value:_ 10
+
 _CRITERIO DE ACEPTACIÓN:_
 
 1. El Mod debe tener acceso a una cola que contenga las sugerencias.
@@ -237,16 +251,35 @@ _CRITERIO DE ACEPTACIÓN:_
 5. En caso de aceptar una sugerencia para un nuevo bar, éste debe ser agregado al catálogo con la información provista.
 6. En caso de aceptar al usuario como dueño, su status debe ser modificado para reflejarlo.
 
+_Tareas_
+
+1. Agregar una interfaz para la cola y un botón para accederla en caso de ser Mod.
+2. Agregar función para que los Mods puedan acceder a la cola.
+3. Agregar función para que los Mods puedan aceptar o rechazar sugerencias de la cola, y que ésto se vea reflejado para todos los otros Mods accediendo a la cola.
+4. Agregar funcionalidad para transferir los bares aceptados al catálogo.
+5. Agregar función para actualizar el status de un usuario como dueño en caso de aceptar su sugerencia.
+
+#### Acciones de los Mods
+
 **como** moderador
 
 **quiero** poder remover comentarios, y posiblemente suspender a los usuarios que los escribieron
 
 **para** poder aplicar las condiciones de uso 
 
+_Business Value:_ 6
+
 _CRITERIO DE ACEPTACIÓN:_
 
-1. EL Mod debe poder remover comentarios inapropiados que violan las condiciones de uso.
+1. El Mod debe poder remover comentarios inapropiados que violan las condiciones de uso.
 2. El Mod debe poder suspender al usuario por la cantidad de tiempo (posiblemente indeterminada) que le parezca razonable. 
 3. El Mod debe poder explicarle al usuario por qué su comentario fue removido y su cuenta suspendida (en caso de llevarse a cabo tal medida). 
 4. Los usuarios no deben poder ver o acceder comentarios removidos.
 5. Los usuarios suspendidos no deben poder comentar, calificar o realizar sugerencias.
+
+_Tareas_
+
+1. Agregar un botón a la interfaz de comentarios para borrarlos en caso de ser Mod.
+2. Agregar una función que elimine comentarios de la Base de Datos.
+3. Agregar una interfaz para que el Mod pueda explicarle al usuario por qué su comentario fue removido, con la opción de suspenderlo.
+4. Agregar interfaz para que el usuario sea alertado cuando un Mod toma acción contra él.y pueda leer la explicación provista.
