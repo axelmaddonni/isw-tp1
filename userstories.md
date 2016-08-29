@@ -196,3 +196,57 @@ _Tareas_
 
 1. Agregar una opción a la Vista de Bar que permita volver a los resultados obtenidos en la última búsqueda.
 
+### Gabriel
+
+**como** usuario
+
+**quiero** poder sugerir que se agregue un nuevo bar, posiblemente como dueño de éste
+
+**para** que pueda ser aprobado por un mod y de esa forma sea agregado al catálogo, posiblemente siendo identificado como dueño del bar
+
+_CRITERIO DE ACEPTACIÓN:_
+
+1. El usuario debe poder subir los datos de un bar que aún no forma parte del catálogo.
+2. El usuario debe poder marcarse como dueño del bar, y proveer pruebas de que efectivamente lo es.
+2. La sugerencia debe ser agregada a una cola para que los Mods puedan aceptarla o rechazarla.
+
+**como** usuario
+
+**quiero** poder proponerme como dueño de un bar que ya se encuentra en el catálogo
+
+**para** ser reconocido como dueño del bar, en caso de ser aprobado por un mod
+
+_CRITERIO DE ACEPTACIÓN:_
+
+1. El usuario debe poder acceder un bar del catálogo, y proponerse como dueño. 
+2. El usuario debe ser capaz de proveer evidencia de que efectivamente es el dueño.
+3. La sugerencia debe ser agregada a la cola para que los Mods puedan aceptarla o rechazarla.
+
+**como** moderador
+
+**quiero** poder aprobar o rechazar una sugerencia (para agregar un nuevo bar, marcar a un usuario como dueño, o ambas)
+
+**para** que sea procesada y removida de la cola
+
+_CRITERIO DE ACEPTACIÓN:_
+
+1. El Mod debe tener acceso a una cola que contenga las sugerencias.
+2. El Mod debe poder aceptar, rechazar o ignorar la sugerencia. 
+3. En caso de aceptar o rechazar la sugerencia, debe desaparecer de la cola.
+4. En caso de ignorarla, debe quedar en la cola.
+5. En caso de aceptar una sugerencia para un nuevo bar, éste debe ser agregado al catálogo con la información provista.
+6. En caso de aceptar al usuario como dueño, su status debe ser modificado para reflejarlo.
+
+**como** moderador
+
+**quiero** poder remover comentarios, y posiblemente suspender a los usuarios que los escribieron
+
+**para** poder aplicar las condiciones de uso 
+
+_CRITERIO DE ACEPTACIÓN:_
+
+1. EL Mod debe poder remover comentarios inapropiados que violan las condiciones de uso.
+2. El Mod debe poder suspender al usuario por la cantidad de tiempo (posiblemente indeterminada) que le parezca razonable. 
+3. El Mod debe poder explicarle al usuario por qué su comentario fue removido y su cuenta suspendida (en caso de llevarse a cabo tal medida). 
+4. Los usuarios no deben poder ver o acceder comentarios removidos.
+5. Los usuarios suspendidos no deben poder comentar, calificar o realizar sugerencias.
