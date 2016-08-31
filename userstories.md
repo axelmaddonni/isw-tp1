@@ -9,6 +9,7 @@
 **para** poder conocer qué bares cerca de mí tienen wifi y enchufes.
 
 _CRITERIO DE ACEPTACION:_ Hacer una demostración donde se envía la posición actual del usuario al sistema y este devuelve la lista de bares a menos de 400m.
+
 _TASKS:_ 
 1. Crear página de búsqueda, que toma como parámetro la posición del usuario.
 2. Crear función que recorra la base de datos y se quede con los bares que están a menos de 400m.
@@ -40,12 +41,8 @@ _TASKS:_
 
 _CRITERIO DE ACEPTACION:_
 
-1. El Moderador puede cargar los datos de un bar que no este en el catalogo
-2. El Moderador puede agregar el bar junto con sus datos al catalogo
-3. Un Usuario puede encontrar el bar agregado previamente al buscarlo en la aplicacion con los distintos filtros posibles
-4. Un usuario puede puntuar y comentar el nuevo bar
-5. Un moderador puede editar sus datos
-6. Un moderador puede borrar el bar
+Demostrar que al ir al menu de acciones posibles al Moderador le aparece la opción crear bar, al apretarla se muestra un formulario para llenar con los datos del nuevo bar. Luego se agrega el bar al catalogo este puede ser puntuado por un usuario de la aplicación.
+
 
 _Tareas_
 
@@ -63,10 +60,7 @@ _Tareas_
 
 _CRITERIO DE ACEPTACION:_
 
-1. El moderador puede seleccionar un bar que este en el catalogo para eliminarlo
-2. Si un usuario busca el bar eliminado este no deberá aparecer
-3. Si un usuario esta puntuando o comentando cuando se elimina el bar este recibirá una notificación comunicando que dicha acción ya no esta disponible
-4. Si dos moderadores intentan borrar simultaneamente el mismo bar el último que intente actualizar los datos recibirá un error.
+Demostrar como un moderador puede acceder a un bar existente. Luego borrarlo y mostrar como este ya no esta mas disponible, siendo imposible puntuarlo o realizar cualquier tipo de acción sobre el mismo.
 
 _Tareas_
 
@@ -83,11 +77,7 @@ _Tareas_
 
 _CRITERIO DE ACEPTACION:_
 
-1. El moderador puede seleccionar un bar que este en el catalogo para editarlo.
-2. Si un usuario busca el bar editado este aparecerá con los datos actualizados.
-3. Si se cambia la dirección del bar, cuando un usuario consulte como llegar al mismo se cargará el recorrido actualizado.
-4. Si se cambia la dirección del bar, cuando un usuario busque por bares cercanos el bar aparecerá o no según su nueva dirección y no la antigua.
-5. Si dos moderadores intentan editar simultaneamente el mismo bar el último que intente actualizar los datos recibirá un error.
+Demostrar como un moderador puede seleccionar un bar existente en el sistema y editarlo. Luego de esto los datos alterados se muestran de forma exitosa en la información del bar.
 
 _Tareas_
 
@@ -210,15 +200,15 @@ _Business Value:_ 10
 
 _CRITERIO DE ACEPTACIÓN:_
 
-1. El usuario debe poder subir los datos de un bar que aún no forma parte del catálogo.
-2. El usuario debe poder marcarse como dueño del bar, y proveer pruebas de que efectivamente lo es.
-3. La sugerencia debe ser agregada a una cola para que los Mods puedan aceptarla o rechazarla.
+Demostrar como un usuario de la aplicación puede subir los datos de un bar como sugerencia. Luego mostrar como esta llega en forma de notificación a la cuenta de un moderador.
 
 _Tareas_
 
 1. Configurar una Base de Datos para la información de las sugerencias.
 2. Agregar una cola para las sugerencias.
 3. Agregar una interfaz y funcionalidad para que lo usuarios puedan encolar sugerencias.
+
+### Proponerme como dueño de bar
 
 **como** usuario
 
@@ -230,9 +220,9 @@ _Business Value:_ 4
 
 _CRITERIO DE ACEPTACIÓN:_
 
-1. El usuario debe poder acceder un bar del catálogo, y proponerse como dueño. 
-2. El usuario debe ser capaz de proveer evidencia de que efectivamente es el dueño.
-3. La sugerencia debe ser agregada a la cola para que los Mods puedan aceptarla o rechazarla.
+Demostrar como un usuario puede acceder a un bar del catálogo y proponerse como dueño. Luego mostrar como esta llega en forma de notificación a la cuenta de un moderador.
+
+### Aprobar y Rechazar Sugerencias
 
 **como** moderador
 
@@ -244,12 +234,7 @@ _Business Value:_ 10
 
 _CRITERIO DE ACEPTACIÓN:_
 
-1. El Mod debe tener acceso a una cola que contenga las sugerencias.
-2. El Mod debe poder aceptar, rechazar o ignorar la sugerencia. 
-3. En caso de aceptar o rechazar la sugerencia, debe desaparecer de la cola.
-4. En caso de ignorarla, debe quedar en la cola.
-5. En caso de aceptar una sugerencia para un nuevo bar, éste debe ser agregado al catálogo con la información provista.
-6. En caso de aceptar al usuario como dueño, su status debe ser modificado para reflejarlo.
+Demostrar como un moderador puede acceder a las sugerencias recibidas y luego rechazarlas o aceptarlas.
 
 _Tareas_
 
@@ -271,11 +256,7 @@ _Business Value:_ 6
 
 _CRITERIO DE ACEPTACIÓN:_
 
-1. El Mod debe poder remover comentarios inapropiados que violan las condiciones de uso.
-2. El Mod debe poder suspender al usuario por la cantidad de tiempo (posiblemente indeterminada) que le parezca razonable. 
-3. El Mod debe poder explicarle al usuario por qué su comentario fue removido y su cuenta suspendida (en caso de llevarse a cabo tal medida). 
-4. Los usuarios no deben poder ver o acceder comentarios removidos.
-5. Los usuarios suspendidos no deben poder comentar, calificar o realizar sugerencias.
+Demostrar como un moderador puede eliminar un comentario y luego suspender al usuario que lo realizo. Tambien intentar acceder a la cuenta del usuario suspendido y corroborar que este no puede realizar ningun tipo de actividad en la aplicación.
 
 _Tareas_
 
