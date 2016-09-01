@@ -1,0 +1,135 @@
+\documentclass[hidelinks,a4paper,12pt, nofootinbib]{article}
+\usepackage[left=3cm, top=2.5cm, right=2cm, left=2.5cm]{geometry}
+\usepackage[spanish, es-tabla]{babel} %es-tabla es para que ponga Tabla en vez de Cuadro en el caption
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{xspace}
+\usepackage{xargs}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{caratula}
+\usepackage[bottom]{footmisc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{array}
+\usepackage{xcolor,colortbl}
+\usepackage{amsthm}
+\usepackage{listings}
+\usepackage{soul}
+
+\usepackage{pgf}
+
+\usepackage{graphicx}
+\usepackage{sidecap}
+\usepackage{amsmath}
+\usepackage{wrapfig}
+\usepackage{caption}
+
+%Grafos
+\usepackage{tkz-berge} %Como Tikz pero más orientado a graph theory 
+\usetikzlibrary{3d,arrows,automata}
+\newcommand\pgfmathsinandcos[3]{% 
+  \pgfmathsetmacro#1{sin(#3)}% 
+  \pgfmathsetmacro#2{cos(#3)}% 
+}
+
+
+%Formato de los links
+\usepackage{hyperref}
+\hypersetup{
+  colorlinks   = true, %Colours links instead of ugly boxes
+  urlcolor     = blue, %Colour for external hyperlinks
+  linkcolor    = blue, %Colour of internal links
+  citecolor   = red %Colour of citations
+}
+
+\usepackage{comment}
+\captionsetup[table]{labelsep=space}
+
+
+\setlength{\parindent}{4em}
+\setlength{\parskip}{0.5em}
+
+
+%%fancyhdr
+\pagestyle{fancy}
+\thispagestyle{fancy}
+\addtolength{\headheight}{1pt}
+\lhead{Ingeniería del Software I+II: TP1}
+\rhead{$1º$ cuatrimestre de 2016}
+\cfoot{\thepage\ / \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.4pt}
+\renewcommand{\labelitemi}{$\bullet$}
+\setcounter{section}{-1}
+
+
+\newcommand{\userstory}[3]{
+\begin{tabular}{r l}
+  \textbf{como} & #1 \\
+  \textbf{quiero} & #2 \\
+  \textbf{para} & #3 \\
+\end{tabular}
+
+}
+
+\newcommand{\critdeacep}[1]{\textbf{Criterio de aceptación:} #1
+
+}
+\newcommand{\busvalue}[1]{\textbf{Business Value:} #1
+
+}
+\newcommand{\storypoints}[1]{\textbf{Story Points:} #1
+
+}
+\newcommand{\primersprint}{\texttt{1er sprint}
+
+}
+\newcommand{\secundosprint}{\texttt{2do sprint}
+
+}
+\newcommand{\tasks}[1]{\textbf{Tasks:} 
+
+#1}
+
+
+%%caratula
+\materia{Ingeniería del Software I+II}
+\titulo{Trabajo Práctico Número 1: User Stories}
+%\subtitulo{}
+\grupo{Grupo 7}
+\integrante{Ciruelos Rodríguez, Gonzalo}{063/14}{gonzalo.ciruelos@gmail.com}
+\integrante{Costa, Manuel José Joaquín}{035/14}{manucos94@gmail.com}
+\integrante{Gatti, Mathias Nicolás}{477/14}{mathigatti@gmail.com}
+\integrante{Maddonni, Axel Ezequiel}{200/14}{axel.maddonni@gmail.com}
+\integrante{Thibeault, Gabriel}{114/13}{gabriel.eric.thibeault@gmail.com}
+
+% \fecha{24 de Junio de 2016}
+\begin{document}
+
+\maketitle
+
+
+\section{User Stories}
+
+\subsubsection*{Buscar bares}
+
+\userstory{usuario de la aplicación}{buscar bares cerca de mí}{poder conocer qué bares cerca de mí tienen wifi y enchufes.}
+\critdeacep{Al enviar la posición actual del usuario al sistema, este debe devolver la lista de bares a menos de 400m.}
+\primersprint
+\busvalue{10}
+\storypoints{8}
+\tasks{
+  \begin{enumerate}
+    \item Crear página de búsqueda. (2)
+    \item Crear la función de búsqueda, que toma como parámetro la posicin del usuario. (3)
+    \item Devolver una lista de jsons para cada bar con su nombre, su distancia, su valoracioón y un link a su página dentro de la aplicación. (1)
+    \item \textbf{Suma:} 6
+  \end{enumerate}
+}
+    
+
+
+
+\end{document}
