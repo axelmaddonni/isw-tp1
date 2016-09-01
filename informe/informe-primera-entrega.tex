@@ -52,7 +52,7 @@
 \thispagestyle{fancy}
 \addtolength{\headheight}{1pt}
 \lhead{Ingeniería del Software I+II: TP1}
-\rhead{$1º$ cuatrimestre de 2016}
+\rhead{$2º$ cuatrimestre de 2016}
 \cfoot{\thepage\ / \pageref{LastPage}}
 \renewcommand{\footrulewidth}{0.4pt}
 \renewcommand{\labelitemi}{$\bullet$}
@@ -73,12 +73,22 @@
 \newcommand{\critdeacep}[1]{\textbf{Criterio de aceptación:} #1
 
 }
-\newcommand{\busvalue}[1]{\textbf{Business Value:} #1
+\newcommand{\busvalue}[1]{\textit{Business Value:} #1
 
 }
-\newcommand{\storypoints}[1]{\textbf{Story Points:} #1
+\newcommand{\storypoints}[1]{\textit{Story Points:} #1
 
 }
+\newcommand{\roi}[1]{\textit{RoI:} #1
+
+}
+\newcommand{\valores}[3]{
+\begin{tabular}{l l l}
+  \busvalue{#1} & \storypoints{#2} & (\roi{#3}) \\ 
+\end{tabular}
+
+}
+
 \newcommand{\primersprint}{\texttt{1º sprint}
 
 }
@@ -106,7 +116,7 @@
 
 \maketitle
 
-\section{Introducción y Comentarios Generales}
+\section{Introducción y Comentarios sobre las User Stories}
 
 \par Es un requerimiento que la comunidad sea la encargada de subir los bares. 
 Sin embargo, es de esperar\footnote{En base a nuestra experiencia personal navegando por internet.} que los usuarios eventualmente agreguen bares repetidos, inexistentes, con información errónea o abusen del sistema de diversas formas (e.g. spam).
@@ -133,7 +143,7 @@ Discutimos sobre tomar 0 o media estrella como calificación mínima; decidimos 
 Adicionalmente, el usuario puede aplicar filtros por feature, eliminando resultados que no cumplen ciertos criterios. 
 Éstos pueden ser, $\leqslant, \geqslant$, o por rango cerrado (e.g. si la calificación $\in [2, 4]$)\footnote{Para algunas features, como precio, se podrán utilizar todos estos filtros; para otras, sólo algunos: no tiene sentido buscar sólo bares con mala calidad de wi-fi.}.
 
-\par La User Story a la que le asignamos 1 Story Point es a ``Borrar Comentarios'', ya que consiste sólo en agregar un botón a la interfaz de comentarios y removerlo de la estructura que lo contiene, ambas tareas muy sencillas.
+\par La User Story a la que le asignamos 1 Story Point es a ``Borrar Comentarios'', ya que consiste sólo en agregar un botón a la interfaz de comentarios y removerlo de la estructura que lo contiene, ambas tareas muy sencillas. Para decidir el resto de los Story Points de los User Stories utilizamos la técnica de Planning Poker.
 
 \section{Contenido de cada Sprint}
 
@@ -154,12 +164,13 @@ En un tercer Sprint se podrían agregar las sugerencias, que permitirían a los 
 
 \section{User Stories}
 
+\par Cada User Story esta acompañada de un business value, unos story points y un Return on Investment (RoI, que es BV / SP), que nos permite medir que tan fructífero va a ser realizar esa funcionalidad. Además, para las tasks que vamos a realizar en alguno de los dos sprints, incluimos un criterio de aceptación y tasks, con horas hombre entre paréntesis y suma total.
+
 \subsection*{Buscar bares}
 \userstory{usuario de la aplicación}{buscar bares cerca de mí}{poder conocer qué bares cercanos tienen wifi y enchufes.}
 \primersprint
 \critdeacep{Al enviar la posición actual del usuario al sistema, este debe devolver la lista de bares a menos de 400m.}
-\busvalue{10}
-\storypoints{8}
+\valores{10}{8}{1.25}
 \tasks{
   \begin{enumerate}
     \item Crear página de búsqueda. (2)
@@ -169,26 +180,11 @@ En un tercer Sprint se podrían agregar las sugerencias, que permitirían a los 
   \end{enumerate}
 }
 
-\subsection*{Filtrar búsquedas por feature}
-\userstory{usuario de la aplicación}{filtrar los resultados de una búsqueda según el puntaje de las distintas features de los bares}{poder descartar de los resultados los bares que tengan una puntuación indeseable en ciertas categorías}
-\segundosprint
-\critdeacep{Al seleccionar un filtro, los resultados de la búsqueda ejecutada que aparecen deben pasar las condiciones impuestas por los filtros, y deben ser todos los que las cumplen.}
-\busvalue{8}
-\storypoints{3}
-\tasks{
-  \begin{enumerate}
-    \item Hacer función que chequee si un bar pasa los criterios especificados. (2)
-    \item Filtrar los resultados que se le muestran al usuario utilizando dicha función. (2)
-    \item[] \textit{Total de horas hombre:} 4
-  \end{enumerate}
-}
-
 \subsection*{Agregar bares}
 \userstory{moderador}{poder agregar un nuevo bar}{que pueda ser sugerido por la aplicación a los usuarios}
 \primersprint
 \critdeacep{El moderador debe poder cargar los datos y crear un bar. El bar debe aparecer en las búsquedas posteriores, reflejando su existencia en el sistema.}
-\busvalue{8}
-\storypoints{5}
+\valores{8}{5}{1.6}
 \tasks{
   \begin{enumerate}
     \item Añadir botón en el menú de acciones del moderador para agregar a la base de datos un nuevo bar. (1)
@@ -198,13 +194,11 @@ En un tercer Sprint se podrían agregar las sugerencias, que permitirían a los 
   \end{enumerate}
 }
 
-
 \subsection*{Borrar bares}
 \userstory{moderador o dueño del bar}{poder borrar un bar existente}{que no pueda ser sugerido por la aplicación a los usuarios}
 \primersprint
 \critdeacep{Un bar del catálogo debe poder ser seleccionado por el moderador o el dueño del bar. Si un usuario busca el bar eliminado, éste no deberá aparecer. Si un usuario está puntuando o comentando cuando se elimina, recibirá un error. Si dos moderadores intentan borrar simultáneamente el mismo bar, el último en hacerlo recibirá un error.}
-\busvalue{5}
-\storypoints{2}
+\valores{5}{2}{2.5}
 \tasks{
   \begin{enumerate}
     \item Agregar botón en la página del bar para que pueda ser borrado por un moderador o su dueño. (2)
@@ -213,13 +207,71 @@ En un tercer Sprint se podrían agregar las sugerencias, que permitirían a los 
   \end{enumerate}
 }
 
+\subsection*{Vista del bar}
+\userstory{usuario de la aplicación}{poder acceder a la página de un bar en la aplicación}{ver sus características con mayor detalle}
+\primersprint
+\critdeacep{La vista del bar debe contener todos los datos actualizados: nombre, foto, ubicación, features y comentarios.}
+\valores{10}{3}{3.33}
+\tasks{
+  \begin{enumerate}
+    \item Agregar un template para la página correspondiente a la vista de un bar. (3)
+    \item Agregar una función para traer los datos actualizados del bar en un json desde la base de datos. (1)
+    \item[] \textit{Total de horas hombre:} 4
+  \end{enumerate}
+}
+
+
+
+
+
+\subsection*{Filtrar búsquedas por feature}
+\userstory{usuario de la aplicación}{filtrar los resultados de una búsqueda según el puntaje de las distintas features de los bares}{poder descartar de los resultados los bares que tengan una puntuación indeseable en ciertas categorías}
+\segundosprint
+\critdeacep{Al seleccionar un filtro, los resultados de la búsqueda ejecutada que aparecen deben pasar las condiciones impuestas por los filtros, y deben ser todos los que las cumplen.}
+\valores{8}{3}{2.66}
+\tasks{
+  \begin{enumerate}
+    \item Hacer función que chequee si un bar pasa los criterios especificados. (2)
+    \item Filtrar los resultados que se le muestran al usuario utilizando dicha función. (2)
+    \item[] \textit{Total de horas hombre:} 4
+  \end{enumerate}
+}
+
+\subsection*{Log-in}
+\userstory{usuario de la aplicación}{loguearme}{acceder a funcionalidades disponibles sólo a usuarios con cuenta.}
+\primersprint
+\critdeacep{Al ingresar un usuario y contraseña válidas, el sistema debe iniciar una sesión con ese usuario.}
+\valores{8}{5}{1.6}
+\tasks{
+  \begin{enumerate}
+    \item Crear un sistema de log-in. (3)
+    \item Crear una página de log-in para que los usuarios puedan ingresar su usuario y contraseña. (2)
+    \item[] \textit{Total de horas hombre:} 5
+  \end{enumerate}
+}
+
+\subsection*{Promover a moderador}
+\userstory{moderador}{dar privilegios de moderación a un usuario con cuenta}{permitir que un usuario confiable pueda ser moderador.}
+\primersprint
+\critdeacep{Si el usuario seleccionado existe, se le deberán otorgar privilegios de moderación y tendrá disponibles todas las herramientas de los moderadores a partir de ese momento.}
+\valores{5}{3}{1.66}
+\tasks{
+  \begin{enumerate}
+    \item Hacer función que le de privilegios de moderación a una cuenta. (1)
+    \item[] \textit{Total de horas hombre:} 1
+  \end{enumerate}
+}
+
+
+
+
+
 \subsection*{Editar información de bares}
 \userstory{moderador o dueño del bar}{poder editar la información de un bar del sistema}{actualizar datos incompletos, incorrectos o desactualizados.
 }
 \segundosprint
 \critdeacep{Dado un bar, el dueño o un moderador debe tener un botón para editarlo dentro de la página del bar. Luego de editarlo, si alguien accede la página del bar, éste aparecerá con sus datos actualizados. Si dos moderadores editan un bar al mismo tiempo, la edición definitiva será la del que lo envíe segundo.}
-\busvalue{6}
-\storypoints{3}
+\valores{6}{3}{2}
 \tasks{
   \begin{enumerate}
     \item Agregar botón en el menú de acciones que tiene el moderador/dueño del bar sobre cada bar para que pueda editar la información. (1)
@@ -233,8 +285,7 @@ En un tercer Sprint se podrían agregar las sugerencias, que permitirían a los 
 \userstory{usuario de la aplicación}{poder calificar a un bar con una cantidad de estrellas del $\frac{1}{2}$ (peor) al $5$ (mejor) en todas sus features}{dar una valoración rápida y concreta que ayude al resto de la comunidad en sus futuras búsquedas.}
 \segundosprint
 \critdeacep{Cuando un bar es calificado por un usuario, el nuevo voto deberá verse reflejado cuando la página del bar sea cargada posteriormente.}
-\busvalue{9}
-\storypoints{2}
+\valores{9}{2}{4.5}
 \tasks{
   \begin{enumerate}
     \item Modificar la representación de los bares para que pueda almacenar el promedio de votos de cada categoria y la cantidad de votos de cada categoria. (2)
@@ -247,8 +298,7 @@ En un tercer Sprint se podrían agregar las sugerencias, que permitirían a los 
 \userstory{usuario de la aplicación}{escribir comentarios sobre los bares que visito}{compartir detalles que considere importantes para ayudar al resto de la comunidad en futuras búsquedas.}
 \segundosprint
 \critdeacep{Al escribir y aceptar un nuevo comentario, éste debe aparecer en la vista del bar.}
-\busvalue{7}
-\storypoints{2}
+\valores{7}{2}{4.5}
 \tasks{
   \begin{enumerate}
     \item Modificar la representación de los bares para que pueda almacenar una lista de comentarios. (1)
@@ -262,8 +312,7 @@ En un tercer Sprint se podrían agregar las sugerencias, que permitirían a los 
 \userstory{usuario de la aplicación}{conocer la ruta más rápida para llegar al bar deseado desde mi posición actual}{minimizar mi pérdida de tiempo y esfuerzo.}
 \segundosprint
 \critdeacep{En la vista de un bar deberá haber un botón que permita ver el camino al bar desde mi posición. Éste deberá ser efectivamente el camino óptimo.}
-\busvalue{9}
-\storypoints{3}
+\valores{9}{3}{3}
 \tasks{
   \begin{enumerate}
     \item Agregar un botón en la vista de un bar que permita acceder al mapa de camino más rápido. (1)
@@ -272,26 +321,12 @@ En un tercer Sprint se podrían agregar las sugerencias, que permitirían a los 
   \end{enumerate}
 }
 
-\subsection*{Vista del bar}
-\userstory{usuario de la aplicación}{poder acceder a la página de un bar en la aplicación}{ver sus características con mayor detalle}
-\primersprint
-    \critdeacep{La vista del bar debe contener todos los datos actualizados: nombre, foto, ubicación, features y comentarios.}
-\busvalue{10}
-\storypoints{3}
-\tasks{
-  \begin{enumerate}
-    \item Agregar un template para la página correspondiente a la vista de un bar. (3)
-    \item Agregar una función para traer los datos actualizados del bar en un json desde la base de datos. (1)
-    \item[] \textit{Total de horas hombre:} 4
-  \end{enumerate}
-}
 
 \subsection*{Filtrar por distancia}
 \userstory{usuario de la aplicación}{filtrar los resultados de una búsqueda de bares por máxima distancia}{buscar y distinguir bares según la distancia a la que se encuentran}
 \segundosprint
 \critdeacep{Al modificar la preferencia de distancia máxima de búsqueda, los bares resultantes deberán encontrarse a menor o igual distancia que la seleccionada.}
-\busvalue{8}
-\storypoints{2}
+\valores{8}{2}{4}
 \tasks{
   \begin{enumerate}
     \item Agregar opción de filtro por distancia a la lista de resultados. (1)
@@ -300,57 +335,11 @@ En un tercer Sprint se podrían agregar las sugerencias, que permitirían a los 
   \end{enumerate}
 }
 
-\subsection*{Volver a página de resultados}
-\userstory{usuario de la aplicación}{poder volver a los resultados obtenidos en una búsqueda desde la vista de un bar seleccionado a partir de la misma}{poder acceder a las vistas de otros bares obtenidos en la búsqueda sin tener que volver a realizarla}
-\busvalue{5}
-\storypoints{3}
-
-\subsection*{Sugerir un nuevo bar}
-\userstory{usuario de la aplicación}{sugerir que se agregue un nuevo bar}{que pueda ser aprobado por un mod y de esta forma sea agregado al catálogo}
-\busvalue{7}
-\storypoints{5}
-
-\subsection*{Sugerir dueño de un bar}
-\userstory{usuario de la aplicación}{proponerme como dueño de un bar que ya se encuentra en el sistema}{ser reconocido como dueño del bar y poder actualizar su información libremente.}
-\busvalue{5}
-\storypoints{5}
-
-\subsection*{Aprobar la creación de un bar}
-\userstory{moderador}{poder aprobar o rechazar una sugerencia para agregar un nuevo bar}{para que la sugerencia sea procesada y removida de la cola.}
-\busvalue{5}
-\storypoints{5}
-
-\subsection*{Aprobar dueño}
-\userstory{moderador}{poder aprobar o rechazar la sugerencia de un usuario que se indica como dueño de un bar}{para que la sugerencia sea procesada y removida de la cola.}
-\busvalue{5}
-\storypoints{5}
-
-\subsection*{Remover comentarios}
-\userstory{moderador}{remover comentarios}{hacer cumplir las condiciones de uso de la aplicación.}
-\busvalue{6}
-\storypoints{1}
-
-
-\subsection*{Log-in}
-\userstory{usuario de la aplicación}{loguearme}{acceder a funcionalidades disponibles sólo a usuarios con cuenta.}
-\primersprint
-\critdeacep{Al ingresar un usuario y contraseña válidas, el sistema debe iniciar una sesión con ese usuario.}
-\busvalue{8}
-\storypoints{5}
-\tasks{
-  \begin{enumerate}
-    \item Crear un sistema de log-in. (3)
-    \item Crear una página de log-in para que los usuarios puedan ingresar su usuario y contraseña. (2)
-    \item[] \textit{Total de horas hombre:} 5
-  \end{enumerate}
-}
-
 \subsection*{Creación de cuenta}
 \userstory{usuario de la aplicación}{crear una cuenta}{poder loguearme y acceder a funcionalidades sólo disponibles a usuarios logueados.}
 \segundosprint
 \critdeacep{Al ingresar un usuario y contraseña y confirmar la contraseña, si el usuario no existe en el sistema, se creará un nuevo usuario, que podrá loguearse de ahí en adelante.}
-\busvalue{9}
-\storypoints{3}
+\valores{9}{3}{3}
 \tasks{
   \begin{enumerate}
     \item Hacer una página de creación de usuarios. (1)
@@ -359,17 +348,30 @@ En un tercer Sprint se podrían agregar las sugerencias, que permitirían a los 
   \end{enumerate}
 }
 
-\subsection*{Promover a moderador}
-\userstory{moderador}{dar privilegios de moderación a un usuario con cuenta}{permitir que un usuario confiable pueda ser moderador.}
-\primersprint
-\critdeacep{Si el usuario seleccionado existe, se le deberán otorgar privilegios de moderación y tendrá disponibles todas las herramientas de los moderadores a partir de ese momento.}
-\busvalue{5}
-\storypoints{3}
-\tasks{
-  \begin{enumerate}
-    \item Hacer función que le de privilegios de moderación a una cuenta. (1)
-    \item[] \textit{Total de horas hombre:} 1
-  \end{enumerate}
-}
+\subsection*{Volver a página de resultados}
+\userstory{usuario de la aplicación}{poder volver a los resultados obtenidos en una búsqueda desde la vista de un bar seleccionado a partir de la misma}{poder acceder a las vistas de otros bares obtenidos en la búsqueda sin tener que volver a realizarla}
+\valores{5}{3}{1.66}
+
+\subsection*{Sugerir un nuevo bar}
+\userstory{usuario de la aplicación}{sugerir que se agregue un nuevo bar}{que pueda ser aprobado por un mod y de esta forma sea agregado al catálogo}
+\valores{7}{5}{1.4}
+
+\subsection*{Sugerir dueño de un bar}
+\userstory{usuario de la aplicación}{proponerme como dueño de un bar que ya se encuentra en el sistema}{ser reconocido como dueño del bar y poder actualizar su información libremente.}
+\valores{5}{5}{1}
+
+\subsection*{Aprobar la creación de un bar}
+\userstory{moderador}{poder aprobar o rechazar una sugerencia para agregar un nuevo bar}{para que la sugerencia sea procesada y removida de la cola.}
+\valores{5}{5}{1}
+
+\subsection*{Aprobar dueño}
+\userstory{moderador}{poder aprobar o rechazar la sugerencia de un usuario que se indica como dueño de un bar}{para que la sugerencia sea procesada y removida de la cola.}
+\valores{5}{5}{1}
+
+\subsection*{Remover comentarios}
+\userstory{moderador}{remover comentarios}{hacer cumplir las condiciones de uso de la aplicación.}
+\valores{3}{1}{3}
+
+
 
 \end{document}
