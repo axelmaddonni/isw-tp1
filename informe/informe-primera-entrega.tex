@@ -106,6 +106,51 @@
 
 \maketitle
 
+\section{Introducción y Comentarios Generales}
+
+\par Es un requerimiento que la comunidad sea la encargada de subir los bares. 
+Sin embargo, es de esperar\footnote{En base a nuestra experiencia personal navegando por internet.} que los usuarios eventualmente agreguen bares repetidos, inexistentes, con información errónea o abusen del sistema de diversas formas (e.g. spam).
+Consecuentemente, decidimos agregar un nivel de indirección, es decir que un usuario en vez de subir un nuevo bar, realiza una sugerencia a un Moderador (que puede aceptarla o rechazarla); éstos pueden ser miembros del equipo o usuarios distinguidos. 
+Al verificar las sugerencias mediante un Moderador buscamos incrementar la calidad de los resultados.
+
+\par El sistema de sugerencias a Moderadores se implementará no sólo para agregar nuevos bares, sino para modificar la información de bares ya existentes o para reconocer a los dueños de un bar.
+Incorporamos el concepto de dueño de un bar, mediante el cual un usuario puede ser reconocido como propietario de un local, y puede actualizar la información del establecimiento sin requerir verificación de un Mod.
+
+\par Ya que introducimos el concepto de Moderadores y de dueños de bares, algunos usuarios deben poder reconocerse.
+Por ende, determinamos que los usuarios podrán tener una cuenta a la cual se loguean para utilizar ciertas funcionalidades de la aplicación.
+Esto nos presentó un dilema: cómo tratar a los usuarios que no tienen cuentas?
+Propusimos tres soluciones básicas: forzar a los usuarios a crear una cuenta y loguearse a ésta para utilizar la aplicación; permitir que los usuarios utilicen la aplicación ``deslogueados'', y que se logueen a sus cuentas para acceder a las funcionalidades que lo requieran; loguear automáticamente a los usuarios no registrados a una cuenta default (e.g. ``Guest'' o ``Anónimo''), y que se logueen para acceder a las funcionalidades correspondientes.
+
+\par La primera opción nos pareció poco recomendable: las aplicaciones que requieren crear cuentas inmediatamente sin razón son molestas, y preferimos que los usuarios puedan usar la plataforma sin tener que loguearse.
+Las otras dos opciones son esencialmente idénticas para el usuario; sin embargo, la tercera nos permite simplificar el código ya que podemos asumir que los usuarios siempre están logueados a una cuenta. 
+Debido a esto, fue la que elegimos.
+
+\par Para las features de los bares (e.g. calidad del wi-fi, cantidad de enchufes, precio) decidimos emplear una calificación de 5 estrellas, con una granularidad de media estrella\footnote{Las calificaciones posibles son $\{ \frac{1}{2}, 1, \frac{3}{2}, 2, \frac{5}{2}, 3, \frac{7}{2}, 4, \frac{9}{2}, 5 \}$.}.
+Tener sólo 5 calificaciones posibles nos pareció muy restrictivo, por lo que adoptamos una granularidad de media estrella.
+Discutimos sobre tomar 0 o media estrella como calificación mínima; decidimos adoptar media por claridad, pues una valoración de 0 estrellas puede ser confundida con que nadie haya calificado aún la feature.
+
+\par En lo que concierne a la presentación de los bares más cercanos, decidimos ordenarlos siempre por distancia.
+Adicionalmente, el usuario puede aplicar filtros por feature, eliminando resultados que no cumplen ciertos criterios. 
+Éstos pueden ser, $\leqslant, \geqslant$, o por rango cerrado (e.g. si la calificación $\in [2, 4]$)\footnote{Para algunas features, como precio, se podrán utilizar todos estos filtros; para otras, sólo algunos: no tiene sentido buscar sólo bares con mala calidad de wi-fi.}.
+
+\par La User Story a la que le asignamos 1 Story Point es a ``Borrar Comentarios'', ya que consiste sólo en agregar un botón a la interfaz de comentarios y removerlo de la estructura que lo contiene, ambas tareas muy sencillas.
+
+\section{Contenido de cada Sprint}
+
+\subsection{Primer Sprint}
+
+\par Para el primer Sprint elegimos las User Stories esenciales para implementar la funcionalidad básica de buscar un bar cercano: la búsqueda en sí, la vista de bares y sus features, agregar bares (sólo como Moderador, ya que es más simple y con esto alcanza en una primera instancia), el log-in y la promoción a Moderador.
+Estas dos últimas son necesarias ya que un bar sólo puede ser agregado por un Moderador.
+
+\subsection{Segundo Sprint}
+
+\par En el segundo Sprint buscamos expandir significativamente el proceso de búsqueda y vista de bares, incorporando filtros por feature y distancia, permitiendo editar información de bares (nuevamente, sólo como Moderador), calificarlos, comentar y obtener el trayecto óptimo hasta el bar.
+También agregaremos la opción de crear cuentas, ya que la alternativa de hardcodearlas es engorrosa.
+
+\subsection{Sprints Futuros}
+
+\par Quedan diversas funcionalidades a ser agregadas a la aplicación. 
+En un tercer Sprint se podrían agregar las sugerencias, que permitirían a los usuarios contribuir aún más; en un cuarto Sprint se podría incorporar funciones a las cuentas, agregando un historial de comentarios y bares valorados, bares favoritos, puntuación basada en la contribución, posiblemente permitiendo a un usuario convertirse en Moderador, etc. 
 
 \section{User Stories}
 
