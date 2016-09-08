@@ -1,0 +1,8 @@
+{% from "_formhelpers.html" import render_field %}
+<form method=post action="/buscar">
+  <dl>
+    {{ render_field(form.direccion_actual) }}
+  </dl>
+  <p><input type=submit value=Buscar>
+</form>
+

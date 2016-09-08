@@ -18,8 +18,8 @@ class Direccion:
     def __init__(self, direccion):
         self.__direccion = direccion
         self.__latlong = (0, 0)
-        result = gmaps.geocode(direccion)
         try:
+            result = gmaps.geocode(direccion)
             res = result[0]['geometry']['location']
             self.__latlong = (res["lat"], res["lng"])
         except:
