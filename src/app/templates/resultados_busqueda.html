@@ -1,0 +1,20 @@
+<html>
+  <head>
+    <title>ISW1 - TP1</title>
+  </head>
+  <body>
+    <div><a href="/">ISW1 - TP1</a></div>
+    <hr>
+      <p> Estás en {{ dirusuario.direccion() }} </p>
+      {% if bares %}
+        <ul>
+        {% for bar in bares %}
+        <li> <b>{{ bar.bar().nombre() }}</b> está cerca tuyo! Esta en {{bar.bar().direccion().direccion() }} </li>
+        {% endfor %}
+        </ul>
+      {% else %}
+         <p>No se han encontrado bares cerca :(</p>
+      {% endif %}
+    {% block content %}{% endblock %}
+  </body>
+</html>

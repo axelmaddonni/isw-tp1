@@ -1,3 +1,4 @@
 Flask==0.10.1
 Flask-Babel==0.9
 Flask-Login==0.3.1
+googlemaps==2.4.4
