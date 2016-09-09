@@ -28,15 +28,7 @@ class Direccion:
         return self.__direccion
     def latlong(self):
         return self.__latlong
-    def distanciaMetros(self, direccion2):
-        distancia = 10000000
-        try:
-            resultado = gmaps.distance_matrix([self.__latlong], [direccion2.latlong()], units="metric")
-            distancia = resultado["rows"][0]["elements"][0]["distance"]["value"]
-        except:
-            pass
         return distancia
-
 
 class Bar:
     def __init__(self, nombre, direccion):
@@ -64,15 +56,14 @@ class BuscadorDeBares:
     def __init__(self, bares):
         self.losBares = bares
     def buscar(self, dir_usuario):
-        baresCercanos = []
-        for bar in self.losBares:
-            if bar.direccion().distanciaMetros(dir_usuario) <= 400:
-                baresCercanos.append(PerfilDeBar(bar))
-        return baresCercanos
+        direccionesDeLosBares = [bar.direccion().direccion() for bar in self.losBares]
+        try:
+            resultado = gmaps.distance_matrix(dir_usuario.direccion(), direccionesDeLosBares, units="metric", mode = "walking")
+            return [PerfilDeBar(self.losBares[i]) for i in range(len(self.losBares)) if resultado["rows"][0]["elements"][i]["distance"]["value"] <= 400]
+        except:
+            pass
 
 
 bar1 = Bar('Mumbai', Direccion('Honduras 5684, CABA, Argentina'))
 bar2 = Bar('Niceto', Direccion('Av Cnel. Niceto Vega 5510, CABA, Argentina'))
 buscador = BuscadorDeBares([bar1, bar2])
-
-
