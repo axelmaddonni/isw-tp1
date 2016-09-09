@@ -34,7 +34,7 @@ class Bar:
     def __init__(self, nombre, direccion):
         self.__nombre = nombre
         self.__direccion = direccion
-        self.__denios = []
+        self.__duenios = []
     def nombre(self):
         return self.__nombre
     def direccion(self):
