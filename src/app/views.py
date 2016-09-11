@@ -7,6 +7,10 @@ import math
 class BuscarForm(Form):
     direccion_actual = StringField('Direccion')
 
+class AgregarForm(Form):
+    direccion_dada = StringField('Direccion')
+    nombre_dado = StringField("Nombre")
+
 @app.route('/')
 @app.route('/index')
 def index():
@@ -28,4 +32,16 @@ def buscar():
                            dirusuario=posicion_del_usuario)
 
     return render_template('buscar.html', form=form)
+
+@app.route('/agregar', methods=['GET', 'POST'])
+def agregar():
+    form = AgregarForm(request.form)
+    if request.method == 'POST' and form.validate():
+        nombre_del_bar = str(form.nombre_dado)
+        direccion_del_bar = Direccion(form.direccion_dada.data)
+        print nombre_del_bar, direccion_del_bar
+        return render_template('agregar_resultado.html',
+                           positivo = True)
+
+    return render_template('agregar.html', form=form)
 

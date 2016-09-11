@@ -1,0 +1,9 @@
+{% from "_formhelpers.html" import render_field %}
+
+<form method=post action="/agregar">
+  <dl>
+    {{ render_field(form.nombre_dado) }}
+    {{ render_field(form.direccion_dada) }}
+  </dl>
+  <p><input type=submit value=Submit>
+</form>

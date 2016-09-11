@@ -1,0 +1,15 @@
+<html>
+  <head>
+    <title>ISW1 - TP1</title>
+  </head>
+  <body>
+    <div><a href="/">ISW1 - TP1</a></div>
+    <hr>
+      {% if positivo %}
+         <p>El bar fue agregado exitosamente!</p>
+      {% else %}
+         <p>El bar no ha podido ser agregado :(</p>
+      {% endif %}
+    {% block content %}{% endblock %}
+   </body>
+</html>
