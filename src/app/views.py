@@ -36,6 +36,7 @@ def buscar():
 @app.route('/agregar', methods=['GET', 'POST'])
 def agregar():
     form = AgregarForm(request.form)
+    print request.method
     if request.method == 'POST' and form.validate():
         nombre_del_bar = str(form.nombre_dado)
         direccion_del_bar = Direccion(form.direccion_dada.data)
@@ -44,4 +45,11 @@ def agregar():
                            positivo = True)
 
     return render_template('agregar.html', form=form)
+
+@app.route('/home', methods=['GET', 'POST'])
+def accionesPosibles():
+    if request.method == 'POST':
+        return agregar()
+
+    return render_template('botonAgregar.html')
 
