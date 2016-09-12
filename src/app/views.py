@@ -60,7 +60,7 @@ def agregar():
 def accionesPosibles():
     if request.method == 'GET':
         user = user_loader(current_user.get_id())
-        return render_template('botonAgregar.html', 
+        return render_template('home.html', 
                             anon = (user is None) or user.is_anonymous(),
                             mod = (user is not None) and user.is_mod())
 
@@ -71,7 +71,7 @@ def user_loader(user_id):
 @app.route("/login", methods=["GET", "POST"])
 def login():
     form = LoginForm()
-    if request.method == 'POST':
+    if request.method == 'POST' and form.validate():
         if form.validate_on_submit():
             user = user_loader(form.username.data)
             if user:

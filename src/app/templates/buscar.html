@@ -1,8 +1,12 @@
 {% from "_formhelpers.html" import render_field %}
 <form method=post action="/buscar">
+    {{ form.csrf_token }}
   <dl>
     {{ render_field(form.direccion_actual) }}
   </dl>
   <p><input type=submit value=Buscar>
+    <form method=get action="/home">
+      <input type=submit value=Volver>
+    </form>
 </form>
 

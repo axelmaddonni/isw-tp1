@@ -17,14 +17,7 @@
       {% endif %}
     {% block content %}{% endblock %}
   </body>
-  <style>
-      .button {
-          display: inline-block;
-          padding: 3px 5px;
-          border: 1px solid #000;
-          background: #eee;
-      }
-  
-  </style>
-  <a href="/buscar" class="button">Volver atrás</a>
+    <form method=get action="/buscar">
+      <input type=submit value=Volver>
+    </form>
 </html>
