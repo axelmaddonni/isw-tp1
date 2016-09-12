@@ -36,11 +36,10 @@ def buscar():
 @app.route('/agregar', methods=['GET', 'POST'])
 def agregar():
     form = AgregarForm(request.form)
-    print request.method
     if request.method == 'POST' and form.validate():
-        nombre_del_bar = str(form.nombre_dado)
+        nombre_del_bar = str(form.nombre_dado.data)
         direccion_del_bar = Direccion(form.direccion_dada.data)
-        print nombre_del_bar, direccion_del_bar
+        buscador.losBares.append((Bar(nombre_del_bar, direccion_del_bar)))
         return render_template('agregar_resultado.html',
                            positivo = True)
 
