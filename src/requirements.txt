@@ -1,5 +1,6 @@
 Flask==0.10.1
 Flask-Babel==0.9
-Flask-Login==0.3.1
+Flask-Login==0.3.2
+Flask-Bcrypt==0.7.1
 googlemaps==2.4.4
 Flask-WTF==0.12

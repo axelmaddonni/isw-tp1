@@ -1,8 +1,15 @@
 from flask import render_template, request, redirect, url_for
-from wtforms import Form, BooleanField, StringField
+from flask_login import LoginManager, UserMixin, login_required, login_user, logout_user, current_user
+from flask_wtf import Form
+from flask_bcrypt import Bcrypt
+from wtforms import TextField, PasswordField, BooleanField, StringField, validators
 from app import app
 from app.bares import Direccion, Bar, BuscadorDeBares, buscador
+from app.user import User, usuarios
 import math
+
+bcrypt = Bcrypt()
+login_manager = LoginManager()
 
 class BuscarForm(Form):
     direccion_actual = StringField('Direccion')
@@ -10,6 +17,10 @@ class BuscarForm(Form):
 class AgregarForm(Form):
     direccion_dada = StringField('Direccion')
     nombre_dado = StringField("Nombre")
+
+class LoginForm(Form):
+    username = TextField('Username', validators=[validators.DataRequired()])
+    password = PasswordField('Password', validators=[validators.DataRequired()])
 
 @app.route('/')
 @app.route('/index')
@@ -47,8 +58,35 @@ def agregar():
 
 @app.route('/home', methods=['GET', 'POST'])
 def accionesPosibles():
+    if request.method == 'GET':
+        user = user_loader(current_user.get_id())
+        return render_template('botonAgregar.html', 
+                            anon = (user is None) or user.is_anonymous(),
+                            mod = (user is not None) and user.is_mod())
+
+@login_manager.user_loader
+def user_loader(user_id):
+    return usuarios.get(user_id)
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    form = LoginForm()
     if request.method == 'POST':
-        return agregar()
+        if form.validate_on_submit():
+            user = user_loader(form.username.data)
+            if user:
+                if user.check_password(form.password.data):
+                    user.authenticated = True
+                    login_user(user)
+                    return redirect(url_for("accionesPosibles"))
+        else:
+            pass
+    return render_template("login.html", form=form)
 
-    return render_template('botonAgregar.html')
-
+@app.route("/logout", methods=["GET"])
+@login_required
+def logout():
+    user = current_user
+    user.authenticated = False
+    logout_user()
+    return redirect(url_for("accionesPosibles"))
