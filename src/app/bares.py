@@ -13,7 +13,7 @@ from datetime import datetime
 GOOGLE_MAPS_KEY = "AIzaSyBN8fuLr8PXqvxNrZ_WtcIhqo9K5XKqWDw"
 gmaps = googlemaps.Client(key=GOOGLE_MAPS_KEY)
 
-class Direccion:
+class Ubicacion:
   global gmaps
   def __init__(self, direccion):
     self.__direccion = direccion
@@ -31,16 +31,16 @@ class Direccion:
     return distancia
 
 class Bar:
-  def __init__(self, nombre, direccion):
+  def __init__(self, nombre, ubicacion):
     self.__nombre = nombre
-    self.__direccion = direccion
+    self.__ubicacion = ubicacion
     self.__duenios = []
   def nombre(self):
     return self.__nombre
-  def direccion(self):
-    return self.__direccion
-  def editarDireccion(nuevaDireccion):
-    self.__direccion = nuevaDireccion
+  def ubicacion(self):
+    return self.__ubicacion
+  def editarUbicacion(nuevaUbicacion):
+    self.__ubicacion = nuevaUbicacion
   def agregarDuenio(nuevoDuenio):
     self.__duenios.append(nuevoDuenio)
 
@@ -70,13 +70,13 @@ class BuscadorDeBares:
 
 class BaseDeDatosDeBares:
   def __init__(self, bares):
-    self.losBaresPorDir = dict([(bar.direccion().direccion(), bar) for bar in bares])
+    self.losBaresPorDir = dict([(bar.ubicacion().direccion(), bar) for bar in bares])
   def agregarBares(self, bares):
     for bar in bares:
-      key = bar.direccion().direccion()
+      key = bar.ubicacion().direccion()
       self.losBaresPorDir[key] = bar   
   def borrarBar(self, bar):
-    key = bar.direccion().direccion()
+    key = bar.ubicacion().direccion()
     if key in self.losBaresPorDir:
       del self.losBaresPorDir[key]
   def direcciones(self):
@@ -84,8 +84,8 @@ class BaseDeDatosDeBares:
   def bares(self):
     return self.losBaresPorDir.values()
 
-bar1 = Bar('Mumbai', Direccion('Honduras 5684, CABA, Argentina'))
-bar2 = Bar('Niceto', Direccion('Av Cnel. Niceto Vega 5510, CABA, Argentina'))
-bar3 = Bar('Bouquet', Direccion('Av Cabildo 1400, CABA, Argentina'))
+bar1 = Bar('Mumbai', Ubicacion('Honduras 5684, CABA, Argentina'))
+bar2 = Bar('Niceto', Ubicacion('Av Cnel. Niceto Vega 5510, CABA, Argentina'))
+bar3 = Bar('Bouquet', Ubicacion('Av Cabildo 1400, CABA, Argentina'))
 buscador = BuscadorDeBares([bar1, bar2])
 buscador.agregarALaBBDD([bar3])

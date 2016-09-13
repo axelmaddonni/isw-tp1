@@ -4,7 +4,7 @@ from flask_wtf import Form
 from flask_bcrypt import Bcrypt
 from wtforms import TextField, PasswordField, BooleanField, StringField, validators
 from app import app
-from app.bares import Direccion, Bar, BuscadorDeBares, buscador
+from app.bares import Ubicacion, Bar, BuscadorDeBares, buscador
 from app.user import User, usuarios
 import math
 
@@ -37,7 +37,7 @@ def buscar():
     form = BuscarForm(request.form)
     if request.method == 'POST' and form.validate():
         print('direccion_actual.data = ', form.direccion_actual.data)
-        posicion_del_usuario = Direccion(form.direccion_actual.data)
+        posicion_del_usuario = Ubicacion(form.direccion_actual.data)
         return render_template('resultados_busqueda.html',
                            bares=buscador.buscar(posicion_del_usuario),
                            dirusuario=posicion_del_usuario)
@@ -49,8 +49,8 @@ def agregar():
     form = AgregarForm(request.form)
     if request.method == 'POST' and form.validate():
         nombre_del_bar = str(form.nombre_dado.data)
-        direccion_del_bar = Direccion(form.direccion_dada.data)
-        buscador.losBares.append((Bar(nombre_del_bar, direccion_del_bar)))
+        direccion_del_bar = Ubicacion(form.direccion_dada.data)
+        buscador.agregarALaBBDD([Bar(nombre_del_bar, direccion_del_bar)])
         return render_template('agregar_resultado.html',
                            positivo = True)
 

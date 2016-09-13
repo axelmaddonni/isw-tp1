@@ -8,7 +8,7 @@ class User:
         self.__username = username
         self.__password = password
         if (username is None or password is None):
-            print "True"
+            print("True")
             self.__anon = True
         else:
             self.__anon = False
