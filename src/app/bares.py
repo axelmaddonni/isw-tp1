@@ -1,6 +1,7 @@
 from math import sqrt
 import googlemaps
 from datetime import datetime
+import json
 
 # Como usar: https://developers.google.com/maps/web-services/?hl=es
 # Mas: https://github.com/googlemaps/google-maps-services-python
@@ -52,6 +53,7 @@ class PerfilDeBar:
   def bar(self):
     return self.elBar
 
+
 class BuscadorDeBares:
   def __init__(self, bares):
     self.BBDDBares = BaseDeDatosDeBares(bares)
@@ -67,6 +69,7 @@ class BuscadorDeBares:
       return [PerfilDeBar(losBares[i]) for i in range(len(losBares)) if resultado["rows"][0]["elements"][i]["distance"]["value"] <= 400]
     except:
       pass
+
 
 class BaseDeDatosDeBares:
   def __init__(self, bares):
@@ -89,3 +92,10 @@ bar2 = Bar('Niceto', Ubicacion('Av Cnel. Niceto Vega 5510, CABA, Argentina'))
 bar3 = Bar('Bouquet', Ubicacion('Av Cabildo 1400, CABA, Argentina'))
 buscador = BuscadorDeBares([bar1, bar2])
 buscador.agregarALaBBDD([bar3])
+
+
+def hacerDictDeBares(perfiles):
+  res = {}
+  for perfil in perfiles:
+    res[perfil.bar().nombre()] = [perfil.bar().ubicacion().direccion()]
+  return json.dumps(res)
