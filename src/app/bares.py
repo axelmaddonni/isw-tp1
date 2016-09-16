@@ -32,14 +32,18 @@ class Ubicacion:
     return distancia
 
 class Bar:
-  def __init__(self, nombre, ubicacion):
+  def __init__(self, nombre, ubicacion, tieneWifi, tieneEnchufes):
     self.__nombre = nombre
     self.__ubicacion = ubicacion
     self.__duenios = []
+    self.__tieneWifi = tieneWifi
+    self.__tieneEnchufes = tieneEnchufes
   def nombre(self):
     return self.__nombre
   def ubicacion(self):
     return self.__ubicacion
+  def tieneWifi(self):
+    return self.__tieneWifi
   def editarUbicacion(nuevaUbicacion):
     self.__ubicacion = nuevaUbicacion
   def agregarDuenio(nuevoDuenio):
@@ -52,50 +56,60 @@ class PerfilDeBar:
     self.comentarios = []
   def bar(self):
     return self.elBar
+  # Axel llenalo!!
 
 
 class BuscadorDeBares:
-  def __init__(self, bares):
-    self.BBDDBares = BaseDeDatosDeBares(bares)
-  def agregarALaBBDD(self, bares):
-    self.BBDDBares.agregarBares(bares)
-  def removerDeLaBBDD(self, bar):
-    self.BBDDBares.borrarBar(bar)
+  def __init__(self, bbddBares):
+    self.BBDDBares = bbddBares
+  def obtenerBBDD(self):
+    return self.BBDDBares
   def buscar(self, dir_usuario):
-    direccionesDeLosBares = list(self.BBDDBares.direcciones())
-    losBares = list(self.BBDDBares.bares())
+    direcciones = list(self.BBDDBares.direcciones())
+    resultado = []
+    distancias = []
     try:
-      resultado = gmaps.distance_matrix(dir_usuario.direccion(), direccionesDeLosBares, units="metric", mode = "walking")
-      return [PerfilDeBar(losBares[i]) for i in range(len(losBares)) if resultado["rows"][0]["elements"][i]["distance"]["value"] <= 400]
+      resultado = gmaps.distance_matrix(
+              dir_usuario.direccion(),
+              direcciones,
+              units="metric",
+              mode = "walking")
+      distancias = [resultado["rows"][0]["elements"][i]["distance"]["value"] \
+                  for i in range(len(direcciones))]
     except:
       pass
+    return [(distancias[i], \
+            self.BBDDBares.obtenerPerfilDeBar(direcciones[i])) \
+                for i in range(len(direcciones)) if \
+                    distancias[i] <= 400 and \
+                    self.BBDDBares.obtenerBar(direcciones[i]).tieneWifi()]
 
 
 class BaseDeDatosDeBares:
   def __init__(self, bares):
-    self.losBaresPorDir = dict([(bar.ubicacion().direccion(), bar) for bar in bares])
+    self.losBaresPorDir = dict([(bar.bar().ubicacion().direccion(), bar) for bar in bares])
   def agregarBares(self, bares):
     for bar in bares:
       key = bar.ubicacion().direccion()
-      self.losBaresPorDir[key] = bar   
+      self.losBaresPorDir[key] = bar
   def borrarBar(self, bar):
     key = bar.ubicacion().direccion()
     if key in self.losBaresPorDir:
       del self.losBaresPorDir[key]
+  def obtenerBar(self, direccion):
+    return self.losBaresPorDir[direccion].bar()
+  def obtenerPerfilDeBar(self, direccion):
+    return self.losBaresPorDir[direccion]
   def direcciones(self):
     return self.losBaresPorDir.keys()
   def bares(self):
     return self.losBaresPorDir.values()
 
-bar1 = Bar('Mumbai', Ubicacion('Honduras 5684, CABA, Argentina'))
-bar2 = Bar('Niceto', Ubicacion('Av Cnel. Niceto Vega 5510, CABA, Argentina'))
-bar3 = Bar('Bouquet', Ubicacion('Av Cabildo 1400, CABA, Argentina'))
-buscador = BuscadorDeBares([bar1, bar2])
-buscador.agregarALaBBDD([bar3])
+bar1 = Bar('Mumbai', Ubicacion('Honduras 5684, CABA, Argentina',), True, False)
+bar2 = Bar('Niceto', Ubicacion('Av Cnel. Niceto Vega 5510, CABA, Argentina'), False, True)
+bar3 = Bar('Bouquet', Ubicacion('Av Cabildo 1400, CABA, Argentina'), True, True)
 
-
-def hacerDictDeBares(perfiles):
-  res = {}
-  for perfil in perfiles:
-    res[perfil.bar().nombre()] = [perfil.bar().ubicacion().direccion()]
-  return json.dumps(res)
+# Axel llenalo!!
+# Ponele votaciones cualquiera.
+bbddBares = BaseDeDatosDeBares([PerfilDeBar(bar1), PerfilDeBar(bar2), PerfilDeBar(bar3)])
+buscador = BuscadorDeBares(bbddBares)

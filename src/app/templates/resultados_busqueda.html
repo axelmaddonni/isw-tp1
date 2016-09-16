@@ -7,11 +7,30 @@
     <hr>
       <p> Estás en {{ dirusuario.direccion() }} </p>
       {% if bares %}
-        <ul>
         {% for bar in bares %}
-        <li> <b>{{ bar.bar().nombre() }}</b> está cerca tuyo! Está en {{bar.bar().ubicacion().direccion() }} </li>
+          {% set perfilDeBar = bar[1] %}
+          {% set elBar = perfilDeBar.bar() %}
+          {% set nombre = elBar.nombre() %}
+          {% set direccion = elBar.ubicacion().direccion() %}
+
+          <div>
+            <b>{{ nombre }}</b>
+              está cerca tuyo! Está en {{ direccion }},
+              a una distancia de {{ bar[0] }} metros de vos.
+            <a href="#HideIt{{ direccion.replace(' ', '') }}"
+               class="hide"
+               id="HideIt{{ direccion.replace(' ', '') }}">
+               Ver más.
+            </a>
+            <a href="#ShowIt{{ direccion.replace(' ', '') }}"
+               class="show"
+               id="ShowIt{{ direccion.replace(' ', '') }}">
+              Ver menos.
+            </a>
+            <div class="answer"><p>Axel llenalo!</p></div>
+          </div>
+
         {% endfor %}
-        </ul>
       {% else %}
          <p>No se han encontrado bares cerca :(</p>
       {% endif %}
@@ -21,3 +40,15 @@
       <input type=submit value=Volver>
     </form>
 </html>
+<style>
+.answer,
+.show,
+.hide:target {
+    display: none; 
+}
+
+.hide:target + .show,
+.hide:target ~ .answer {
+    display: inline; 
+}
+</style>

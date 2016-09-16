@@ -4,7 +4,7 @@ from flask_wtf import Form
 from flask_bcrypt import Bcrypt
 from wtforms import TextField, PasswordField, BooleanField, StringField, validators
 from app import app
-from app.bares import Ubicacion, Bar, BuscadorDeBares, buscador,hacerDictDeBares
+from app.bares import Ubicacion, Bar, BuscadorDeBares, buscador
 from app.user import User, usuarios
 import math
 
@@ -22,16 +22,12 @@ class LoginForm(Form):
     username = TextField('Username', validators=[validators.DataRequired()])
     password = PasswordField('Password', validators=[validators.DataRequired()])
 
-@app.route('/')
-@app.route('/index')
-def index():
-    return "Hello, World!"
-
-
 @app.route('/raiz_de_dos')
 def raiz():
     return str(math.sqrt(2.0))
 
+
+# Probar con "Fitz Roy 1477, CABA, Argentina"
 @app.route('/buscar', methods=['GET', 'POST'])
 def buscar():
     form = BuscarForm(request.form)
@@ -39,7 +35,6 @@ def buscar():
         print('direccion_actual.data = ', form.direccion_actual.data)
         posicion_del_usuario = Ubicacion(form.direccion_actual.data)
         baresEncontrados = buscador.buscar(posicion_del_usuario)
-        print hacerDictDeBares(baresEncontrados)
         return render_template('resultados_busqueda.html',
                            bares=baresEncontrados,
                            dirusuario=posicion_del_usuario)
@@ -58,11 +53,12 @@ def agregar():
 
     return render_template('agregar.html', form=form)
 
+@app.route('/')
 @app.route('/home', methods=['GET', 'POST'])
 def accionesPosibles():
     if request.method == 'GET':
         user = user_loader(current_user.get_id())
-        return render_template('home.html', 
+        return render_template('home.html',
                             anon = (user is None) or user.is_anonymous(),
                             mod = (user is not None) and user.is_mod())
 
