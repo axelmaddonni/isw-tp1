@@ -35,11 +35,29 @@ def buscar():
         print('direccion_actual.data = ', form.direccion_actual.data)
         posicion_del_usuario = Ubicacion(form.direccion_actual.data)
         baresEncontrados = buscador.buscar(posicion_del_usuario)
+
+        markers = []
+        for bar in baresEncontrados:
+            marker = {}
+            marker['lat'] = bar[1].bar().ubicacion().latlong()[0]
+            marker['lng'] = bar[1].bar().ubicacion().latlong()[1]
+            marker['infobox'] = bar[1].bar().nombre()
+            markers.append(marker)
+
+        marker_posicion_usuario = {}
+        marker_posicion_usuario['lat'] = posicion_del_usuario.latlong()[0]
+        marker_posicion_usuario['lng'] = posicion_del_usuario.latlong()[1]
+        marker_posicion_usuario['icon'] = 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
+        marker_posicion_usuario['infobox'] = 'Tu Ubicacion'
+        markers.append(marker_posicion_usuario)
+
         return render_template('resultados_busqueda.html',
                            bares=baresEncontrados,
-                           dirusuario=posicion_del_usuario)
+                           dirusuario=posicion_del_usuario,
+                           locations=markers)
 
     return render_template('buscar.html', form=form)
+
 
 @app.route('/agregar', methods=['GET', 'POST'])
 def agregar():

@@ -52,12 +52,14 @@ class Bar:
 class PerfilDeBar:
   def __init__(self, bar):
     self.elBar = bar
-    self.votos = {}
-    self.comentarios = []
+    self.__votos = { "Wifi": 80, "Comida": 30, "Precio": 50}
+    self.__comentarios = [ 'Este bar es genial!', 'Un servicio de porqueria.' ]
   def bar(self):
     return self.elBar
-  # Axel llenalo!!
-
+  def votos(self, feature):
+    return self.__votos[feature]
+  def comentarios(self):
+    return self.__comentarios
 
 class BuscadorDeBares:
   def __init__(self, bbddBares):
@@ -108,8 +110,8 @@ class BaseDeDatosDeBares:
 bar1 = Bar('Mumbai', Ubicacion('Honduras 5684, CABA, Argentina',), True, False)
 bar2 = Bar('Niceto', Ubicacion('Av Cnel. Niceto Vega 5510, CABA, Argentina'), False, True)
 bar3 = Bar('Bouquet', Ubicacion('Av Cabildo 1400, CABA, Argentina'), True, True)
+bar4 = Bar('Omm Bar', Ubicacion('Honduras 5656, CABA, Argentina',), True, False)
 
-# Axel llenalo!!
 # Ponele votaciones cualquiera.
-bbddBares = BaseDeDatosDeBares([PerfilDeBar(bar1), PerfilDeBar(bar2), PerfilDeBar(bar3)])
+bbddBares = BaseDeDatosDeBares([PerfilDeBar(bar1), PerfilDeBar(bar2), PerfilDeBar(bar3), PerfilDeBar(bar4)])
 buscador = BuscadorDeBares(bbddBares)

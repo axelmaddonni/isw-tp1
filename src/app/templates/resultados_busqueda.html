@@ -1,13 +1,20 @@
 <html>
   <head>
     <title>ISW1 - TP1</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css') }}">
+
   </head>
   <body>
+
     <div><a href="/">ISW1 - TP1</a></div>
     <hr>
       <p> Estás en {{ dirusuario.direccion() }} </p>
       {% if bares %}
+
         {% for bar in bares %}
+
           {% set perfilDeBar = bar[1] %}
           {% set elBar = perfilDeBar.bar() %}
           {% set nombre = elBar.nombre() %}
@@ -17,38 +24,44 @@
             <b>{{ nombre }}</b>
               está cerca tuyo! Está en {{ direccion }},
               a una distancia de {{ bar[0] }} metros de vos.
-            <a href="#HideIt{{ direccion.replace(' ', '') }}"
-               class="hide"
-               id="HideIt{{ direccion.replace(' ', '') }}">
-               Ver más.
-            </a>
-            <a href="#ShowIt{{ direccion.replace(' ', '') }}"
-               class="show"
-               id="ShowIt{{ direccion.replace(' ', '') }}">
-              Ver menos.
-            </a>
-            <div class="answer"><p>Axel llenalo!</p></div>
+
+            <a href = "javascript:void(0)" onclick = "document.getElementById('{{ direccion.replace(' ', '') }}').style.display='block';document.getElementById('fade').style.display='block'">Ver más</a></p>
+
+            <div id="{{ direccion.replace(' ', '') }}" class="answer"> 
+              {% include 'perfil_de_bar.html' %} 
+              <a href = "javascript:void(0)" onclick = "document.getElementById('{{ direccion.replace(' ', '') }}').style.display='none';document.getElementById('fade').style.display='none'">X</a>
+              </div>
+            <div id="fade" class="black_overlay"></div>
+
           </div>
 
         {% endfor %}
+
+        <div class="centered-block" id="mapa">
+        {{
+            googlemap(
+                "simple-map",
+                lat=dirusuario.latlong()[0],
+                lng=dirusuario.latlong()[1],
+                markers=locations,
+                maptype_control=0,
+                zoom = 16,
+                cls = "mapStyle"
+            )
+        }}
+        <!-- http://brunorocha.org/python/flask/flask-google-maps-plus-how-to-write-a-flask-extension.html -->
+        </div> 
+
       {% else %}
          <p>No se han encontrado bares cerca :(</p>
       {% endif %}
     {% block content %}{% endblock %}
-  </body>
     <form method=get action="/buscar">
       <input type=submit value=Volver>
     </form>
-</html>
-<style>
-.answer,
-.show,
-.hide:target {
-    display: none; 
-}
 
-.hide:target + .show,
-.hide:target ~ .answer {
-    display: inline; 
-}
-</style>
+  </body>
+</html>
+
+<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+<script src="{{ url_for('static', filename='js/index.js') }}"></script>

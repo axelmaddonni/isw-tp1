@@ -1,0 +1,30 @@
+<div class="card">
+  <figure class="panel meta">
+    <picture>
+      <img class="avatar" src="https://a2ua.com/bar/bar-007.jpg" width="128" height="128"/>
+    </picture>
+    <figcaption>
+
+      <h1 class="name">{{ nombre }}</h1>
+      <h3 class="title">{{ direccion }}</h3>
+    </figcaption>
+  </figure>
+  
+  <div class="panel info">
+    <dl class="skillz">
+      <dt>Wifi</dt>
+      <dd>{{ perfilDeBar.votos("Wifi") }}</dd>
+      <dt>Comida</dt>
+      <dd>{{ perfilDeBar.votos("Comida") }}</dd>
+      <dt>Precio</dt>
+      <dd>{{ perfilDeBar.votos("Precio") }}</dd>
+    </dl>
+
+	  <div> <b>Comentarios</b> <br>
+	  {% for comment in perfilDeBar.comentarios() %}
+	  	{{ comment }} <br>
+	  {% endfor %}
+	  </div>
+  </div>
+
+</div>
