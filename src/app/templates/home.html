@@ -1,21 +1,34 @@
 <html>
+  <head>
+    <title>ISW1 - TP1</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css') }}">
+  </head>
   <body>
-      {% if anon%}
-        <form method=get action="/login">
-          <input type=submit value=LogIn>
-        </form>
-      {% else%}
-        <form method=get action="/logout">
-          <input type=submit value=LogOut>
-        </form>
-      {% endif %}
-      {% if mod%}
-        <form method=get action="/agregar">
-          <input type=submit value=Agregar>
-        </form>
-      {% endif %}
-      <form method=get action="/buscar">
-        <input type=submit value=Buscar>
-      </form>
+    
+  <div align="center"><a  href="/">ISW1 - TP1</a></div>
+
+    <table id="tabla1" align = "center">
+          <tr align="center" width="33%"><td>
+          {% if anon%}
+            <form method=get action="/login">
+              <input class="button1" type=submit value=LogIn>
+            </form>
+          {% else%}
+            <form method=get action="/logout">
+              <input class="button1" type=submit value=LogOut>
+            </form>
+          {% endif %}
+          {% if mod%}
+            <form method=get action="/agregar">
+              <input class="button1" type=submit value=Agregar>
+            </form>
+          {% endif %}
+          <form method=get action="/buscar">
+            <input class="button1" type=submit value=Buscar>
+          </form>
+          </td></tr>
+    </table>
+  
   </body>
 </html>

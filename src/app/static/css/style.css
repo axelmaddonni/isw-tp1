@@ -19,6 +19,44 @@ a:hover {
   color: #00a7c9;
 }
 
+table#tabla1{
+    width: 20%; 
+    background-color: #f1f1c1;
+    padding: 20px;
+    border: 2px solid #008CBA;
+    border-radius:5px;
+    font-family: inherit;
+
+
+}
+
+table#tabla2{
+    width: 30%; 
+    background-color: #f1f1c1;
+    padding: 20px;
+    border: 2px solid #008CBA;
+    border-radius:5px;
+    font-family: inherit;
+
+}
+
+.button1 {
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    font-family: inherit;
+    background-color: white;
+    color: black;
+    border: 2px solid #008CBA;
+    border-radius:5px;
+}
+
+.button1:hover {
+    background-color: #008CBA;
+    color: white;
+}
+
+
+
 .card {
   position: absolute;
   top: 50%;
@@ -172,6 +210,6 @@ a:hover {
 .centered-block {
     display: block;
     margin: auto;
-    width: 40%;
+    width: 100%;
 }
 

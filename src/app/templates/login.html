@@ -1,10 +1,24 @@
+  <head>
+    <title>ISW1 - TP1</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css') }}">
+
+  </head>
+
 {% from "_formhelpers.html" import render_field %}
 
-<form method=post action="/login">
-    {{ form.csrf_token }}
-  <dl>
-    {{ render_field(form.username) }}
-    {{ render_field(form.password) }}
-  </dl>
-  <p><input type=submit value=Login>
-</form>
+	<div align="center" ><a  href="/">ISW1 - TP1</a></div>
+
+	<table id="tabla2" align="center" width="25%">
+      <tr align="center"><td>
+		<form method=post action="/login">
+		    {{ form.csrf_token }}
+		  <dl>
+		    {{ render_field(form.username) }}
+		    {{ render_field(form.password) }}
+		  </dl>
+		  <p><input type=submit value=Login>
+		</form>
+	  </td></tr>
+	</table>
