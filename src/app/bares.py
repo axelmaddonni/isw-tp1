@@ -32,7 +32,7 @@ class Ubicacion:
     return distancia
 
 class Bar:
-  def __init__(self, nombre, ubicacion, tieneWifi, tieneEnchufes):
+  def __init__(self, nombre, ubicacion, tieneWifi = True, tieneEnchufes = True):
     self.__nombre = nombre
     self.__ubicacion = ubicacion
     self.__duenios = []
@@ -92,7 +92,7 @@ class BaseDeDatosDeBares:
     self.losBaresPorDir = dict([(bar.bar().ubicacion().direccion(), bar) for bar in bares])
   def agregarBares(self, bares):
     for bar in bares:
-      key = bar.ubicacion().direccion()
+      key = bar.bar().ubicacion().direccion()
       self.losBaresPorDir[key] = bar
   def borrarBar(self, bar):
     key = bar.ubicacion().direccion()
