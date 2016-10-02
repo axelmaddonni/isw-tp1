@@ -34,5 +34,6 @@ class User:
     def is_mod(self):
         return self.__isMod
 
-usuarios = {"Darien": User("Darien", "m5"), "Diamondprox": User("Diamondprox", "m5")}
+usuarios = {"Darien": User("Darien", "m5"), "Diamondprox": User("Diamondprox", "m5"), "Admin": User("Admin", "Admin"), "User": User("User", "User")}
 usuarios["Diamondprox"].modear()
+usuarios["Admin"].modear()
