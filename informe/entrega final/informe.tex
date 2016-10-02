@@ -1,0 +1,136 @@
+\documentclass[hidelinks,a4paper,11pt, nofootinbib]{article}
+\usepackage{geometry}
+\usepackage[spanish, es-tabla]{babel} %es-tabla es para que ponga Tabla en vez de Cuadro en el caption
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{xspace}
+\usepackage{xargs}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{caratula}
+\usepackage{enumitem} %Permite modificar los margenes de lsa listas
+\usepackage[bottom]{footmisc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{array}
+\usepackage{xcolor,colortbl}
+\usepackage{amsthm}
+\usepackage{listings}
+\usepackage{soul}
+\usepackage{graphicx}
+\usepackage{sidecap}
+\usepackage{amsmath}
+\usepackage{wrapfig}
+\usepackage{caption}
+
+\setlength{\parindent}{4em}
+\setlength{\parskip}{1em}
+
+%Formato de los links
+\usepackage{hyperref}
+\hypersetup{
+  colorlinks   = true, %Colours links instead of ugly boxes
+  urlcolor     = blue, %Colour for external hyperlinks
+  linkcolor    = blue, %Colour of internal links
+  citecolor   = red %Colour of citations
+}
+
+\usepackage{comment}
+\captionsetup[table]{labelsep=space}
+
+
+\setlength{\parindent}{4em}
+\setlength{\parskip}{0.5em}
+
+
+%%fancyhdr
+\pagestyle{fancy}
+\thispagestyle{fancy}
+\addtolength{\headheight}{1pt}
+\lhead{Ingeniería del Software I+II: TP1}
+\rhead{$2º$ cuatrimestre de 2016}
+\cfoot{\thepage\ / \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.4pt}
+\renewcommand{\labelitemi}{$\bullet$}
+
+
+\newcommand{\userstory}[3]{
+\begin{tabular}{|r p{10cm}|}
+  \hline
+  \textbf{como} & #1 \\
+  \textbf{quiero} & #2 \\
+  \textbf{para} & #3 \\
+  \hline
+\end{tabular}
+
+}
+
+\newcommand{\critdeacep}[1]{\textbf{Criterio de aceptación:} #1
+
+}
+\newcommand{\busvalue}[1]{\textit{Business Value:} #1
+
+}
+\newcommand{\storypoints}[1]{\textit{Story Points:} #1
+
+}
+\newcommand{\roi}[1]{\textit{RoI:} #1
+
+}
+\newcommand{\valores}[3]{
+\begin{tabular}{l l l}
+  \busvalue{#1} & \storypoints{#2} & (\roi{#3}) \\
+\end{tabular}
+
+}
+
+\newcommand{\primersprint}{\texttt{1º sprint}
+
+}
+\newcommand{\segundosprint}{\texttt{2º sprint}
+
+}
+\newcommand{\tasks}[1]{\textbf{Tasks:}
+
+#1}
+
+
+%%caratula
+\materia{Ingeniería del Software I+II}
+\titulo{Trabajo Práctico Número 1}
+\subtitulo{Wi-Find Bar}
+\grupo{Grupo 7}
+\integrante{Ciruelos Rodríguez, Gonzalo}{063/14}{gonzalo.ciruelos@gmail.com}
+\integrante{Costa, Manuel José Joaquín}{035/14}{manucos94@gmail.com}
+\integrante{Gatti, Mathias Nicolás}{477/14}{mathigatti@gmail.com}
+\integrante{Maddonni, Axel Ezequiel}{200/14}{axel.maddonni@gmail.com}
+\integrante{Thibeault, Gabriel}{114/13}{gabriel.eric.thibeault@gmail.com}
+
+% \fecha{24 de Junio de 2016}
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+\newpage
+
+\section{Introducción}
+\input{intro.tex}
+\newpage
+
+\setlist[enumerate]{leftmargin=2.5cm}
+\section{Planificación}
+\input{planificacion.tex}
+\newpage
+
+\section{Seguimiento del proyecto}
+\input{seguimiento.tex}
+\newpage
+
+\section{Diseño Orientado a Objetos}
+\input{disenio.tex}
+\newpage
+
+\end{document}
