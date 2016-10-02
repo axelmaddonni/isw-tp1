@@ -1,3 +1,4 @@
+from functools import wraps
 from flask import render_template, request, redirect, url_for
 from flask_login import LoginManager, UserMixin, login_required, login_user, logout_user, current_user
 from flask_wtf import Form
@@ -22,19 +23,29 @@ class LoginForm(Form):
     username = TextField('Username', validators=[validators.DataRequired()])
     password = PasswordField('Password', validators=[validators.DataRequired()])
 
-@app.route('/raiz_de_dos')
-def raiz():
-    return str(math.sqrt(2.0))
-
+def homeRedirect(func):
+    @wraps(func)
+    def manejarError(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except Exception as e:
+            print e
+            return redirect(url_for("accionesPosibles"))
+    return manejarError
 
 # Probar con "Fitz Roy 1477, CABA, Argentina"
+@homeRedirect
+@app.route("/buscar/<error>", methods=['GET', 'POST'])
 @app.route('/buscar', methods=['GET', 'POST'])
-def buscar():
+def buscar(error = False):
     form = BuscarForm(request.form)
     if request.method == 'POST' and form.validate():
         print('direccion_actual.data = ', form.direccion_actual.data)
         posicion_del_usuario = Ubicacion(form.direccion_actual.data)
-        baresEncontrados = buscador.buscar(posicion_del_usuario)
+        try:
+            baresEncontrados = buscador.buscar(posicion_del_usuario)
+        except:
+            return redirect(url_for("buscar") + "/True")
 
         markers = []
         for bar in baresEncontrados:
@@ -56,10 +67,12 @@ def buscar():
                            dirusuario=posicion_del_usuario,
                            locations=markers)
 
-    return render_template('buscar.html', form=form)
+    return render_template('buscar.html', form = form, error = error)
 
 
 @app.route('/agregar', methods=['GET', 'POST'])
+@homeRedirect
+@login_required
 def agregar():
     form = AgregarForm(request.form)
     if request.method == 'POST' and form.validate():
@@ -73,6 +86,7 @@ def agregar():
 
 @app.route('/')
 @app.route('/home', methods=['GET', 'POST'])
+@homeRedirect
 def accionesPosibles():
     if request.method == 'GET':
         user = user_loader(current_user.get_id())
@@ -84,22 +98,23 @@ def accionesPosibles():
 def user_loader(user_id):
     return usuarios.get(user_id)
 
+@app.route("/login/<invalidCredentials>", methods=['GET', 'POST'])
 @app.route("/login", methods=["GET", "POST"])
-def login():
+@homeRedirect
+def login(invalidCredentials = False):
     form = LoginForm()
     if request.method == 'POST' and form.validate():
-        if form.validate_on_submit():
-            user = user_loader(form.username.data)
-            if user:
-                if user.check_password(form.password.data):
-                    user.authenticated = True
-                    login_user(user)
-                    return redirect(url_for("accionesPosibles"))
+        user = user_loader(form.username.data)
+        if user and user.check_password(form.password.data):
+            user.authenticated = True
+            login_user(user)
+            return redirect(url_for("accionesPosibles"))
         else:
-            pass
-    return render_template("login.html", form=form)
+            return redirect(url_for("login") + "/True")
+    return render_template("login.html", form=form, invalidCredentials = invalidCredentials)
 
 @app.route("/logout", methods=["GET"])
+@homeRedirect
 @login_required
 def logout():
     user = current_user

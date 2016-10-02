@@ -9,6 +9,9 @@
 
     <table id="tabla1" align = "center">
           <tr align="center" width="33%"><td>
+                        {% if error%}
+                            Ocurrió un error al buscar el bar. Intente de nuevo.
+                        {% endif %}
 			{% from "_formhelpers.html" import render_field %}
 			<form method=post action="/buscar">
 			    {{ form.csrf_token }}

@@ -79,7 +79,7 @@ class BuscadorDeBares:
       distancias = [resultado["rows"][0]["elements"][i]["distance"]["value"] \
                   for i in range(len(direcciones))]
     except:
-      pass
+        raise RuntimeError("Fallo la busqueda en Google Maps.")
     return [(distancias[i], \
             self.BBDDBares.obtenerPerfilDeBar(direcciones[i])) \
                 for i in range(len(direcciones)) if \

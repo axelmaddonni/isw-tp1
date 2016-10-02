@@ -12,6 +12,9 @@
 
 	<table id="tabla2" align="center" width="25%">
       <tr align="center"><td>
+                        {% if invalidCredentials%}
+                            Usuario o contraseña inválido.
+                        {% endif %}
 		<form method=post action="/login">
 		    {{ form.csrf_token }}
 		  <dl>
