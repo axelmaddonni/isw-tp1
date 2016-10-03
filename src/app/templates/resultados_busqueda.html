@@ -22,11 +22,18 @@
                   {% set elBar = perfilDeBar.bar() %}
                   {% set nombre = elBar.nombre() %}
                   {% set direccion = elBar.ubicacion().direccion() %}
-
                   <div>
                     <b>{{ nombre }}</b>
                       está cerca tuyo! Está en {{ direccion }},
                       a una distancia de {{ bar[0] }} metros de vos.
+
+                    <div>
+                    {% if bar in misBares or mod %}
+                   ¿Desea <a  href="/editar">editar</a> los datos del bar?
+
+                    {% endif %}
+                    </div>
+
 
                     <a href = "javascript:void(0)" onclick = "document.getElementById('{{ direccion.replace(' ', '') }}').style.display='block';document.getElementById('fade').style.display='block'">Ver más</a></p>
 
@@ -34,7 +41,10 @@
                       {% include 'perfil_de_bar.html' %} 
                       <a href = "javascript:void(0)" onclick = "document.getElementById('{{ direccion.replace(' ', '') }}').style.display='none';document.getElementById('fade').style.display='none'">X</a>
                       </div>
+
                     <div id="fade" class="black_overlay"></div>
+
+
 
                   </div>
 
