@@ -19,6 +19,9 @@ class AgregarForm(Form):
     direccion_dada = StringField('Direccion')
     nombre_dado = StringField("Nombre")
 
+class EditarForm(Form):
+    direccion_dada = StringField('Direccion')
+
 class LoginForm(Form):
     username = TextField('Username', validators=[validators.DataRequired()])
     password = PasswordField('Password', validators=[validators.DataRequired()])
@@ -46,15 +49,17 @@ def buscar(error = False):
             baresEncontrados = buscador.buscar(posicion_del_usuario)
         except:
             return redirect(url_for("buscar") + "/True")
-
+        user = user_loader(current_user.get_id())
         markers = []
+        misBares = []
         for bar in baresEncontrados:
             marker = {}
             marker['lat'] = bar[1].bar().ubicacion().latlong()[0]
             marker['lng'] = bar[1].bar().ubicacion().latlong()[1]
             marker['infobox'] = bar[1].bar().nombre()
             markers.append(marker)
-
+            if bar[1].bar().esDuenio(user):
+                misBares.append(bar)
         marker_posicion_usuario = {}
         marker_posicion_usuario['lat'] = posicion_del_usuario.latlong()[0]
         marker_posicion_usuario['lng'] = posicion_del_usuario.latlong()[1]
@@ -65,7 +70,10 @@ def buscar(error = False):
         return render_template('resultados_busqueda.html',
                            bares=baresEncontrados,
                            dirusuario=posicion_del_usuario,
-                           locations=markers)
+                           locations=markers,
+                           misBares = misBares,
+                           mod = (user is not None) and user.is_mod()
+                           )
 
     return render_template('buscar.html', form = form, error = error)
 
@@ -83,6 +91,20 @@ def agregar():
                            positivo = True)
 
     return render_template('agregar.html', form=form)
+
+@app.route('/editar', methods=['GET', 'POST'])
+@homeRedirect
+@login_required
+def editar():
+    form = EditarForm(request.form)
+    if request.method == 'POST' and form.validate():
+        #me falta averiguar quien es bar
+        #bar.editarUbicacion(form.direccion_dada.data)
+        
+        return render_template('editar_resultado.html',
+                           positivo = True)
+
+    return render_template('editar_bar.html', form=form)
 
 @app.route('/')
 @app.route('/home', methods=['GET', 'POST'])

@@ -1,0 +1,30 @@
+<html>
+  <head>
+    <title>ISW1 - TP1</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css') }}">
+
+  </head>
+  <body>
+
+    <div align="center"><a href="/" >ISW1 - TP1</a></div>
+
+    <table id="tabla2" align ="center">
+          <tr><td>
+            <hr>
+              {% if positivo %}
+                 <p>El bar fue editado exitosamente!</p>
+              {% else %}
+                 <p>El bar no ha editar correctamente :(</p>
+              {% endif %}
+            {% block content %}{% endblock %}
+           </body>
+            <form method=get action="/home">
+              <input type=submit class='button1' value=Volver>
+            </form>
+          </td></tr>
+    </table>
+
+  </body>
+</html>

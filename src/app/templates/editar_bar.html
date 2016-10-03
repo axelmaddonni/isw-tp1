@@ -1,0 +1,22 @@
+<head>
+<title>ISW1 - TP1</title>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css') }}">
+</head>
+<body>
+	<div align="center"><a href="/" >ISW1 - TP1</a></div>
+	{% from "_formhelpers.html" import render_field %}
+
+	<table id="tabla1" align ="center">
+		<tr><td>
+			<form method=post action="/editar">
+			    {{ form.csrf_token }}
+			  <dl>
+			    {{ render_field(form.direccion_dada) }}
+			  </dl>
+			  <p><input type=submit class='button1' value=Submit></p>
+			</form>
+	    </td></tr>
+	</table>
+</body>
