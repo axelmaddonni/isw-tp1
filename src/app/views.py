@@ -3,7 +3,7 @@ from flask import render_template, request, redirect, url_for
 from flask_login import LoginManager, UserMixin, login_required, login_user, logout_user, current_user
 from flask_wtf import Form
 from flask_bcrypt import Bcrypt
-from wtforms import TextField, PasswordField, BooleanField, StringField, validators
+from wtforms import TextField, PasswordField, BooleanField, IntegerField, StringField, SelectField, validators
 from app import app
 from app.bares import Ubicacion, Bar, BuscadorDeBares, buscador, PerfilDeBar, gmaps
 from app.user import User, usuarios
@@ -16,7 +16,31 @@ bcrypt = Bcrypt()
 login_manager = LoginManager()
 
 class BuscarForm(Form):
-    direccion_actual = StringField('Direccion')
+    choices_ = [
+        ('default', ''),
+        ('distancia', 'Distancia Máxima (m.)'),
+        ('wifi', 'Puntaje Wifi Mínimo'),
+        ('enchufes', 'Puntaje Enchufes Mínimo'),
+        ('comida', 'Puntaje Comida Mínimo'),
+        ('servicio', 'Puntaje Servicio Mínimo')
+    ]
+    mensaje_error = 'No es un número entero, por favor intente de nuevo.'
+    direccion_actual = StringField('Direccion', [validators.required()])
+
+    filtro1 = SelectField('', choices=choices_, default='default')
+    valor1 = IntegerField('',
+            [validators.Regexp('\d', message=mensaje_error),
+            validators.Optional()])
+
+    filtro2 = SelectField('', choices=choices_, default='default')
+    valor2 = IntegerField('',
+            [validators.Regexp('\d', message=mensaje_error),
+            validators.Optional()])
+
+    filtro3 = SelectField('', choices=choices_, default='default')
+    valor3 = IntegerField('',
+            [validators.Regexp('\d', message=mensaje_error),
+            validators.Optional()])
 
 class AgregarForm(Form):
     direccion_dada = StringField('Direccion')
@@ -75,7 +99,7 @@ def buscar(error = False):
                           'lng': posicion_del_usuario.latlong()[1]
                           }
         polylines = []
-        colors = ["#FF0000", "#00FF00", "#0000FF", "#FFFFFF", 
+        colors = ["#FF0000", "#00FF00", "#0000FF", "#FFFFFF",
                   "#000000", "#FFFF00", "#00FFFF", "#FF00FF"]
         for i in range(len(baresEncontrados)):
             bar = baresEncontrados[i]
@@ -84,7 +108,7 @@ def buscar(error = False):
                           }
 
             legs = gmaps.directions(latlng_usuario, latlng_bar, mode='walking', units='metric')[0]['legs']
-            
+
             #overview_polyline
             polyline = {'stroke_color': colors[i%len(colors)],
                         'stroke_opacity': 0.8,
@@ -133,7 +157,7 @@ def editar():
     if request.method == 'POST' and form.validate():
         #me falta averiguar quien es bar
         #bar.editarUbicacion(form.direccion_dada.data)
-        
+
         return render_template('editar_resultado.html',
                            positivo = True)
 

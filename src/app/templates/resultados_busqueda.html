@@ -11,46 +11,50 @@
     <div align="center"><a href="/" >ISW1 - TP1</a></div>
 
     <table id="tabla1" align ="center">
-          <tr><td>
-            <hr>
-              <p> Estás en {{ dirusuario.direccion() }} </p>
-              {% if bares %}
-
-                {% for bar in bares %}
-
-                  {% set perfilDeBar = bar[1] %}
-                  {% set elBar = perfilDeBar.bar() %}
-                  {% set nombre = elBar.nombre() %}
-                  {% set direccion = elBar.ubicacion().direccion() %}
-                  <div>
-                    <b>{{ nombre }}</b>
-                      está cerca tuyo! Está en {{ direccion }},
-                      a una distancia de {{ bar[0] }} metros de vos.
-
-                    <div>
-                    {% if bar in misBares or mod %}
-                   ¿Desea <a  href="/editar">editar</a> los datos del bar?
-
-                    {% endif %}
-                    </div>
-
-
-                    <a href = "javascript:void(0)" onclick = "document.getElementById('{{ direccion.replace(' ', '') }}').style.display='block';document.getElementById('fade').style.display='block'">Ver más</a></p>
-
-                    <div id="{{ direccion.replace(' ', '') }}" class="answer"> 
-                      {% include 'perfil_de_bar.html' %} 
-                      <a href = "javascript:void(0)" onclick = "document.getElementById('{{ direccion.replace(' ', '') }}').style.display='none';document.getElementById('fade').style.display='none'">X</a>
-                      </div>
-
-                    <div id="fade" class="black_overlay"></div>
-
-
-
-                  </div>
-
-                {% endfor %}
-
-                <div class="centered-block" id="mapa">
+      <tr>
+        <td>
+          <font size="5"><strong>Resultados de la búsqueda</strong></font>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <hr>
+          <p> Estás en {{ dirusuario.direccion() }} </p>
+          {% if bares %}
+            {% for bar in bares %}
+              {% set perfilDeBar = bar[1] %}
+              {% set elBar = perfilDeBar.bar() %}
+              {% set nombre = elBar.nombre() %}
+              {% set direccion = elBar.ubicacion().direccion() %}
+              <div>
+                <b>{{ nombre }}</b>
+                está cerca tuyo! Está en {{ direccion }},
+                a una distancia de {{ bar[0] }} metros de vos.
+        
+                <div>
+                  {% if bar in misBares or mod %}
+                    ¿Desea <a  href="/editar">editar</a> los datos del bar?
+                  
+                  {% endif %}
+                </div>
+                
+                
+                <a href = "javascript:void(0)" onclick = "document.getElementById('{{ direccion.replace(' ', '') }}').style.display='block';document.getElementById('fade').style.display='block'">Ver más</a></p>
+                
+                <div id="{{ direccion.replace(' ', '') }}" class="answer"> 
+                  {% include 'perfil_de_bar.html' %} 
+                  <a href = "javascript:void(0)" onclick = "document.getElementById('{{ direccion.replace(' ', '') }}').style.display='none';document.getElementById('fade').style.display='none'">X</a>
+                </div>
+                
+                <div id="fade" class="black_overlay"></div>
+                
+                
+                
+              </div>
+              
+              {% endfor %}
+              
+              <div class="centered-block" id="mapa">
                 {{
                     googlemap(
                         "simple-map",
@@ -64,16 +68,17 @@
                     )
                 }}
                 <!-- http://brunorocha.org/python/flask/flask-google-maps-plus-how-to-write-a-flask-extension.html -->
-                </div> 
-
-              {% else %}
-                 <p>No se han encontrado bares cerca :(</p>
-              {% endif %}
-            {% block content %}{% endblock %}
-            <form method=get action="/buscar">
-              <input type=submit class='button1' value=Volver>
-            </form>
-          </td></tr>
+              </div> 
+              
+          {% else %}
+            <p>No se han encontrado bares cerca :(</p>
+          {% endif %}
+          {% block content %}{% endblock %}
+          <form method=get action="/buscar">
+            <input type=submit class='button1' value=Volver>
+          </form>
+        </td>
+      </tr>
     </table>
 
   </body>

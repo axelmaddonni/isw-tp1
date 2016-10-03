@@ -8,19 +8,109 @@
     <div align="center"><a  href="/">ISW1 - TP1</a></div>
 
     <table id="tabla1" align = "center">
-          <tr align="center" width="33%"><td>
-                        {% if error%}
-                            Ocurrió un error al buscar el bar. Intente de nuevo.
-                        {% endif %}
-			{% from "_formhelpers.html" import render_field %}
-			<form method=post action="/buscar">
-			    {{ form.csrf_token }}
-			  <dl>
-			    {{ render_field(form.direccion_actual) }}
-			  </dl>
-			  <p><input type=submit class='button1' value=Buscar></p>
-        <p><a  href="/">Volver</a></p>
-			</form>
+      <tr align="center" width="33%">
+        <td align="center">
+          {% if error%}
+            Ocurrió un error al buscar el bar. Intente de nuevo.
+          {% endif %}
 
-          </td></tr>
+          {% from "_formhelpers.html" import render_field %}
+          <form method=post action="/buscar">
+			    {{ form.csrf_token }}
+			    {{ render_field(form.direccion_actual) }}
+
+ <div class="accordion">
+            <dl>
+              <dt>
+                <a href="#accordion1" aria-expanded="false" aria-controls="accordion1" class="accordion-title accordionTitle js-accordionTrigger">Búsqueda Avanzada</a>
+              </dt>
+              <dd class="accordion-content accordionItem is-collapsed" id="accordion1" aria-hidden="true">
+                <table>
+                  <tr>
+                    <td>{{ render_field(form.filtro1) }}</td>
+                    <td>{{ render_field(form.valor1) }}</td>
+                  </tr>
+                  <tr>
+                    <td>{{ render_field(form.filtro2) }}</td>
+                    <td>{{ render_field(form.valor2) }}</td>
+                  </tr>
+                  <tr>
+                    <td>{{ render_field(form.filtro3) }}</td>
+                    <td>{{ render_field(form.valor3) }}</td>
+                  </tr>
+                </table>
+              </dd>
+            </dl>
+          </div>
+
+          <p><input type=submit class='button1' value=Buscar></p>
+          <p><a  href="/">Volver</a></p>
+          </form>
+
+          </td>
+      </tr>
     </table>
+
+<script>
+//uses classList, setAttribute, and querySelectorAll
+//if you want this to work in IE8/9 youll need to polyfill these
+(function(){
+	var d = document,
+	accordionToggles = d.querySelectorAll('.js-accordionTrigger'),
+	setAria,
+	setAccordionAria,
+	switchAccordion,
+  touchSupported = ('ontouchstart' in window),
+  pointerSupported = ('pointerdown' in window);
+  
+  skipClickDelay = function(e){
+    e.preventDefault();
+    e.target.click();
+  }
+
+		setAriaAttr = function(el, ariaType, newProperty){
+		el.setAttribute(ariaType, newProperty);
+	};
+	setAccordionAria = function(el1, el2, expanded){
+		switch(expanded) {
+      case "true":
+      	setAriaAttr(el1, 'aria-expanded', 'true');
+      	setAriaAttr(el2, 'aria-hidden', 'false');
+      	break;
+      case "false":
+      	setAriaAttr(el1, 'aria-expanded', 'false');
+      	setAriaAttr(el2, 'aria-hidden', 'true');
+      	break;
+      default:
+				break;
+		}
+	};
+//function
+switchAccordion = function(e) {
+  console.log("triggered");
+	e.preventDefault();
+	var thisAnswer = e.target.parentNode.nextElementSibling;
+	var thisQuestion = e.target;
+	if(thisAnswer.classList.contains('is-collapsed')) {
+		setAccordionAria(thisQuestion, thisAnswer, 'true');
+	} else {
+		setAccordionAria(thisQuestion, thisAnswer, 'false');
+	}
+  	thisQuestion.classList.toggle('is-collapsed');
+  	thisQuestion.classList.toggle('is-expanded');
+		thisAnswer.classList.toggle('is-collapsed');
+		thisAnswer.classList.toggle('is-expanded');
+ 	
+  	thisAnswer.classList.toggle('animateIn');
+	};
+	for (var i=0,len=accordionToggles.length; i<len; i++) {
+		if(touchSupported) {
+      accordionToggles[i].addEventListener('touchstart', skipClickDelay, false);
+    }
+    if(pointerSupported){
+      accordionToggles[i].addEventListener('pointerdown', skipClickDelay, false);
+    }
+    accordionToggles[i].addEventListener('click', switchAccordion, false);
+  }
+})();
+</script>
