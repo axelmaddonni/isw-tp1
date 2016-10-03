@@ -9,6 +9,8 @@ from app.bares import Ubicacion, Bar, BuscadorDeBares, buscador, PerfilDeBar
 from app.user import User, usuarios
 import math
 
+import traceback
+
 bcrypt = Bcrypt()
 login_manager = LoginManager()
 
@@ -29,7 +31,7 @@ def homeRedirect(func):
         try:
             return func(*args, **kwargs)
         except Exception as e:
-            print e
+            print(e)
             return redirect(url_for("accionesPosibles"))
     return manejarError
 
@@ -44,7 +46,8 @@ def buscar(error = False):
         posicion_del_usuario = Ubicacion(form.direccion_actual.data)
         try:
             baresEncontrados = buscador.buscar(posicion_del_usuario)
-        except:
+        except Exception as e:
+            traceback.print_exc()
             return redirect(url_for("buscar") + "/True")
 
         markers = []

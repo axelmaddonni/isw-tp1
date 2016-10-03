@@ -2,6 +2,7 @@ from math import sqrt
 import googlemaps
 from datetime import datetime
 import json
+from app.filtros import *
 
 # Como usar: https://developers.google.com/maps/web-services/?hl=es
 # Mas: https://github.com/googlemaps/google-maps-services-python
@@ -52,7 +53,7 @@ class Bar:
 class PerfilDeBar:
   def __init__(self, bar):
     self.elBar = bar
-    self.__votos = { "Wifi": 80, "Comida": 30, "Precio": 50}
+    self.__votos = { "Wifi": 80, "Enchufes": 10, "Comida": 30, "Precio": 50}
     self.__comentarios = [ 'Este bar es genial!', 'Un servicio de porqueria.' ]
   def bar(self):
     return self.elBar
@@ -68,23 +69,29 @@ class BuscadorDeBares:
     return self.BBDDBares
   def buscar(self, dir_usuario):
     direcciones = list(self.BBDDBares.direcciones())
-    resultado = []
-    distancias = []
+    distanciasCache = { }
     try:
-      resultado = gmaps.distance_matrix(
-              dir_usuario.direccion(),
-              direcciones,
-              units="metric",
-              mode = "walking")
-      distancias = [resultado["rows"][0]["elements"][i]["distance"]["value"] \
-                  for i in range(len(direcciones))]
+        resultado = gmaps.distance_matrix(
+                dir_usuario.direccion(),
+                direcciones,
+                units="metric",
+                mode = "walking")
+        distanciasCache = { \
+                direcciones[i] :\
+                resultado["rows"][0]["elements"][i]["distance"]["value"] \
+                for i in range(len(direcciones))}
     except:
-        raise RuntimeError("Fallo la busqueda en Google Maps.")
-    return [(distancias[i], \
-            self.BBDDBares.obtenerPerfilDeBar(direcciones[i])) \
-                for i in range(len(direcciones)) if \
-                    distancias[i] <= 400 and \
-                    self.BBDDBares.obtenerBar(direcciones[i]).tieneWifi()]
+        distanciasCache = { direcciones[i] : 0 for i in range(len(direcciones))}
+
+    filtroVacio = FiltroVacio()
+    filtro = FiltroDeDistancia(filtroVacio, 400, dir_usuario, distanciasCache)
+
+    direccionesYPerfiles = [ \
+        (distanciasCache[direcciones[i]], \
+        self.BBDDBares.obtenerPerfilDeBar(direcciones[i])) \
+        for i in range(len(direcciones))]
+
+    return list(filter(lambda x: filtro.cumple(x[1]), direccionesYPerfiles))
 
 
 class BaseDeDatosDeBares:
