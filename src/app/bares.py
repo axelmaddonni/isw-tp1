@@ -2,7 +2,7 @@ from math import sqrt
 import googlemaps
 from datetime import datetime
 import json
-from user import usuarios
+from app.user import usuarios
 
 # Como usar: https://developers.google.com/maps/web-services/?hl=es
 # Mas: https://github.com/googlemaps/google-maps-services-python

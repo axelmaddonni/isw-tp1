@@ -101,7 +101,7 @@ def buscar(error = False):
                            bares=baresEncontrados,
                            dirusuario=posicion_del_usuario,
                            locations=markers,
-                           polylines=polylines
+                           polylines=polylines,
                            misBares = misBares,
                            mod = (user is not None) and user.is_mod()
                            )
