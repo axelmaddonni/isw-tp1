@@ -5,9 +5,10 @@ from flask_wtf import Form
 from flask_bcrypt import Bcrypt
 from wtforms import TextField, PasswordField, BooleanField, StringField, validators
 from app import app
-from app.bares import Ubicacion, Bar, BuscadorDeBares, buscador, PerfilDeBar
+from app.bares import Ubicacion, Bar, BuscadorDeBares, buscador, PerfilDeBar, gmaps
 from app.user import User, usuarios
 import math
+import polyline as pline
 
 bcrypt = Bcrypt()
 login_manager = LoginManager()
@@ -29,7 +30,7 @@ def homeRedirect(func):
         try:
             return func(*args, **kwargs)
         except Exception as e:
-            print e
+            print(e)
             return redirect(url_for("accionesPosibles"))
     return manejarError
 
@@ -62,10 +63,40 @@ def buscar(error = False):
         marker_posicion_usuario['infobox'] = 'Tu Ubicacion'
         markers.append(marker_posicion_usuario)
 
+        latlng_usuario = {'lat': posicion_del_usuario.latlong()[0],
+                          'lng': posicion_del_usuario.latlong()[1]
+                          }
+        polylines = []
+        colors = ["#FF0000", "#00FF00", "#0000FF", "#FFFFFF", 
+                  "#000000", "#FFFF00", "#00FFFF", "#FF00FF"]
+        for i in range(len(baresEncontrados)):
+            bar = baresEncontrados[i]
+            latlng_bar = {'lat': bar[1].bar().ubicacion().latlong()[0],
+                          'lng': bar[1].bar().ubicacion().latlong()[1]
+                          }
+
+            legs = gmaps.directions(latlng_usuario, latlng_bar, mode='walking', units='metric')[0]['legs']
+            
+            #overview_polyline
+            polyline = {'stroke_color': colors[i%len(colors)],
+                        'stroke_opacity': 0.8,
+                        'stroke_weight': 4,
+                        'path': []}
+
+            for i in range(len(legs)):
+                steps = legs[i]['steps'];
+                for j in range(len(steps)):
+                    encodedPoints = steps[j]['polyline']['points']
+                    for lat, lng in pline.decode(encodedPoints):
+                        polyline['path'].append({'lat': lat, 'lng': lng})
+
+            polylines.append(polyline)
+
         return render_template('resultados_busqueda.html',
                            bares=baresEncontrados,
                            dirusuario=posicion_del_usuario,
-                           locations=markers)
+                           locations=markers,
+                           polylines=polylines)
 
     return render_template('buscar.html', form = form, error = error)
 
