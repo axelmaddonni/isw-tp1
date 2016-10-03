@@ -3,6 +3,7 @@ import googlemaps
 from datetime import datetime
 import json
 from app.filtros import *
+from app.user import usuarios
 
 # Como usar: https://developers.google.com/maps/web-services/?hl=es
 # Mas: https://github.com/googlemaps/google-maps-services-python
@@ -45,9 +46,11 @@ class Bar:
     return self.__ubicacion
   def tieneWifi(self):
     return self.__tieneWifi
-  def editarUbicacion(nuevaUbicacion):
+  def esDuenio(self, usuario):
+    return usuario in self.__duenios
+  def editarUbicacion(self, nuevaUbicacion):
     self.__ubicacion = nuevaUbicacion
-  def agregarDuenio(nuevoDuenio):
+  def agregarDuenio(self, nuevoDuenio):
     self.__duenios.append(nuevoDuenio)
 
 class PerfilDeBar:
@@ -119,6 +122,9 @@ bar2 = Bar('Niceto', Ubicacion('Av Cnel. Niceto Vega 5510, CABA, Argentina'), Fa
 bar3 = Bar('Bouquet', Ubicacion('Av Cabildo 1400, CABA, Argentina'), True, True)
 bar4 = Bar('Omm Bar', Ubicacion('Honduras 5656, CABA, Argentina',), True, False)
 
+bar1.agregarDuenio(usuarios["Pedro"])
+
 # Ponele votaciones cualquiera.
+
 bbddBares = BaseDeDatosDeBares([PerfilDeBar(bar1), PerfilDeBar(bar2), PerfilDeBar(bar3), PerfilDeBar(bar4)])
 buscador = BuscadorDeBares(bbddBares)
