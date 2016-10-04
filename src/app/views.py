@@ -147,8 +147,8 @@ def buscar(error = False):
                               'lng': posicion_del_usuario.latlong()[1]
                               }
             polylines = []
-            colors = ["#FF0000", "#00FF00", "#0000FF", "#FFFFFF",
-                      "#000000", "#FFFF00", "#00FFFF", "#FF00FF"]
+            colors = ["#FF0000", "#00FF00", "#0000FF",
+                      "#FFFF00", "#00FFFF", "#FF00FF"]
             for i in range(len(baresEncontrados)):
                 bar = baresEncontrados[i]
                 latlng_bar = {'lat': bar[1].bar().ubicacion().latlong()[0],
