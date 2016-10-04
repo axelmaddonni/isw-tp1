@@ -18,15 +18,13 @@ gmaps = googlemaps.Client(key=GOOGLE_MAPS_KEY)
 
 class Ubicacion:
   global gmaps
+  #puede fallar
   def __init__(self, direccion):
     self.__direccion = direccion
     self.__latlong = (0, 0)
-    try:
-      result = gmaps.geocode(direccion)
-      res = result[0]['geometry']['location']
-      self.__latlong = (res["lat"], res["lng"])
-    except:
-      pass
+    result = gmaps.geocode(direccion)
+    res = result[0]['geometry']['location']
+    self.__latlong = (res["lat"], res["lng"])
   def direccion(self):
     return self.__direccion
   def latlong(self):
