@@ -22,18 +22,19 @@
           <p> Estás en {{ dirusuario.direccion() }} </p>
           {% if bares %}
             {% for bar in bares %}
-              {% set perfilDeBar = bar[1] %}
-              {% set elBar = perfilDeBar.bar() %}
-              {% set nombre = elBar.nombre() %}
-              {% set direccion = elBar.ubicacion().direccion() %}
+                {% set perfilDeBar = bar[1] %}
+                {% set elBar = perfilDeBar.bar() %}
+                {% set nombre = elBar.nombre() %}
+                {% set direccion = elBar.ubicacion().direccion() %}
               <div>
                 <b>{{ nombre }}</b>
                 está cerca tuyo! Está en {{ direccion }},
                 a una distancia de {{ bar[0] }} metros de vos.
         
                 <div>
-                  {% if bar in misBares or mod %}
-                    ¿Desea <a  href="/editar">editar</a> los datos del bar?
+                  {% if direccion in misBares or mod %}
+
+                    ¿Desea <a  href="/editar?barDireccion={{direccion}}">editar</a> los datos del bar?
                   
                   {% endif %}
                 </div>
