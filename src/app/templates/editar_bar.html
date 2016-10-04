@@ -10,7 +10,7 @@
 
 	<table id="tabla1" align ="center">
 		<tr><td>
-			<form method=post action="/editar">
+			<form method=post action="/editar?barDireccion={{direccion}}">
 			    {{ form.csrf_token }}
 			  <dl>
 			    {{ render_field(form.direccion_dada) }}

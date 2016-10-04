@@ -128,3 +128,4 @@ bar1.agregarDuenio(usuarios["Pedro"])
 
 bbddBares = BaseDeDatosDeBares([PerfilDeBar(bar1), PerfilDeBar(bar2), PerfilDeBar(bar3), PerfilDeBar(bar4)])
 buscador = BuscadorDeBares(bbddBares)
+

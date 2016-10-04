@@ -18,13 +18,13 @@ login_manager = LoginManager()
 class BuscarForm(Form):
     choices_ = [
         ('default', ''),
-        ('distancia', 'Distancia Máxima (m.)'),
-        ('wifi', 'Puntaje Wifi Mínimo'),
-        ('enchufes', 'Puntaje Enchufes Mínimo'),
-        ('comida', 'Puntaje Comida Mínimo'),
-        ('servicio', 'Puntaje Servicio Mínimo')
+        ('distancia', 'Distancia Maxima (m.)'),
+        ('wifi', 'Puntaje Wifi Minimo'),
+        ('enchufes', 'Puntaje Enchufes Minimo'),
+        ('comida', 'Puntaje Comida Minimo'),
+        ('servicio', 'Puntaje Servicio Minimo')
     ]
-    mensaje_error = 'No es un número entero, por favor intente de nuevo.'
+    mensaje_error = 'No es un numero entero, por favor intente de nuevo.'
     direccion_actual = StringField('Direccion', [validators.required()])
 
     filtro1 = SelectField('', choices=choices_, default='default')
@@ -87,7 +87,7 @@ def buscar(error = False):
             marker['infobox'] = bar[1].bar().nombre()
             markers.append(marker)
             if bar[1].bar().esDuenio(user):
-                misBares.append(bar)
+                misBares.append(bar[1].ubicacion().direccion())
         marker_posicion_usuario = {}
         marker_posicion_usuario['lat'] = posicion_del_usuario.latlong()[0]
         marker_posicion_usuario['lng'] = posicion_del_usuario.latlong()[1]
@@ -152,16 +152,19 @@ def agregar():
 @app.route('/editar', methods=['GET', 'POST'])
 @homeRedirect
 @login_required
+
 def editar():
+    direccion = request.args.get('barDireccion')
+
     form = EditarForm(request.form)
     if request.method == 'POST' and form.validate():
-        #me falta averiguar quien es bar
-        #bar.editarUbicacion(form.direccion_dada.data)
+        bar = buscador.obtenerBBDD().obtenerBar(direccion)
+        bar.editarUbicacion(Ubicacion(str(form.direccion_dada.data)))
 
         return render_template('editar_resultado.html',
                            positivo = True)
+    return render_template('editar_bar.html', form=form, direccion=direccion)
 
-    return render_template('editar_bar.html', form=form)
 
 @app.route('/')
 @app.route('/home', methods=['GET', 'POST'])
@@ -191,6 +194,7 @@ def login(invalidCredentials = False):
         else:
             return redirect(url_for("login") + "/True")
     return render_template("login.html", form=form, invalidCredentials = invalidCredentials)
+
 
 @app.route("/logout", methods=["GET"])
 @homeRedirect
