@@ -8,7 +8,7 @@ class FiltroExtra:
         self.elFiltro = elFiltro
 
 class FiltroDeDistancia(FiltroExtra):
-    def __init__(self, elFiltro, distancia, direccionUsuario, dCache):
+    def __init__(self, elFiltro, distancia, dCache):
         FiltroExtra.__init__(self, elFiltro)
         self.distancia = distancia
         self.distanciasCache = dCache
