@@ -3,9 +3,10 @@ from flask import render_template, request, redirect, url_for
 from flask_login import LoginManager, UserMixin, login_required, login_user, logout_user, current_user
 from flask_wtf import Form
 from flask_bcrypt import Bcrypt
-from wtforms import TextField, PasswordField, BooleanField, IntegerField, StringField, SelectField, validators
+from wtforms import TextField, PasswordField, BooleanField, IntegerField, StringField, SelectField, validators, ValidationError
 from app import app
 from app.bares import Ubicacion, Bar, BuscadorDeBares, buscador, PerfilDeBar, gmaps
+from app.filtros import *
 from app.user import User, usuarios
 import math
 import polyline as pline
@@ -14,6 +15,7 @@ import traceback
 
 bcrypt = Bcrypt()
 login_manager = LoginManager()
+
 
 class BuscarForm(Form):
     choices_ = [
@@ -28,19 +30,44 @@ class BuscarForm(Form):
     direccion_actual = StringField('Direccion', [validators.required()])
 
     filtro1 = SelectField('', choices=choices_, default='default')
-    valor1 = IntegerField('',
-            [validators.Regexp('\d', message=mensaje_error),
-            validators.Optional()])
+    valor1 = IntegerField('', [validators.Optional()])
 
     filtro2 = SelectField('', choices=choices_, default='default')
-    valor2 = IntegerField('',
-            [validators.Regexp('\d', message=mensaje_error),
-            validators.Optional()])
+    valor2 = IntegerField('', [validators.Optional()])
 
     filtro3 = SelectField('', choices=choices_, default='default')
-    valor3 = IntegerField('',
-            [validators.Regexp('\d', message=mensaje_error),
-            validators.Optional()])
+    valor3 = IntegerField('', [validators.Optional()])
+
+    def validate_valor1(form, field):
+        if form.filtro1.data == '':
+            return
+        if form.filtro1.data == 'distancia':
+            if field.data <= 0:
+                raise ValidationError('La distancia debe ser positiva.')
+        else:
+            if not (0 <= field.data <= 100):
+                raise ValidationError('El puntaje va entre 0 y 100.')
+
+    def validate_valor2(form, field):
+        if form.filtro2.data == '':
+            return
+        if form.filtro2.data == 'distancia':
+            if field.data <= 0:
+                raise ValidationError('La distancia debe ser positiva.')
+        else:
+            if not (0 <= field.data <= 100):
+                raise ValidationError('El puntaje va entre 0 y 100.')
+
+    def validate_valor3(form, field):
+        if form.filtro3.data == '':
+            return
+        if form.filtro3.data == 'distancia':
+            if field.data <= 0:
+                raise ValidationError('La distancia debe ser positiva.')
+        else:
+            if not (0 <= field.data <= 100):
+                raise ValidationError('El puntaje va entre 0 y 100.')
+
 
 class AgregarForm(Form):
     direccion_dada = StringField('Direccion')
@@ -63,6 +90,22 @@ def homeRedirect(func):
             return redirect(url_for("accionesPosibles"))
     return manejarError
 
+# No se puede eliminar el if porque viene del html esto
+def llenar_filtro(filtron, valorn, filtro, d_cache):
+    if filtron == 'distancia':
+        return FiltroDeDistancia(filtro, valorn, d_cache)
+    elif filtron == 'wifi':
+        return FiltroDeWifi(filtro, valorn)
+    elif filtron == 'enchufes':
+        return FiltroDeEnchufes(filtro, valorn)
+    elif filtron == 'comida':
+        return FiltroDeComida(filtro, valorn)
+    elif filtron == 'servicio':
+        return FiltroDeServicio(filtro, valorn)
+    else:
+        return filtro
+
+
 # Probar con "Fitz Roy 1477, CABA, Argentina"
 @homeRedirect
 @app.route("/buscar/<error>", methods=['GET', 'POST'])
@@ -73,7 +116,15 @@ def buscar(error = False):
         print('direccion_actual.data = ', form.direccion_actual.data)
         posicion_del_usuario = Ubicacion(form.direccion_actual.data)
         try:
-            baresEncontrados = buscador.buscar(posicion_del_usuario)
+            distancias_cache = buscador.distancias_cache(posicion_del_usuario)
+            filtro = FiltroVacio()
+            filtro = llenar_filtro(form.filtro1.data, form.valor1.data, filtro,
+                    distancias_cache)
+            filtro = llenar_filtro(form.filtro2.data, form.valor2.data, filtro,
+                    distancias_cache)
+            filtro = llenar_filtro(form.filtro3.data, form.valor3.data, filtro,
+                    distancias_cache)
+            baresEncontrados = buscador.buscar(filtro)
         except Exception as e:
             traceback.print_exc()
             return redirect(url_for("buscar") + "/True")

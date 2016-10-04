@@ -68,29 +68,31 @@ class PerfilDeBar:
 class BuscadorDeBares:
   def __init__(self, bbddBares):
     self.BBDDBares = bbddBares
+    self.distanciasCache = { }
   def obtenerBBDD(self):
     return self.BBDDBares
-  def buscar(self, dir_usuario):
+  def distancias_cache(self, dir_usuario):
     direcciones = list(self.BBDDBares.direcciones())
-    distanciasCache = { }
     try:
         resultado = gmaps.distance_matrix(
                 dir_usuario.direccion(),
                 direcciones,
                 units="metric",
                 mode = "walking")
-        distanciasCache = { \
+        self.distanciasCache = { \
                 direcciones[i] :\
                 resultado["rows"][0]["elements"][i]["distance"]["value"] \
                 for i in range(len(direcciones))}
     except:
-        distanciasCache = { direcciones[i] : 0 for i in range(len(direcciones))}
+        self.distanciasCache ={ direcciones[i] : 0 \
+                for i in range(len(direcciones))}
+    return self.distanciasCache
 
-    filtroVacio = FiltroVacio()
-    filtro = FiltroDeDistancia(filtroVacio, 400, dir_usuario, distanciasCache)
+  def buscar(self, filtro):
+    direcciones = list(self.BBDDBares.direcciones())
 
     direccionesYPerfiles = [ \
-        (distanciasCache[direcciones[i]], \
+        (self.distanciasCache[direcciones[i]], \
         self.BBDDBares.obtenerPerfilDeBar(direcciones[i])) \
         for i in range(len(direcciones))]
 
