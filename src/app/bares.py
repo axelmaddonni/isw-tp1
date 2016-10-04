@@ -22,7 +22,9 @@ class Ubicacion:
   def __init__(self, direccion):
     self.__direccion = direccion
     self.__latlong = (0, 0)
-    result = gmaps.geocode(direccion)
+    result = gmaps.geocode(address = direccion)
+    if (len(result) < 1):
+        raise ValueError("No hubo resultados de Google Maps")
     res = result[0]['geometry']['location']
     self.__latlong = (res["lat"], res["lng"])
   def direccion(self):
