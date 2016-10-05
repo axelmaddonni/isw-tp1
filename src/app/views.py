@@ -80,6 +80,10 @@ class LoginForm(Form):
     username = TextField('Username', validators=[validators.DataRequired()])
     password = PasswordField('Password', validators=[validators.DataRequired()])
 
+class RegistrarForm(Form):
+    username = TextField('Username', validators=[validators.DataRequired()])
+    password = PasswordField('Password', validators=[validators.DataRequired()])
+
 def homeRedirect(func):
     @wraps(func)
     def manejarError(*args, **kwargs):
@@ -273,3 +277,22 @@ def logout():
     usuarios.desautenticar(current_user.get_id())
     logout_user()
     return redirect(url_for("accionesPosibles"))
+
+@app.route("/registrar/<invalidCredentials>", methods=['GET', 'POST'])
+@app.route('/registrar', methods=['GET', 'POST'])
+@homeRedirect
+def registrar(invalidCredentials = False):
+    form = RegistrarForm(request.form)
+    if request.method == 'POST' and form.validate():
+        username = form.username.data
+        try:
+            usuarios[username] = form.password.data
+            usuarios.autenticar(username)
+            login_user(usuarios[username])
+            return usuarios[username].accept(Renderer())("registrar_resultado.html", positivo = True)
+        except:
+            traceback.print_exc()
+            return redirect(url_for("registrar") + "/True")
+
+    user = user_loader(current_user.get_id())
+    return user.accept(Renderer())("registrar.html", form = form, invalidCredentials = invalidCredentials)
