@@ -75,6 +75,7 @@ class AgregarForm(Form):
 
 class EditarForm(Form):
     direccion_dada = StringField('Direccion')
+    nombre_dado = StringField("Nombre")
 
 class LoginForm(Form):
     username = TextField('Username', validators=[validators.DataRequired()])
@@ -145,11 +146,12 @@ def editar():
     direccion = request.args.get('barDireccion')
     form = EditarForm(request.form)
     if request.method == 'POST' and form.validate():
-        buscador.obtenerBBDD().modificarBar(direccion,str(form.direccion_dada.data))
+        buscador.obtenerBBDD().modificarNombreBar(direccion,str(form.nombre_dado.data))
+        buscador.obtenerBBDD().modificarDirBar(direccion,str(form.direccion_dada.data))
         return render_template('editar_resultado.html',
                            positivo = True)
     user = user_loader(current_user.get_id())
-    return user.accept(Renderer())('editar_bar.html', form=form, direccion=direccion)
+    return user.accept(Renderer())('editar_bar.html', form=form, direccion=direccion, nombre=buscador.obtenerBBDD().obtenerBar(direccion).nombre())
 
 @app.route('/eliminar', methods=['GET', 'POST'])
 @homeRedirect
