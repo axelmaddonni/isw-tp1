@@ -79,12 +79,21 @@ class UsuarioRegistrado (Privilegio):
     def accept(self, visitor):
         return visitor.renderRegistrado()
 
-class Mod (UsuarioRegistrado):
+class Mod (Privilegio):
 
     atr = None
 
     def __init__(self, user):
         self.atr = user.atributos()
+
+    def get_id(self):
+        return self.atr.username
+
+    def is_anonymous(self):
+        return False
+
+    def is_authenticated(self):
+        return usuarios.is_authenticated(self.username)
 
     def accept(self, visitor):
         return visitor.renderMod()
@@ -169,19 +178,19 @@ class Renderer:
 usuarios = BaseDeDatosDeUsuarios({"User": "User", "Mod": "Mod"})
 usuarios.modear("Mod")
 
-#if __name__ == "__main__":
-#    usuarios.modear("Mod")
-#    assert(type(usuarios["User"].privilegios == UsuarioRegistrado))
-#    assert(type(usuarios["Mod" ].privilegios == Mod))
-#    assert(usuarios["Mod" ].get_id() == "Mod")
-#    assert(usuarios["User" ].get_id() == "User")
-#    assert(usuarios["NoExiste"].is_authenticated() == False)
-#    assert(usuarios["NoExiste"].is_anonymous() == True)
-#    assert(usuarios[None].is_anonymous() == True)
-#    assert(usuarios[None].is_authenticated() == False)
-#    del usuarios["User"]
-#    assert(not usuarios["User" ].get_id() == "User")
-#    usuarios["User"] = "UserPass"
-#    assert(usuarios["User" ].get_id() == "User")
-#    assert(usuarios.check_password("User", "UserPass"))
-#    assert(usuarios.check_password("Mod", "Mod"))
+if __name__ == "__main__":
+    usuarios.modear("Mod")
+    assert(type(usuarios["User"].privilegios == UsuarioRegistrado))
+    assert(type(usuarios["Mod" ].privilegios == Mod))
+    assert(usuarios["Mod" ].get_id() == "Mod")
+    assert(usuarios["User" ].get_id() == "User")
+    assert(usuarios["NoExiste"].is_authenticated() == False)
+    assert(usuarios["NoExiste"].is_anonymous() == True)
+    assert(usuarios[None].is_anonymous() == True)
+    assert(usuarios[None].is_authenticated() == False)
+    del usuarios["User"]
+    assert(not usuarios["User" ].get_id() == "User")
+    usuarios["User"] = "UserPass"
+    assert(usuarios["User" ].get_id() == "User")
+    assert(usuarios.check_password("User", "UserPass"))
+    assert(usuarios.check_password("Mod", "Mod"))
