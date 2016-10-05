@@ -12,7 +12,7 @@ isw1-tp1 2c 2016
 
   * Diagrama 2: https://www.draw.io/#G0B3FgdUXk8fTrbk1NaWhJNnBhTE0
 
-  * Diagrama 3:
+  * Diagrama 3: https://www.draw.io/#G0B3FgdUXk8fTrZms1Tmo4U3h5ZlE
   
   * Diagrama 4:
 
@@ -28,8 +28,8 @@ Extraido del mail de Fernando:
 Mínimamente se esperan diagramas para ver cómo los objetos que encontraron interactúan para:
 
 - [ ] Calificar bares [?]
-- [ ] Filtro de Bares filtrando por una única característica [GONZALO]
-- [ ] Filtro de bares filtrando por dos o más características. [GONZALO]
+- [x] Filtro de Bares filtrando por una única característica [GONZALO]
+- [x] Filtro de bares filtrando por dos o más características. [GONZALO]
 - [ ] Visualización de resultados. [GONZALO]
 
 En la presentación del TP señalamos 3 cuestiones del diseño que serán centrales. 
