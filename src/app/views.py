@@ -7,9 +7,9 @@ from wtforms import TextField, PasswordField, BooleanField, IntegerField, String
 from app import app
 from app.bares import Ubicacion, Bar, BuscadorDeBares, buscador, PerfilDeBar, gmaps
 from app.filtros import *
+from app.visualizador import *
 from app.user import usuarios, Usuario, Renderer
 import math
-import polyline as pline
 
 import traceback
 
@@ -94,21 +94,6 @@ def homeRedirect(func):
             return redirect(url_for("accionesPosibles"))
     return manejarError
 
-# No se puede eliminar el if porque viene del html esto
-def llenar_filtro(filtron, valorn, filtro, d_cache):
-    if filtron == 'distancia':
-        return FiltroDeDistancia(filtro, valorn, d_cache)
-    elif filtron == 'wifi':
-        return FiltroDeWifi(filtro, valorn)
-    elif filtron == 'enchufes':
-        return FiltroDeEnchufes(filtro, valorn)
-    elif filtron == 'comida':
-        return FiltroDeComida(filtro, valorn)
-    elif filtron == 'servicio':
-        return FiltroDeServicio(filtro, valorn)
-    else:
-        return filtro
-
 
 # Probar con "Fitz Roy 1477, CABA, Argentina"
 @app.route("/buscar/<error>", methods=['GET', 'POST'])
@@ -119,67 +104,12 @@ def buscar(error = False):
     if request.method == 'POST' and form.validate():
         print('direccion_actual.data = ', form.direccion_actual.data)
         try:
-            posicion_del_usuario = Ubicacion(form.direccion_actual.data)
-            distancias_cache = buscador.distancias_cache(posicion_del_usuario)
-            filtro = FiltroVacio()
-            filtro = llenar_filtro(form.filtro1.data, form.valor1.data, filtro,
-                    distancias_cache)
-            filtro = llenar_filtro(form.filtro2.data, form.valor2.data, filtro,
-                    distancias_cache)
-            filtro = llenar_filtro(form.filtro3.data, form.valor3.data, filtro,
-                    distancias_cache)
-            baresEncontrados = buscador.buscar(filtro)
-            baresEncontrados = sorted(baresEncontrados, key=lambda x: x[0])
             user = user_loader(current_user.get_id())
-            markers = []
-            misBares = []
-            for bar in baresEncontrados:
-                marker = {}
-                marker['lat'] = bar[1].bar().ubicacion().latlong()[0]
-                marker['lng'] = bar[1].bar().ubicacion().latlong()[1]
-                marker['infobox'] = bar[1].bar().nombre()
-                markers.append(marker)
-                if bar[1].bar().esDuenio(user):
-                    misBares.append(bar[1].ubicacion().direccion())
-            marker_posicion_usuario = {}
-            marker_posicion_usuario['lat'] = posicion_del_usuario.latlong()[0]
-            marker_posicion_usuario['lng'] = posicion_del_usuario.latlong()[1]
-            marker_posicion_usuario['icon'] = 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
-            marker_posicion_usuario['infobox'] = 'Tu Ubicacion'
-            markers.append(marker_posicion_usuario)
-
-            latlng_usuario = {'lat': posicion_del_usuario.latlong()[0],
-                              'lng': posicion_del_usuario.latlong()[1]
-                              }
-            polylines = []
-            colors = ["#FF0000", "#00FF00", "#0000FF",
-                      "#FFFF00", "#00FFFF", "#FF00FF"]
-            for i in range(len(baresEncontrados)):
-                bar = baresEncontrados[i]
-                latlng_bar = {'lat': bar[1].bar().ubicacion().latlong()[0],
-                              'lng': bar[1].bar().ubicacion().latlong()[1]
-                              }
-
-                legs = gmaps.directions(latlng_usuario, latlng_bar, mode='walking', units='metric')[0]['legs']
-
-                #overview_polyline
-                polyline = {'stroke_color': colors[i%len(colors)],
-                            'stroke_opacity': 0.8,
-                            'stroke_weight': 4,
-                            'path': []}
-
-                for i in range(len(legs)):
-                    steps = legs[i]['steps'];
-                    for j in range(len(steps)):
-                        encodedPoints = steps[j]['polyline']['points']
-                        for lat, lng in pline.decode(encodedPoints):
-                            polyline['path'].append({'lat': lat, 'lng': lng})
-
-                polylines.append(polyline)
-
+            visualizador = VisualizadorDeResultados(form, user)
+            baresEncontrados, posicionDelUsuario, markers, polylines, misBares = visualizador.visualizar()
             return user.accept(Renderer())('resultados_busqueda.html',
                                bares=baresEncontrados,
-                               dirusuario=posicion_del_usuario,
+                               dirusuario=posicionDelUsuario,
                                locations=markers,
                                polylines=polylines,
                                misBares = misBares,
