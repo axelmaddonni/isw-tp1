@@ -129,6 +129,7 @@ def buscar(error = False):
             filtro = llenar_filtro(form.filtro3.data, form.valor3.data, filtro,
                     distancias_cache)
             baresEncontrados = buscador.buscar(filtro)
+            baresEncontrados = sorted(baresEncontrados, key=lambda x: x[0])
             user = user_loader(current_user.get_id())
             markers = []
             misBares = []
