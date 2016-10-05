@@ -206,10 +206,8 @@ def agregar():
 @app.route('/editar', methods=['GET', 'POST'])
 @homeRedirect
 @login_required
-
 def editar():
     direccion = request.args.get('barDireccion')
-
     form = EditarForm(request.form)
     if request.method == 'POST' and form.validate():
         bar = buscador.obtenerBBDD().obtenerBar(direccion)
@@ -219,6 +217,22 @@ def editar():
                            positivo = True)
     return render_template('editar_bar.html', form=form, direccion=direccion)
 
+@app.route('/eliminar', methods=['GET', 'POST'])
+@homeRedirect
+@login_required
+def eliminar():
+    direccion = request.args.get('barDireccion')
+    nombre = request.args.get('nombre')
+    if request.method == 'POST':
+        try:
+            bar = buscador.obtenerBBDD().obtenerBar(direccion)
+            buscador.obtenerBBDD().borrarBar(bar)
+            return render_template('eliminar_resultado.html', positivo = True)
+        except:
+            traceback.print_exc()
+            return render_template('eliminar_resultado.html', positivo = False)
+
+    return render_template('eliminar_bar.html', direccion=direccion, nombre=nombre)
 
 @app.route('/')
 @app.route('/home', methods=['GET', 'POST'])

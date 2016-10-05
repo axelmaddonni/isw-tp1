@@ -1,0 +1,25 @@
+<head>
+<title>ISW1 - TP1</title>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css') }}">
+</head>
+<body>
+  <div align="center"><a href="/" >ISW1 - TP1</a></div>
+  {% from "_formhelpers.html" import render_field %}
+
+  <table id="tabla1" align ="center">
+    <tr><td>¿Está seguro que desea eliminar a {{ nombre }}?</td></tr>
+    <tr>
+      <td>
+        <form method=get action="/buscar">
+          <input type=submit class='button1' value=Cancelar>
+        </form>
+      </td>
+      <td>
+        <form method=post action="/eliminar?barDireccion={{direccion}}">
+          <p><input type=submit class='button1' value=Aceptar></p>
+        </form>
+      </td></tr>
+  </table>
+</body>
