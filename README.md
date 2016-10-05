@@ -6,7 +6,7 @@ isw1-tp1 2c 2016
 
 * Diagramas de clases: https://www.draw.io/#G0B3FgdUXk8fTrcExpNDN6cl9Manc
 
-* Diagramas de objetos y secuencias:
+* Diagramas de objetos y secuencias (ver abajo cuales son):
 
   * Diagrama 1:
 
