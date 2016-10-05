@@ -7,7 +7,7 @@ from wtforms import TextField, PasswordField, BooleanField, IntegerField, String
 from app import app
 from app.bares import Ubicacion, Bar, BuscadorDeBares, buscador, PerfilDeBar, gmaps
 from app.filtros import *
-from app.user import User, usuarios
+from app.user import usuarios, Usuario, Renderer
 import math
 import polyline as pline
 
@@ -15,7 +15,7 @@ import traceback
 
 bcrypt = Bcrypt()
 login_manager = LoginManager()
-
+login_manager.anonymous_user = Usuario
 
 class BuscarForm(Form):
     choices_ = [
@@ -172,13 +172,12 @@ def buscar(error = False):
 
                 polylines.append(polyline)
 
-            return render_template('resultados_busqueda.html',
+            return user.accept(Renderer())('resultados_busqueda.html',
                                bares=baresEncontrados,
                                dirusuario=posicion_del_usuario,
                                locations=markers,
                                polylines=polylines,
                                misBares = misBares,
-                               mod = (user is not None) and user.is_mod()
                                )
         except:
             traceback.print_exc()
@@ -201,7 +200,8 @@ def agregar():
             traceback.print_exc()
             return render_template('agregar_resultado.html', positivo = False)
 
-    return render_template('agregar.html', form=form)
+    user = user_loader(current_user.get_id())
+    return user.accept(Renderer())("agregar.html", form = form)
 
 @app.route('/editar', methods=['GET', 'POST'])
 @homeRedirect
@@ -215,7 +215,8 @@ def editar():
 
         return render_template('editar_resultado.html',
                            positivo = True)
-    return render_template('editar_bar.html', form=form, direccion=direccion)
+    user = user_loader(current_user.get_id())
+    return user.accept(Renderer())('editar_bar.html', form=form, direccion=direccion)
 
 @app.route('/eliminar', methods=['GET', 'POST'])
 @homeRedirect
@@ -240,13 +241,11 @@ def eliminar():
 def accionesPosibles():
     if request.method == 'GET':
         user = user_loader(current_user.get_id())
-        return render_template('home.html',
-                            anon = (user is None) or user.is_anonymous(),
-                            mod = (user is not None) and user.is_mod())
+        return user.accept(Renderer())("home.html")
 
 @login_manager.user_loader
 def user_loader(user_id):
-    return usuarios.get(user_id)
+    return usuarios[user_id]
 
 @app.route("/login/<invalidCredentials>", methods=['GET', 'POST'])
 @app.route("/login", methods=["GET", "POST"])
@@ -254,12 +253,15 @@ def user_loader(user_id):
 def login(invalidCredentials = False):
     form = LoginForm()
     if request.method == 'POST' and form.validate():
-        user = user_loader(form.username.data)
-        if user and user.check_password(form.password.data):
-            user.authenticated = True
-            login_user(user)
+        username = form.username.data
+        try:
+            if not usuarios.check_password(username, form.password.data):
+                raise ValueError("Invalid Password")
+            usuarios.autenticar(username)
+            login_user(usuarios[username])
             return redirect(url_for("accionesPosibles"))
-        else:
+        except:
+            traceback.print_exc()
             return redirect(url_for("login") + "/True")
     return render_template("login.html", form=form, invalidCredentials = invalidCredentials)
 
@@ -268,7 +270,6 @@ def login(invalidCredentials = False):
 @homeRedirect
 @login_required
 def logout():
-    user = current_user
-    user.authenticated = False
+    usuarios.desautenticar(current_user.get_id())
     logout_user()
     return redirect(url_for("accionesPosibles"))

@@ -10,6 +10,7 @@
 
 	<table id="tabla1" align ="center">
 		<tr><td>
+                   {% if mod %}
 			<form method=post action="/editar?barDireccion={{direccion}}">
 			    {{ form.csrf_token }}
 			  <dl>
@@ -17,6 +18,9 @@
 			  </dl>
 			  <p><input type=submit class='button1' value=Submit></p>
 			</form>
+                   {% else %}
+                       <p>Sólo un Mod puede agregar bares.</p>
+                   {% endif %}
 	    </td></tr>
 	</table>
 </body>
