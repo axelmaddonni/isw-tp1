@@ -19,8 +19,8 @@ isw1-tp1 2c 2016
 
 #Cosas que hay que hacer
 
-- [ ] Terminar el código.
-- [ ] Terminar el diagrama de clases y su explicación. [GABRIEL]
+- [ ] Terminar el código. [NO SE QUE FALTA]
+- [ ] Terminar el diagrama de clases y su explicación. [GABRIEL, ?? (fijarse que este todo)]
 
 
 Extraido del mail de Fernando:
