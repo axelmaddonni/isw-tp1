@@ -118,6 +118,10 @@ class BaseDeDatosDeBares:
     return self.losBaresPorDir.keys()
   def bares(self):
     return self.losBaresPorDir.values()
+  def modificarBar(self, direccionVieja, direccionNueva):
+    bar = self.obtenerBar(direccionVieja)
+    self.losBaresPorDir[direccionNueva] = self.losBaresPorDir.pop(direccionVieja)
+    bar.editarUbicacion(Ubicacion(direccionNueva))
 
 bar1 = Bar('Mumbai', Ubicacion('Honduras 5684, CABA, Argentina',), True, False)
 bar2 = Bar('Niceto', Ubicacion('Av Cnel. Niceto Vega 5510, CABA, Argentina'), False, True)

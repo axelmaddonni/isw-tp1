@@ -145,9 +145,7 @@ def editar():
     direccion = request.args.get('barDireccion')
     form = EditarForm(request.form)
     if request.method == 'POST' and form.validate():
-        bar = buscador.obtenerBBDD().obtenerBar(direccion)
-        bar.editarUbicacion(Ubicacion(str(form.direccion_dada.data)))
-
+        buscador.obtenerBBDD().modificarBar(direccion,str(form.direccion_dada.data))
         return render_template('editar_resultado.html',
                            positivo = True)
     user = user_loader(current_user.get_id())
