@@ -1,0 +1,37 @@
+\subsection{Diseño del sistema}
+
+Primero veamos como se comporta el sistema en general. Para eso, utilizaremos un diagrama de clases.
+
+{\color{red} Poner \url{https://www.draw.io/#G0B3FgdUXk8fTrcExpNDN6cl9Manc} cuando esté completo.}
+
+Analicemos y justifiquemos el diagrama parte por parte.
+
+\begin{itemize}
+\item[Ubicación] Va a ser la clase que nos va a abstraer de las diferentes posibles representaciones para la ubicación de un bar, en particular el String que representa su dirección, y su latitud y longitud que va a ser útil para calcular distancias, y en general para interactuar con la API de Google Maps, que vamos a usar fuertemente.
+
+\item[Bar] Va a ser la clase que va representar a los bares de la realidad. Los bares tienen una ubicación y una lista de dueños.
+
+\item[PerfilDeBar] Es la clase que nos permite representar un bar desde el punto de vista de la aplicación. Para nuestra aplicación un bar es más que simplemente una dirección y una lista de dueños: un bar tiene votos y comentarios. La clase PerfilDeBar debe pensarse como simplemente un wrapper para la clase Bar, que contiene información pertinente a la aplicación.
+
+\item[ConjuntoDeBares] Representa a todos los bares que existen en la aplicación.Existe porque nos pareció mejor tener una clase separada que abstraiga esta idea, que tener simplemente un conjunto de bares hardcodeado adentro de BuscadorDeBares.
+
+\item[BuscadorDeBares] Es la clase que nos va a permitir buscar bares. Tiene como colaborador interno un ConjuntoDeBares que es el conjunto sobre el cual va a buscar. Recibe un único mensaje que es buscar, que toma como parámetro un filtro.
+\end{itemize}
+
+
+\begin{itemize}
+\item[Filtro] Para la clase filtro vamos a utilizar el patrón Decorator. Filtro es una clase abstracta, que tiene un mensaje llamado cumple, que recibe un PerfilDeBar y chequea que cumpla su condición. En caso de que la cumpla, va a devolver True, en caso que no, False.
+
+\item[FiltroVacio] Va a ser el filtro trivial que nos va a permitir finalizar la composición de filtros, como indica el patron Decorator. Su implementación de cumple va a ser \texttt{return True;}.
+
+\item[FiltroExtra] Va a ser la clase abstracta que nos va a permitir componer filtros. Nótese que tiene como colaborador interno otro Filtro, entonces las clases que hereden de filtro extra, en su implementacion de cumple van a tener que chequear que su condición se cumpla, y que la condición del colaborador interno se cumpla.
+
+\item[FiltroDeX] Van a ser las clases concretas que nos van a permitir filtrar por las diferentes características de un PerfilDeBar. Un comentario importante: la signatura de cumple en nuestra implementación de FiltroDeDistancia difiere un poco de la presentada en el diagrama, pero tiene que ver con temas implementativos de la API de Google Maps que no pudimos evitar; aunque debe tenerse en cuenta que la idea de alto nivel es la misma.
+\end{itemize}
+
+
+{\color{red}
+\begin{itemize}
+\item[Usuario] Explicar acá.
+\end{itemize}
+}
