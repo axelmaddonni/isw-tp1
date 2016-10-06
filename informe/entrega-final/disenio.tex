@@ -39,7 +39,7 @@ Analicemos y justifiquemos el diagrama parte por parte.
         Nuestros métodos forwardean dichos mensajes a ConjuntoDeUsuarios, ya que son su responsabilidad.
     \item[Privilegio] Como mencionamos, la clase Usuario emplea el patrón \textit{State}; Privilegio es la clase abstracta de la cual heredan los privilegios concretos. En términos de ``\textit{Design Patterns}, Privilegio es el \textit{State} del patrón.
     \item[Mod, etc...] Éstos son los privilegios concretos que puede adquirir un Usuario; son los \textit{Concrete States} del patrón. Como tales, los métodos de Usuario simplemente forwardean los mensajes a estas clases, que se ocupan de realizar la implementación propriamente dicha.
-    \item[Renderer] El rendering de html al cargar una página\footnote{Podría haber más eventos con requerimientos similares; actualmente el rendering de html es el único que se nos presentó, por lo que nos concentraremos en éste. Sin embargo, lo siguiente es aplicable a cualquiera de éstos.} puede depender de los privilegios del usuario actual, pero no es responsabilidad del Usuario.
+    \item[Renderer] El rendering de HTML al cargar una página\footnote{Podría haber más eventos con requerimientos similares; actualmente el rendering de HTML es el único que se nos presentó, por lo que nos concentraremos en éste. Sin embargo, lo siguiente es aplicable a cualquiera de éstos.} puede depender de los privilegios del usuario actual, pero no es responsabilidad del Usuario.
         \par Para resolver esto, empleamos un patrón \textit{Visitor}: Usuario presenta un mensaje \textit{accept}, cuyo método forwardea el mensaje a Privilegio, y cada privilegio concreto llama al mensaje correspondiente del Renderer\footnote{Que corresponde al \textit{visitor} del patrón, en términos de ``\textit{Design Patterns}''.}.
     \par Cabe destacar que empleamos un único \textit{visitor} concreto, en vez de una jerarquía de \textit{visitors} concretos que heredan de uno abstracto, pues requerimos uno solo. Sin embargo, dado el \textit{duck typing} de \textit{Python}, es trivial refactorear nuestra implementación a una con dicha jerarquía, en caso de requerirlo en el futuro.
 \end{itemize}
@@ -76,8 +76,7 @@ Cómo se ve claramente, el filtro es un típico ejemplo de uso de Decorator. Com
   \includegraphics[width=\textwidth]{diagramas/secuencia_3.pdf}
   \caption{\normalfont Nota: \texttt{corremos filter(bares, filtroDist200Wifi10Comida20.cumple)}, por simplicidad ponemos sólo una llamada a cumple.
 Además, donde dice "votos", debería decir "valoracionPorcentualPorFeature", pero lo escribimos así para hacerlo más corto y que el diagrama no quede mal.
-	
-	}
+}
 \end{figure}
 
 
@@ -116,5 +115,35 @@ En cuanto al diagrama de objetos es igual que antes. El buscador tiene adentro a
 
 \subsubsection{Incorporación de nuevas características de bares}
 
+Como nosotros tomamos la decisión de diseño de que las features no sean ``positivas o negativas'', si no porcentuales, la feature que agregaríamos valoraría la calidad de los espectáculos, y en caso de que no haya, valdrá 0.
+
+Agregar esto no sería nada difícil, sólo habría que agregar un campo mas a los features de la clase Valoración (además de cambiar los templates HTML para que muestren la nueva información).
+
+En caso que se quisiera filtrar además por la feature de los espectáculos en vivo, se deberá agregar una nueva clase que herede de FiltrosExtra y filtre por esta categoría.
+
+Como se ve, las modificiaciones involucran solo agregar código (y modificar Valoración, que es correcto que deba modificarse), con lo que el diseño es resiliente frente a este eje de cambio.
+
 \subsubsection{El diseño y comportamiento de los distintos filtros de búsqueda de bares}
+
+Recordemos cómo era el diagrama de clases de los filtros.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{diagramas/filtro_clases.png}
+  \caption{\normalfont Diagrama de clases.}
+\end{figure}
+
+
+Como dijimos anteriormente, los filtros los diseñamos usando el patrón Decorator.Elegimos este patrón porque parecía el más natural para resolver el problema y efectivamente lo era.
+
+Recordemos que el ``intent'' del patrón Decorator es ``Asignar responsabilidades a un objeto dinamicamente y proveer una alternativa a la subclasificación para extender'', que es exactamente lo que queremos hacer aquí, queremos, dinámicamente, poder crear un filtro de distintas features dinámicamente.
+
+En cuanto al funcionamiento, fue explicado intensamente en la sección anterior, con dos diagramas de objetos y dos diagramas de secuencia que dejan en claro como van a interactuar los objetos.
+
+Luego de finalizar el diseño y la implementación, notamos que quizás todos las subclases de FiltroExtra (excepto FiltroDeDistancia), podrían contraerse a una única clase. 
+
+Sin embargo, esto no formaba parte del sprint, con lo cual la refactorización de este código quedará para un sprint futuro. Además, los Product Owner indicaron que el diseño de filtro era el esperado, con lo cual quizás ni siquiera haya que cambiarlo.
+
+Los filtros podrían ser contraídos a un FiltroDeFeature, que toma como parámetro el string de un feature, y le pide ese feature a las valoraciones del perfilDeBar pasado como parámetro, y las compara. Esto permitiría ahorrar repetición de código, quizas perdiendo expresividad, por eso no nos parece un cambio del todo positivo, pero nos pareció importante decir que tuvimos en cuenta que esto era una alternativa y decidimos no hacerla.
+
 
