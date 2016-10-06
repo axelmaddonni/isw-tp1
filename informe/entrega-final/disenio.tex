@@ -53,9 +53,25 @@ Analicemos y justifiquemos el diagrama parte por parte.
     \item[Renderer] El rendering de HTML al cargar una página\footnote{Podría haber más eventos con requerimientos similares; actualmente el rendering de HTML es el único que se nos presentó, por lo que nos concentraremos en éste. Sin embargo, lo siguiente es aplicable a cualquiera de éstos.} puede depender de los privilegios del usuario actual, pero no es responsabilidad del Usuario.
         \par Para resolver esto, empleamos un patrón \textit{Visitor}: Usuario presenta un mensaje \textit{accept}, cuyo método forwardea el mensaje a Privilegio, y cada privilegio concreto llama al mensaje correspondiente del Renderer\footnote{Que corresponde al \textit{visitor} del patrón, en términos de ``\textit{Design Patterns}''.}.
     \par Cabe destacar que empleamos un único \textit{visitor} concreto, en vez de una jerarquía de \textit{visitors} concretos que heredan de uno abstracto, pues requerimos uno solo. Sin embargo, dado el \textit{duck typing} de \textit{Python}, es trivial refactorear nuestra implementación a una con dicha jerarquía, en caso de requerirlo en el futuro.
+
 \end{itemize}
 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{diagramas/valoracion_clases.png}
+  \caption{\normalfont Diagrama de clases del subsistema de Valoración.}
+\end{figure} 
 
+\begin{itemize}
+
+\item[Voto] Es un multiplo de 0.5 entre 0.5 y 5 inclusive.
+
+\item[Valoración] Es un objeto que contiene un conjunto de votos sobre distintos features (Wifi,
+Enchufes, etcétera), un comentario y el usuario que realizo los mismos.
+
+\item[ValoradorDeBares] Es el objeto encargado de manejar el sistema de valoración. Se creó con el objetivo de aumentar la cohesión en nuestro diseño y quitarle responsabilidades relacionadas al chequeo de las normas de valoración a los bares (Verificar que el usuario no haya votado previamente, entre otras que podrían agregarse, como chequear que este logueado, que no sea dueño del bar, etcétera) lo cual en nuestra opinión no modelaba la realidad.
+
+\end{itemize}
 
 {\color{red}
 \begin{itemize}
@@ -68,9 +84,7 @@ Analicemos y justifiquemos el diagrama parte por parte.
 
 \subsubsection{Calificar bares}
 
-En esta sección mostraremos los diagramas correspondientes a la valoración de un bar. una valoración es un objeto que contiene un conjunto de votos sobre distintos features (Wifi, Enchufes, etcétera), un comentario y el usuario que realizo los mismos.
-
-Aquí se puede observar como una valoración realizada por Juan Perez para el bar Niceto es enviada al Valorador para que chequee si Juan Perez esta habilitado a Valorar (Actualmente chequea unicamente si el usuario no voto previamente en el mismo bar) y en caso afirmativo agrega la valoración al $Perfil Del Bar$.
+En esta sección mostraremos los diagramas correspondientes a la valoración de un bar. Aquí se puede observar como una valoración realizada por Juan Perez para el bar Niceto es enviada al Valorador para que chequee si Juan Perez esta habilitado a Valorar (Actualmente chequea unicamente si el usuario no voto previamente en el mismo bar) y en caso afirmativo agrega la valoración al $Perfil Del Bar$.
 
 \begin{figure}[H]
   \centering
@@ -84,7 +98,6 @@ Aquí se puede observar como una valoración realizada por Juan Perez para el ba
   \caption{\normalfont Diagrama de objetos.}
 \end{figure}
 
-Creamos el $Valorador De Bares$ con el objetivo de aumentar la cohesion en nuestro diseño y quitarle responsabilidades relacionadas al chequeo de las normas de valoración a los bares (Verificar que el usuario no haya votado previamente, entre otras que podrían agregarse, como chequear que este logueado, que no sea dueño del bar, etcétera) lo cual en nuestra opinión no modelaba la realidad.
 
 \subsubsection{Filtro de bares filtrando por una única característica}
 
