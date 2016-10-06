@@ -53,7 +53,7 @@ Sería bueno que cada una de ellas tenga una sección aparte en el informe detal
 ## Gabriel
 
 - [ ] Lo de arriba
-- [ ] Explicar lo de user en el informe (esta en rojo).
+- [x] Explicar lo de user en el informe (esta en rojo).
 
 ## Mathias
 
