@@ -36,8 +36,28 @@ En la presentación del TP señalamos 3 cuestiones del diseño que serán centra
 
 Sería bueno que cada una de ellas tenga una sección aparte en el informe detallando cómo se resolvieron: (alguna se solapan con los ejemplos que puse arriba)
 
-- [ ] Incorporación de bares [?]
-- [ ] Eje de cambio: incorporación de nuevas características de los bares: por ejemplo, si hay shows en vivo o no. [?]
+- [ ] Incorporación de bares [GABRIEL]
+- [ ] Eje de cambio: incorporación de nuevas características de los bares: por ejemplo, si hay shows en vivo o no. [GONZALO]
 - [ ] El diseño y comportamiento de los distintos filtros de búsqueda de bares. [GONZALO]
 
 
+## Manu
+
+- [ ] Agregar mapa de camino al bar.
+
+## Axel 
+
+- [ ] Hacer valoraciones.
+- [ ] Modificar la vista de var para que se pueda ver el mapa (cf. Manu).
+
+## Gabriel
+
+- [ ] Lo de arriba
+
+## Mathias
+
+- [ ] ???
+
+## Gonza
+
+- [ ] Lo de arriba y limpiar el código.
