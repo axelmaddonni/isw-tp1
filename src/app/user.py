@@ -142,9 +142,13 @@ class BaseDeDatosDeUsuarios:
         except:
             raise KeyError("El usuario no existe")
 
-    def autenticar(self, username):
+    def autenticar(self, username, passWord):
         if username in self.usuarios:
-            self.auth[username] = True
+            if self.passwords[username] == passWord:
+                self.auth[username] = True
+                return True
+            else: 
+                return False
         else:
             raise KeyError("El usuario no existe")
 
@@ -152,12 +156,6 @@ class BaseDeDatosDeUsuarios:
         if username in self.usuarios:
             self.auth[username] = False
         else:
-            raise KeyError("El usuario no existe")
-
-    def check_password(self, username, passWord):
-        try:
-            return self.passwords[username] == passWord
-        except:
             raise KeyError("El usuario no existe")
 
 #visitor
