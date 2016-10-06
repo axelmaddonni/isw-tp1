@@ -5,17 +5,17 @@ from flask_wtf import Form
 from flask_bcrypt import Bcrypt
 from wtforms import TextField, PasswordField, BooleanField, IntegerField, StringField, SelectField, validators, ValidationError
 from app import app
-from app.bares import Ubicacion, Bar, BuscadorDeBares, buscador, PerfilDeBar, gmaps
+from app.bares import Ubicacion, Bar, BuscadorDeBares, buscador, PerfilDeBar, gmaps ,conjuntoDePerfiles
 from app.filtros import *
-from app.user import User, usuarios
+from app.visualizador import *
+from app.user import usuarios, Usuario, Renderer
 import math
-import polyline as pline
 
 import traceback
 
 bcrypt = Bcrypt()
 login_manager = LoginManager()
-
+login_manager.anonymous_user = Usuario
 
 class BuscarForm(Form):
     choices_ = [
@@ -75,8 +75,13 @@ class AgregarForm(Form):
 
 class EditarForm(Form):
     direccion_dada = StringField('Direccion')
+    nombre_dado = StringField("Nombre")
 
 class LoginForm(Form):
+    username = TextField('Username', validators=[validators.DataRequired()])
+    password = PasswordField('Password', validators=[validators.DataRequired()])
+
+class RegistrarForm(Form):
     username = TextField('Username', validators=[validators.DataRequired()])
     password = PasswordField('Password', validators=[validators.DataRequired()])
 
@@ -90,21 +95,6 @@ def homeRedirect(func):
             return redirect(url_for("accionesPosibles"))
     return manejarError
 
-# No se puede eliminar el if porque viene del html esto
-def llenar_filtro(filtron, valorn, filtro, d_cache):
-    if filtron == 'distancia':
-        return FiltroDeDistancia(filtro, valorn, d_cache)
-    elif filtron == 'wifi':
-        return FiltroDeWifi(filtro, valorn)
-    elif filtron == 'enchufes':
-        return FiltroDeEnchufes(filtro, valorn)
-    elif filtron == 'comida':
-        return FiltroDeComida(filtro, valorn)
-    elif filtron == 'servicio':
-        return FiltroDeServicio(filtro, valorn)
-    else:
-        return filtro
-
 
 # Probar con "Fitz Roy 1477, CABA, Argentina"
 @app.route("/buscar/<error>", methods=['GET', 'POST'])
@@ -115,70 +105,15 @@ def buscar(error = False):
     if request.method == 'POST' and form.validate():
         print('direccion_actual.data = ', form.direccion_actual.data)
         try:
-            posicion_del_usuario = Ubicacion(form.direccion_actual.data)
-            distancias_cache = buscador.distancias_cache(posicion_del_usuario)
-            filtro = FiltroVacio()
-            filtro = llenar_filtro(form.filtro1.data, form.valor1.data, filtro,
-                    distancias_cache)
-            filtro = llenar_filtro(form.filtro2.data, form.valor2.data, filtro,
-                    distancias_cache)
-            filtro = llenar_filtro(form.filtro3.data, form.valor3.data, filtro,
-                    distancias_cache)
-            baresEncontrados = buscador.buscar(filtro)
             user = user_loader(current_user.get_id())
-            markers = []
-            misBares = []
-            for bar in baresEncontrados:
-                marker = {}
-                marker['lat'] = bar[1].bar().ubicacion().latlong()[0]
-                marker['lng'] = bar[1].bar().ubicacion().latlong()[1]
-                marker['infobox'] = bar[1].bar().nombre()
-                markers.append(marker)
-                if bar[1].bar().esDuenio(user):
-                    misBares.append(bar[1].ubicacion().direccion())
-            marker_posicion_usuario = {}
-            marker_posicion_usuario['lat'] = posicion_del_usuario.latlong()[0]
-            marker_posicion_usuario['lng'] = posicion_del_usuario.latlong()[1]
-            marker_posicion_usuario['icon'] = 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
-            marker_posicion_usuario['infobox'] = 'Tu Ubicacion'
-            markers.append(marker_posicion_usuario)
-
-            latlng_usuario = {'lat': posicion_del_usuario.latlong()[0],
-                              'lng': posicion_del_usuario.latlong()[1]
-                              }
-            polylines = []
-            colors = ["#FF0000", "#00FF00", "#0000FF",
-                      "#FFFF00", "#00FFFF", "#FF00FF"]
-            for i in range(len(baresEncontrados)):
-                bar = baresEncontrados[i]
-                latlng_bar = {'lat': bar[1].bar().ubicacion().latlong()[0],
-                              'lng': bar[1].bar().ubicacion().latlong()[1]
-                              }
-
-                legs = gmaps.directions(latlng_usuario, latlng_bar, mode='walking', units='metric')[0]['legs']
-
-                #overview_polyline
-                polyline = {'stroke_color': colors[i%len(colors)],
-                            'stroke_opacity': 0.8,
-                            'stroke_weight': 4,
-                            'path': []}
-
-                for i in range(len(legs)):
-                    steps = legs[i]['steps'];
-                    for j in range(len(steps)):
-                        encodedPoints = steps[j]['polyline']['points']
-                        for lat, lng in pline.decode(encodedPoints):
-                            polyline['path'].append({'lat': lat, 'lng': lng})
-
-                polylines.append(polyline)
-
-            return render_template('resultados_busqueda.html',
+            visualizador = VisualizadorDeResultados(form, user)
+            baresEncontrados, posicionDelUsuario, markers, polylines, misBares = visualizador.visualizar()
+            return user.accept(Renderer())('resultados_busqueda.html',
                                bares=baresEncontrados,
-                               dirusuario=posicion_del_usuario,
+                               dirusuario=posicionDelUsuario,
                                locations=markers,
                                polylines=polylines,
                                misBares = misBares,
-                               mod = (user is not None) and user.is_mod()
                                )
         except:
             traceback.print_exc()
@@ -195,13 +130,14 @@ def agregar():
         try:
             nombre_del_bar = str(form.nombre_dado.data)
             direccion_del_bar = Ubicacion(form.direccion_dada.data)
-            buscador.obtenerBBDD().agregarBares([PerfilDeBar(Bar(nombre_del_bar, direccion_del_bar))])
+            conjuntoDePerfiles.agregarBares([PerfilDeBar(Bar(nombre_del_bar, direccion_del_bar))])
             return render_template('agregar_resultado.html', positivo = True)
         except:
             traceback.print_exc()
             return render_template('agregar_resultado.html', positivo = False)
 
-    return render_template('agregar.html', form=form)
+    user = user_loader(current_user.get_id())
+    return user.accept(Renderer())("agregar.html", form = form)
 
 @app.route('/editar', methods=['GET', 'POST'])
 @homeRedirect
@@ -210,12 +146,14 @@ def editar():
     direccion = request.args.get('barDireccion')
     form = EditarForm(request.form)
     if request.method == 'POST' and form.validate():
-        bar = buscador.obtenerBBDD().obtenerBar(direccion)
-        bar.editarUbicacion(Ubicacion(str(form.direccion_dada.data)))
-
+        conjuntoDePerfiles.modificarNombreBar(direccion,
+                str(form.nombre_dado.data))
+        conjuntoDePerfiles.modificarDirBar(direccion,
+                str(form.direccion_dada.data))
         return render_template('editar_resultado.html',
                            positivo = True)
-    return render_template('editar_bar.html', form=form, direccion=direccion)
+    user = user_loader(current_user.get_id())
+    return user.accept(Renderer())('editar_bar.html', form=form, direccion=direccion, nombre=buscador.obtenerBBDD().obtenerBar(direccion).nombre())
 
 @app.route('/eliminar', methods=['GET', 'POST'])
 @homeRedirect
@@ -225,8 +163,8 @@ def eliminar():
     nombre = request.args.get('nombre')
     if request.method == 'POST':
         try:
-            bar = buscador.obtenerBBDD().obtenerBar(direccion)
-            buscador.obtenerBBDD().borrarBar(bar)
+            bar = cconjuntoDePerfiles.obtenerBar(direccion)
+            conjuntoDePerfiles.borrarBar(bar)
             return render_template('eliminar_resultado.html', positivo = True)
         except:
             traceback.print_exc()
@@ -240,13 +178,11 @@ def eliminar():
 def accionesPosibles():
     if request.method == 'GET':
         user = user_loader(current_user.get_id())
-        return render_template('home.html',
-                            anon = (user is None) or user.is_anonymous(),
-                            mod = (user is not None) and user.is_mod())
+        return user.accept(Renderer())("home.html")
 
 @login_manager.user_loader
 def user_loader(user_id):
-    return usuarios.get(user_id)
+    return usuarios[user_id]
 
 @app.route("/login/<invalidCredentials>", methods=['GET', 'POST'])
 @app.route("/login", methods=["GET", "POST"])
@@ -254,12 +190,15 @@ def user_loader(user_id):
 def login(invalidCredentials = False):
     form = LoginForm()
     if request.method == 'POST' and form.validate():
-        user = user_loader(form.username.data)
-        if user and user.check_password(form.password.data):
-            user.authenticated = True
-            login_user(user)
+        username = form.username.data
+        try:
+            if not usuarios.check_password(username, form.password.data):
+                raise ValueError("Invalid Password")
+            usuarios.autenticar(username)
+            login_user(usuarios[username])
             return redirect(url_for("accionesPosibles"))
-        else:
+        except:
+            traceback.print_exc()
             return redirect(url_for("login") + "/True")
     return render_template("login.html", form=form, invalidCredentials = invalidCredentials)
 
@@ -268,7 +207,25 @@ def login(invalidCredentials = False):
 @homeRedirect
 @login_required
 def logout():
-    user = current_user
-    user.authenticated = False
+    usuarios.desautenticar(current_user.get_id())
     logout_user()
     return redirect(url_for("accionesPosibles"))
+
+@app.route("/registrar/<invalidCredentials>", methods=['GET', 'POST'])
+@app.route('/registrar', methods=['GET', 'POST'])
+@homeRedirect
+def registrar(invalidCredentials = False):
+    form = RegistrarForm(request.form)
+    if request.method == 'POST' and form.validate():
+        username = form.username.data
+        try:
+            usuarios[username] = form.password.data
+            usuarios.autenticar(username)
+            login_user(usuarios[username])
+            return usuarios[username].accept(Renderer())("registrar_resultado.html", positivo = True)
+        except:
+            traceback.print_exc()
+            return redirect(url_for("registrar") + "/True")
+
+    user = user_loader(current_user.get_id())
+    return user.accept(Renderer())("registrar.html", form = form, invalidCredentials = invalidCredentials)

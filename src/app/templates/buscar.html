@@ -11,9 +11,8 @@
       <tr align="center" width="33%">
         <td align="center">
           {% if error%}
-            Ocurrió un error al buscar el bar. Intente de nuevo.
+            La dirección ingresada es inválida.
           {% endif %}
-
           {% from "_formhelpers.html" import render_field %}
           <form method=post action="/buscar">
 			    {{ form.csrf_token }}
