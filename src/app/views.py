@@ -40,34 +40,45 @@ class BuscarForm(Form):
     valor3 = IntegerField('', [validators.Optional()])
 
     def validate_valor1(form, field):
-        if form.filtro1.data == '':
-            return
-        if form.filtro1.data == 'distancia':
-            if field.data <= 0:
-                raise ValidationError('La distancia debe ser positiva.')
-        else:
-            if not (0 <= field.data <= 100):
-                raise ValidationError('El puntaje va entre 0 y 100.')
+        try:
+            if form.filtro1.data == '':
+                return
+            if form.filtro1.data == 'distancia':
+                if field.data <= 0:
+                    raise ValidationError('La distancia debe ser positiva.')
+            else:
+                if not (0 <= field.data <= 100):
+                    raise ValidationError('El puntaje va entre 0 y 100.')
+        except:
+            raise ValidationError('Ha ocurrido un error por favor ingresa un numero valido.')
+
 
     def validate_valor2(form, field):
-        if form.filtro2.data == '':
-            return
-        if form.filtro2.data == 'distancia':
-            if field.data <= 0:
-                raise ValidationError('La distancia debe ser positiva.')
-        else:
-            if not (0 <= field.data <= 100):
-                raise ValidationError('El puntaje va entre 0 y 100.')
+        try:
+            if form.filtro2.data == '':
+                return
+            if form.filtro2.data == 'distancia':
+                if field.data <= 0:
+                    raise ValidationError('La distancia debe ser positiva.')
+            else:
+                if not (0 <= field.data <= 100):
+                    raise ValidationError('El puntaje va entre 0 y 100.')
+        except:
+            raise ValidationError('Ha ocurrido un error por favor ingresa un numero valido.')
+
 
     def validate_valor3(form, field):
-        if form.filtro3.data == '':
-            return
-        if form.filtro3.data == 'distancia':
-            if field.data <= 0:
-                raise ValidationError('La distancia debe ser positiva.')
-        else:
-            if not (0 <= field.data <= 100):
-                raise ValidationError('El puntaje va entre 0 y 100.')
+        try:
+            if form.filtro3.data == '':
+                return
+            if form.filtro3.data == 'distancia':
+                if field.data <= 0:
+                    raise ValidationError('La distancia debe ser positiva.')
+            else:
+                if not (0 <= field.data <= 100):
+                    raise ValidationError('El puntaje va entre 0 y 100.')
+        except:
+            raise ValidationError('Ha ocurrido un error por favor ingresa un numero valido.')
 
 class VistaDeBarForm(Form):
     direccion_data = StringField('Direccion')
@@ -187,12 +198,12 @@ def vista():
             for lat, lng in pline.decode(encodedPoints):
                 polyline['path'].append({'lat': lat, 'lng': lng})
 
-    return user.accept(Renderer())('vista_de_bar.html', 
-                                    form=form, 
+    return user.accept(Renderer())('vista_de_bar.html',
+                                    form=form,
                                     perfilDeBar=perfilDeBar,
                                     posicionDelUsuario=posicionDelUsuario,
                                     markers=markers,
-                                    polyline=polyline, 
+                                    polyline=polyline,
                                     usuarioDireccion=posicionDelUsuario.direccion())
 
 @app.route('/editar', methods=['GET', 'POST'])
@@ -250,7 +261,7 @@ def eliminar():
     esDuenio = conjuntoDePerfiles.obtenerBar(direccion).esDuenio(user)
 
     return user.accept(Renderer())('eliminar_bar.html', esDuenio=esDuenio, direccion=direccion, nombre=nombre)
-    
+
 
 @app.route('/')
 @app.route('/home', methods=['GET', 'POST'])
