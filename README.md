@@ -30,7 +30,7 @@ Mínimamente se esperan diagramas para ver cómo los objetos que encontraron int
 - [ ] Calificar bares [MATHIAS]
 - [x] Filtro de Bares filtrando por una única característica [GONZALO]
 - [x] Filtro de bares filtrando por dos o más características. [GONZALO]
-- [ ] Visualización de resultados. [GONZALO]
+- [x] Visualización de resultados. [GONZALO]
 
 En la presentación del TP señalamos 3 cuestiones del diseño que serán centrales. 
 
@@ -62,5 +62,6 @@ Sería bueno que cada una de ellas tenga una sección aparte en el informe detal
 
 ## Gonza
 
-- [ ] Lo de arriba y limpiar el código.
-- [ ] Agregar visualización en el diagrama de clase.
+- [x] Lo de arriba y limpiar el código.
+- [x] Agregar visualización en el diagrama de clase.
+- [ ] Explicar diagrama de objetos y clase de visualizador.
