@@ -37,11 +37,11 @@ Analicemos y justifiquemos el diagrama parte por parte.
 \end{figure}
 
 \begin{itemize}
-\item[Filtro] Para la clase filtro vamos a utilizar el patrón Decorator. Filtro es una clase abstracta, que tiene un mensaje llamado cumple, que recibe un PerfilDeBar y chequea que cumpla su condición. En caso de que la cumpla, va a devolver True, en caso que no, False. Al final del trabajo hablamos más en detalle sobre porqu\'e tomamos las desiciones que tomamos.
+\item[Filtro] Para la clase filtro vamos a utilizar el patrón Decorator. Filtro es una clase abstracta, que tiene un mensaje llamado cumple, que recibe un PerfilDeBar y chequea que cumpla su condición. En caso de que la cumpla, va a devolver True, en caso que no, False. Al final del trabajo hablamos más en detalle sobre porqu\'e tomamos las decisiones que tomamos.
 
-\item[FiltroVacio] Va a ser el filtro trivial que nos va a permitir finalizar la composición de filtros, como indica el patron Decorator. Su implementación de cumple va a ser \texttt{return True;}.
+\item[FiltroVacio] Va a ser el filtro trivial que nos va a permitir finalizar la composición de filtros, como indica el patrón Decorator. Su implementación de cumple va a ser \texttt{return True;}.
 
-\item[FiltroExtra] Va a ser la clase abstracta que nos va a permitir componer filtros. Nótese que tiene como colaborador interno otro Filtro, entonces las clases que hereden de filtro extra, en su implementacion de cumple van a tener que chequear que su condición se cumpla, y que la condición del colaborador interno se cumpla.
+\item[FiltroExtra] Va a ser la clase abstracta que nos va a permitir componer filtros. Nótese que tiene como colaborador interno otro Filtro, entonces las clases que hereden de filtro extra, en su implementación de cumple van a tener que chequear que su condición se cumpla, y que la condición del colaborador interno se cumpla.
 
 \item[FiltroDeX] Van a ser las clases concretas que nos van a permitir filtrar por las diferentes características de un PerfilDeBar. Un comentario importante: la signatura de cumple en nuestra implementación de FiltroDeDistancia difiere un poco de la presentada en el diagrama, pero tiene que ver con temas implementativos de la API de Google Maps que no pudimos evitar; aunque debe tenerse en cuenta que la idea de alto nivel es la misma.
 \end{itemize}
@@ -60,7 +60,7 @@ Analicemos y justifiquemos el diagrama parte por parte.
         \par Cabe destacar que la clase usuario presenta ciertos mensajes\footnote{Por ejemplo, \tt{is\_authenticated()}.} que deberían ser responsabilidad de ConjuntoDeUsuarios; éstos deben ser implementados por la clase Usuario para poder emplear el módulo \textit{Flask-Login}.
         Nuestros métodos forwardean dichos mensajes a ConjuntoDeUsuarios, ya que son su responsabilidad.
     \item[Privilegio] Como mencionamos, la clase Usuario emplea el patrón \textit{State}; Privilegio es la clase abstracta de la cual heredan los privilegios concretos. En términos de ``\textit{Design Patterns}, Privilegio es el \textit{State} del patrón.
-    \item[Mod, etc...] Éstos son los privilegios concretos que puede adquirir un Usuario; son los \textit{Concrete States} del patrón. Como tales, los métodos de Usuario simplemente forwardean los mensajes a estas clases, que se ocupan de realizar la implementación propriamente dicha.
+    \item[Mod, etc...] Éstos son los privilegios concretos que puede adquirir un Usuario; son los \textit{Concrete States} del patrón. Como tales, los métodos de Usuario simplemente forwardean los mensajes a estas clases, que se ocupan de realizar la implementación propiamente dicha.
     \item[Renderer] El rendering de HTML al cargar una página\footnote{Podría haber más eventos con requerimientos similares; actualmente el rendering de HTML es el único que se nos presentó, por lo que nos concentraremos en éste. Sin embargo, lo siguiente es aplicable a cualquiera de éstos.} puede depender de los privilegios del usuario actual, pero no es responsabilidad del Usuario.
         \par Para resolver esto, empleamos un patrón \textit{Visitor}: Usuario presenta un mensaje \textit{accept}, cuyo método forwardea el mensaje a Privilegio, y cada privilegio concreto llama al mensaje correspondiente del Renderer\footnote{Que corresponde al \textit{visitor} del patrón, en términos de ``\textit{Design Patterns}''.}.
     \par Cabe destacar que empleamos un único \textit{visitor} concreto, en vez de una jerarquía de \textit{visitors} concretos que heredan de uno abstracto, pues requerimos uno solo. Sin embargo, dado el \textit{duck typing} de \textit{Python}, es trivial refactorear nuestra implementación a una con dicha jerarquía, en caso de requerirlo en el futuro.
@@ -75,7 +75,7 @@ Analicemos y justifiquemos el diagrama parte por parte.
 
 \begin{itemize}
 
-\item[Voto] Es un multiplo de 0.5 entre 0.5 y 5 inclusive.
+\item[Voto] Es un número entre 0 y 100.
 
 \item[Valoración] Es un objeto que contiene un conjunto de votos sobre distintos features (Wifi,
 Enchufes, etcétera), un comentario y el usuario que realizo los mismos. Como decisión de diseño escogimos impedir que un usuario pueda votar sobre un único feature, de esta manera una Valoracion es siempre completa ya que contiene un puntaje asignado para todos los atributos actuales y un comentario.
@@ -101,7 +101,7 @@ Enchufes, etcétera), un comentario y el usuario que realizo los mismos. Como de
 
 \subsubsection{Calificar bares}
 
-En esta sección mostraremos los diagramas correspondientes a la valoración de un bar. Aquí se puede observar como una valoración realizada por Juan Perez para el bar Niceto es enviada al Valorador para que chequee si Juan Perez esta habilitado a Valorar (Actualmente chequea unicamente si el usuario no voto previamente en el mismo bar) y en caso afirmativo agrega la valoración al $Perfil Del Bar$.
+En esta sección mostraremos los diagramas correspondientes a la valoración de un bar. Aquí se puede observar como una valoración realizada por Juan P\'erez para el bar Niceto es enviada al Valorador para que chequee si Juan P\'erez esta habilitado a Valorar (Actualmente chequea únicamente si el usuario no voto previamente en el mismo bar) y en caso afirmativo agrega la valoración al $Perfil Del Bar$.
 
 \begin{figure}[H]
   \centering
@@ -155,7 +155,7 @@ Además, donde dice "votos", debería decir "valoracionPorcentualPorFeature", pe
 
 Igual que arriba, se ve que es un típico ejemplo de uso de Decorator.
 
-Como aclaramos en la nota, lo que hacemos es simplemente llamar a \texttt{filter}, pero ejemplificamos lo que sucede con un perfil específico. En este caso, la distancia al bar es menor que 200, pero la valoración del Wifi es 4, que es menor que 10, con lo cual esa llamada va a devolver False, valor que se va a propagar hacia atrás.
+Como aclaramos en la nota, lo que hacemos es simplemente llamar a \texttt{filter}, pero ejemplificamos lo que sucede con un perfil específico. En este caso, la distancia al bar es menor que 200, pero la valoración del Wi-Fi es 4, que es menor que 10, con lo cual esa llamada va a devolver False, valor que se va a propagar hacia atrás.
 
 En cuanto al diagrama de objetos es igual que antes. El buscador tiene adentro al conjunto de bares que a su vez tiene adentro a unPerfil. Sin embargo, los filtros solo conocen a los perfiles que le llegan como parámetro.
 
@@ -177,7 +177,7 @@ Sin embargo, mostramos la parte más vital, que es la de creación de filtro y d
   \caption{\normalfont Diagrama de objetos.}
 \end{figure}
 
-Como se ve, hay muchos objetos que interactúan. Esto no quiere decir que el acoplamiento sea alto, debido a que los objetos que interactúan tiene sentido que interactuen para mostrar los resultados.
+Como se ve, hay muchos objetos que interactúan. Esto no quiere decir que el acoplamiento sea alto, debido a que los objetos que interactúan tiene sentido que interactúen para mostrar los resultados.
 
 \subsubsection{Autenticar Usuario}
 
@@ -234,7 +234,7 @@ Recordemos cómo era el diagrama de clases de los filtros.
 
 Como dijimos anteriormente, los filtros los diseñamos usando el patrón Decorator.Elegimos este patrón porque parecía el más natural para resolver el problema y efectivamente lo era.
 
-Recordemos que el ``intent'' del patrón Decorator es ``Asignar responsabilidades a un objeto dinamicamente y proveer una alternativa a la subclasificación para extender'', que es exactamente lo que queremos hacer aquí, queremos, dinámicamente, poder crear un filtro de distintas features dinámicamente.
+Recordemos que el ``intent'' del patrón Decorator es ``Asignar responsabilidades a un objeto dinámicamente y proveer una alternativa a la subclasificación para extender'', que es exactamente lo que queremos hacer aquí, queremos, dinámicamente, poder crear un filtro de distintas features dinámicamente.
 
 En cuanto al funcionamiento, fue explicado intensamente en la sección anterior, con dos diagramas de objetos y dos diagramas de secuencia que dejan en claro como van a interactuar los objetos.
 
@@ -242,6 +242,6 @@ Luego de finalizar el diseño y la implementación, notamos que quizás todos la
 
 Sin embargo, esto no formaba parte del sprint, con lo cual la refactorización de este código quedará para un sprint futuro. Además, los Product Owner indicaron que el diseño de filtro era el esperado, con lo cual quizás ni siquiera haya que cambiarlo.
 
-Los filtros podrían ser contraídos a un FiltroDeFeature, que toma como parámetro el string de un feature, y le pide ese feature a las valoraciones del perfilDeBar pasado como parámetro, y las compara. Esto permitiría ahorrar repetición de código, quizas perdiendo expresividad, por eso no nos parece un cambio del todo positivo, pero nos pareció importante decir que tuvimos en cuenta que esto era una alternativa y decidimos no hacerla.
+Los filtros podrían ser contraídos a un FiltroDeFeature, que toma como parámetro el string de un feature, y le pide ese feature a las valoraciones del perfilDeBar pasado como parámetro, y las compara. Esto permitiría ahorrar repetición de código, quizás perdiendo expresividad, por eso no nos parece un cambio del todo positivo, pero nos pareció importante decir que tuvimos en cuenta que esto era una alternativa y decidimos no hacerla.
 
 
