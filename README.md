@@ -64,4 +64,4 @@ Sería bueno que cada una de ellas tenga una sección aparte en el informe detal
 
 - [x] Lo de arriba y limpiar el código.
 - [x] Agregar visualización en el diagrama de clase.
-- [ ] Explicar diagrama de objetos y clase de visualizador.
+- [x] Explicar diagrama de objetos y clase de visualizador.
