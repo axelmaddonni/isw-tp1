@@ -97,6 +97,9 @@ En cuanto al diagrama de objetos es igual que antes. El buscador tiene adentro a
 
 \subsubsection{Autenticar Usuario}
 
+\par A continuación presentamos los diagramas de objetos y secuencia de una llamada (exitosa) a 
+\texttt{ElConjuntoDeUsuarios.autenticar(UnUsername, UnaPassword)} durante el proceso de \textit{log-in}.
+
 \begin{figure}[ht]
     \centering
     \includegraphics[width=0.9\textwidth]{diagramas/ObjetosLogIn.pdf}
@@ -108,6 +111,10 @@ En cuanto al diagrama de objetos es igual que antes. El buscador tiene adentro a
     \includegraphics[width=0.9\textwidth]{diagramas/SecuenciaLogIn.pdf}
     \caption{Diagrama de secuencia de una autenticación (exitosa).}\label{SecLogIn}
 \end{figure}
+
+\par Si bien el proceso de \textit{log-in} es más extenso que la llamada a \texttt{autenticar}, lo omitido está relacionado a \textit{Flask}, rendering de html, llenado de \textit{forms} y demás; tales detalles son ortogonales al diseño planteado, por lo que sólo presentamos dicha llamada.
+
+\par Se muestra un caso exitoso; si falla la búsqueda en el diccionario (al no existir el usuario) o la comparación entre \textit{passwords}, se levanta una excepción que la función de \textit{log-in} captura y reacciona correspondientemente.
 
 \subsection{Más en detalle\ldots}
 
