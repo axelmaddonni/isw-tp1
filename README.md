@@ -8,13 +8,13 @@ isw1-tp1 2c 2016
 
 * Diagramas de objetos y secuencias (ver abajo cuales son):
 
-  * Diagrama 1:https://www.draw.io/#G0B5hNK09AHoDcWER2SFFQOW02SEU
+  * Diagrama 1: https://www.draw.io/#G0B5hNK09AHoDcWER2SFFQOW02SEU
 
   * Diagrama 2: https://www.draw.io/#G0B3FgdUXk8fTrbk1NaWhJNnBhTE0
 
   * Diagrama 3: https://www.draw.io/#G0B3FgdUXk8fTrZms1Tmo4U3h5ZlE
   
-  * Diagrama 4:
+  * Diagrama 4: https://www.draw.io/#G0B3FgdUXk8fTrbHlhRV9BYWliSnc
 
 
 #Cosas que hay que hacer
@@ -64,4 +64,4 @@ Sería bueno que cada una de ellas tenga una sección aparte en el informe detal
 
 - [x] Lo de arriba y limpiar el código.
 - [x] Agregar visualización en el diagrama de clase.
-- [ ] Explicar diagrama de objetos y clase de visualizador.
+- [x] Explicar diagrama de objetos y clase de visualizador.
