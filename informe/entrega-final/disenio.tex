@@ -67,7 +67,7 @@ Analicemos y justifiquemos el diagrama parte por parte.
 \item[Voto] Es un multiplo de 0.5 entre 0.5 y 5 inclusive.
 
 \item[Valoración] Es un objeto que contiene un conjunto de votos sobre distintos features (Wifi,
-Enchufes, etcétera), un comentario y el usuario que realizo los mismos.
+Enchufes, etcétera), un comentario y el usuario que realizo los mismos. Como decisión de diseño escogimos impedir que un usuario pueda votar sobre un único feature, de esta manera una Valoracion es siempre completa ya que contiene un puntaje asignado para todos los atributos actuales y un comentario.
 
 \item[ValoradorDeBares] Es el objeto encargado de manejar el sistema de valoración. Se creó con el objetivo de aumentar la cohesión en nuestro diseño y quitarle responsabilidades relacionadas al chequeo de las normas de valoración a los bares (Verificar que el usuario no haya votado previamente, entre otras que podrían agregarse, como chequear que este logueado, que no sea dueño del bar, etcétera) lo cual en nuestra opinión no modelaba la realidad.
 
