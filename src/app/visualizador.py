@@ -19,23 +19,21 @@ def llenar_filtro(filtron, valorn, filtro, d_cache):
 
 class VisualizadorDeResultados:
     def __init__(self, form, current_user):
-        self.form = form
         self.current_user = current_user
+        self.filtro = FiltroVacio()
+        self.posicionDelUsuario = Ubicacion(form.direccion_actual.data)
+        distancias_cache = buscador.distancias_cache(self.posicionDelUsuario)
+        self.filtro = llenar_filtro(form.filtro1.data,
+                form.valor1.data, self.filtro,
+                distancias_cache)
+        self.filtro = llenar_filtro(form.filtro2.data,
+                form.valor2.data, self.filtro,
+                distancias_cache)
+        self.filtro = llenar_filtro(form.filtro3.data,
+                form.valor3.data, self.filtro,
+                distancias_cache)
     def visualizar(self):
-        posicionDelUsuario = Ubicacion(self.form.direccion_actual.data)
-        distancias_cache = buscador.distancias_cache(posicionDelUsuario)
-        filtro = FiltroVacio()
-        filtro = llenar_filtro(self.form.filtro1.data,
-                self.form.valor1.data, filtro,
-                distancias_cache)
-        filtro = llenar_filtro(self.form.filtro2.data,
-                self.form.valor2.data, filtro,
-                distancias_cache)
-        filtro = llenar_filtro(self.form.filtro3.data,
-                self.form.valor3.data, filtro,
-                distancias_cache)
-        baresEncontrados = buscador.buscar(filtro)
-        baresEncontrados = sorted(baresEncontrados, key=lambda x: x[0])
+        baresEncontrados = buscador.buscar(self.filtro)
         user = self.current_user
         markers = []
         misBares = []
@@ -48,14 +46,14 @@ class VisualizadorDeResultados:
             if bar[1].bar().esDuenio(user):
                 misBares.append(bar[1].ubicacion().direccion())
         marker_posicion_usuario = {}
-        marker_posicion_usuario['lat'] = posicionDelUsuario.latlong()[0]
-        marker_posicion_usuario['lng'] = posicionDelUsuario.latlong()[1]
+        marker_posicion_usuario['lat'] = self.posicionDelUsuario.latlong()[0]
+        marker_posicion_usuario['lng'] = self.posicionDelUsuario.latlong()[1]
         marker_posicion_usuario['icon'] = 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
         marker_posicion_usuario['infobox'] = 'Tu Ubicacion'
         markers.append(marker_posicion_usuario)
 
-        latlng_usuario = {'lat': posicionDelUsuario.latlong()[0],
-                          'lng': posicionDelUsuario.latlong()[1]
+        latlng_usuario = {'lat': self.posicionDelUsuario.latlong()[0],
+                          'lng': self.posicionDelUsuario.latlong()[1]
                           }
         polylines = []
         colors = ["#FF0000", "#00FF00", "#0000FF",
@@ -82,4 +80,4 @@ class VisualizadorDeResultados:
                         polyline['path'].append({'lat': lat, 'lng': lng})
 
             polylines.append(polyline)
-        return baresEncontrados, posicionDelUsuario, markers, polylines, misBares
+        return baresEncontrados, self.posicionDelUsuario, markers, polylines, misBares

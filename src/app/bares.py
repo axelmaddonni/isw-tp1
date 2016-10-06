@@ -90,8 +90,6 @@ class BuscadorDeBares:
   def __init__(self, conj):
     self.elConjunto = conj
     self.distanciasCache = { }
-  def obtenerBBDD(self):
-    return self.elConjunto
   def distancias_cache(self, dir_usuario):
     direcciones = list(self.elConjunto.direcciones())
     try:
@@ -117,7 +115,7 @@ class BuscadorDeBares:
         self.elConjunto.obtenerPerfilDeBar(direcciones[i])) \
         for i in range(len(direcciones))]
 
-    return list(filter(lambda x: filtro.cumple(x[1]), direccionesYPerfiles))
+    return sorted(list(filter(lambda x: filtro.cumple(x[1]), direccionesYPerfiles)), key=lambda x: x[0])
 
 
 class ConjuntoDePerfiles:
