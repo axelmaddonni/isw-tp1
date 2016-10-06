@@ -193,7 +193,8 @@ def vista():
                                     perfilDeBar=perfilDeBar,
                                     posicionDelUsuario=posicionDelUsuario,
                                     markers=markers,
-                                    polyline=polyline)
+                                    polyline=polyline, 
+                                    usuarioDireccion=posicionDelUsuario.direccion())
 
 @app.route('/editar', methods=['GET', 'POST'])
 @homeRedirect
@@ -213,8 +214,9 @@ def editar():
 @app.route('/valorarBar', methods=['POST'])
 @homeRedirect
 def valorarBar():
-    direccion = request.form['direccion']
-    perfilDeBar = conjuntoDePerfiles.obtenerPerfilDeBar(direccion)
+    direccionBar = request.form['direccionBar']
+    direccionUsuario = request.form['direccionUsuario']
+    perfilDeBar = conjuntoDePerfiles.obtenerPerfilDeBar(direccionBar)
     votosPorFeature = {}
     for feature in ['wifi', 'enchufes', 'comida', 'precio']:
         voto = { feature: int(request.form[feature]) }
@@ -224,7 +226,7 @@ def valorarBar():
     nuevaValoracion = Valoracion (votosPorFeature, comentario, user)
     ValoradorDeBares.valorarBar(perfilDeBar, votosPorFeature, comentario, user)
     form = VistaDeBarForm(request.form)
-    return redirect(url_for('vista')  + "?barDireccion=" + direccion)
+    return redirect(url_for('vista')  + "?barDireccion=" + direccionBar + "&usuarioDireccion=" + direccionUsuario)
 
 @app.route('/eliminar', methods=['GET', 'POST'])
 @homeRedirect
