@@ -111,12 +111,12 @@ def buscar(error = False):
             visualizador = VisualizadorDeResultados(form, user)
             baresEncontrados, posicionDelUsuario, markers, polylines, misBares = visualizador.visualizar()
             return user.accept(Renderer())('resultados_busqueda.html',
-                               bares=baresEncontrados,
-                               dirusuario=posicionDelUsuario,
-                               locations=markers,
-                               polylines=polylines,
-                               misBares = misBares,
-                               )
+                                           bares=baresEncontrados,
+                                           dirusuario=posicionDelUsuario,
+                                           markers=markers,
+                                           polylines=polylines,
+                                           misBares = misBares,
+                                           )
         except:
             traceback.print_exc()
             return redirect(url_for("buscar") + "/True")
@@ -145,11 +145,54 @@ def agregar():
 @app.route('/vista', methods=['GET', 'POST'])
 @homeRedirect
 def vista():
-    direccion = request.args.get('barDireccion')
+    barDireccion = request.args.get('barDireccion')
+    posicionDelUsuario = Ubicacion(request.args.get('usuarioDireccion'))
     form = VistaDeBarForm(request.form)
-    perfilDeBar = conjuntoDePerfiles.obtenerPerfilDeBar(direccion)
+    perfilDeBar = conjuntoDePerfiles.obtenerPerfilDeBar(barDireccion)
     user = user_loader(current_user.get_id())
-    return user.accept(Renderer())('vista_de_bar.html', form=form, perfilDeBar=perfilDeBar)
+
+    # Lo que viene a continuac
+    markers = []
+    # Marker del usuario
+    marker_posicion_usuario = {}
+    marker_posicion_usuario['lat'] = posicionDelUsuario.latlong()[0]
+    marker_posicion_usuario['lng'] = posicionDelUsuario.latlong()[1]
+    marker_posicion_usuario['icon'] = 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
+    marker_posicion_usuario['infobox'] = 'Tu Ubicacion'
+    markers.append(marker_posicion_usuario)
+
+    # Marker del bar
+    marker_posicion_bar = {}
+    marker_posicion_bar['lat'] = perfilDeBar.bar().ubicacion().latlong()[0]
+    marker_posicion_bar['lng'] = perfilDeBar.bar().ubicacion().latlong()[1]
+    marker_posicion_bar['infobox'] = perfilDeBar.bar().nombre()
+    markers.append(marker_posicion_bar)
+
+    # Polyline
+    latlng_usuario = dict(zip(('lat', 'lng'), posicionDelUsuario.latlong()))
+    latlng_bar = dict(zip(('lat', 'lng'), perfilDeBar.bar().ubicacion().latlong()))
+
+    legs = gmaps.directions(latlng_usuario, latlng_bar, mode='walking', units='metric')[0]['legs']
+
+    polyline = {'stroke_color': "#FF0000",
+                'stroke_opacity': 0.8,
+                'stroke_weight': 4,
+                'path': []}
+
+    # Construimos el path del polyline
+    for i in range(len(legs)):
+        steps = legs[i]['steps'];
+        for j in range(len(steps)):
+            encodedPoints = steps[j]['polyline']['points']
+            for lat, lng in pline.decode(encodedPoints):
+                polyline['path'].append({'lat': lat, 'lng': lng})
+
+    return user.accept(Renderer())('vista_de_bar.html', 
+                                    form=form, 
+                                    perfilDeBar=perfilDeBar,
+                                    posicionDelUsuario=posicionDelUsuario,
+                                    markers=markers,
+                                    polyline=polyline)
 
 @app.route('/editar', methods=['GET', 'POST'])
 @homeRedirect
