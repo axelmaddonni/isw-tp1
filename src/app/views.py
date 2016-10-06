@@ -77,7 +77,7 @@ class AgregarForm(Form):
     nombre_dado = StringField("Nombre")
 
 class EditarForm(Form):
-    nombre_dado = StringField("Nombre")
+    nombre_dado = StringField("Nombre", [validators.required()])
 
 class LoginForm(Form):
     username = TextField('Username', validators=[validators.DataRequired()])
@@ -136,6 +136,7 @@ def agregar():
             return render_template('agregar_resultado.html', positivo = True)
         except:
             traceback.print_exc()
+            print("Estoy en agregar")
             return render_template('agregar_resultado.html', positivo = False)
 
     user = user_loader(current_user.get_id())
@@ -233,7 +234,7 @@ def eliminar():
     nombre = request.args.get('nombre')
     if request.method == 'POST':
         try:
-            bar = cconjuntoDePerfiles.obtenerBar(direccion)
+            bar = conjuntoDePerfiles.obtenerBar(direccion)
             conjuntoDePerfiles.borrarBar(bar)
             return render_template('eliminar_resultado.html', positivo = True)
         except:

@@ -173,7 +173,7 @@ class Renderer:
     def renderMod(self):
         return partial(render_template, anon = False, mod = True)
 
-usuarios = BaseDeDatosDeUsuarios({"User": "User", "Mod": "Mod"})
+usuarios = BaseDeDatosDeUsuarios({"User": "User", "Mod": "Mod","Pedro": "Pedro"})
 usuarios.modear("Mod")
 
 if __name__ == "__main__":
