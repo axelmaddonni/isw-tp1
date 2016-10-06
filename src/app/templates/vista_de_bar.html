@@ -1,8 +1,8 @@
 <head>
 <title>ISW1 - TP1</title>
 
-<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css') }}">
+<!--<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css') }}">-->
 
 <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
 <script src="{{ url_for('static', filename='js/index.js') }}"></script>
@@ -68,6 +68,7 @@ function goBack() {
   </td>
 
 
+  {% if not anon %}
   <!-- Nuevo Comentario -->
   <td>
       <button type="button" id="comentar" class="button1" style="display: none" 
@@ -75,6 +76,7 @@ function goBack() {
       Dejá tu opinión!
       </button>
   </td>
+  {% endif %}
 
   <!-- Ver Anteriores -->
   <td>
