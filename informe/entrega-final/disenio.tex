@@ -52,10 +52,13 @@ Analicemos y justifiquemos el diagrama parte por parte.
 
 \subsubsection{Filtro de bares filtrando por una única característica}
 
+
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{diagramas/secuencia_2.pdf}
-  \caption{\normalfont Diagrama de secuencia. Nota: corremos, \texttt{filter(bares, filtroDist200.cumple)}, por simplicidad ponemos sólo una llamada a cumple}
+  \caption{\normalfont Diagrama de secuencia. Nota: corremos, \texttt{filter(bares, filtroDist200.cumple)}, por simplicidad ponemos sólo una llamada a cumple.
+Además, donde dice "votos", debería decir "valoracionPorcentualPorFeature", pero lo escribimos así para hacerlo más corto y que el diagrama no quede mal.
+	}
 \end{figure}
 
 \begin{figure}[H]
@@ -71,7 +74,10 @@ Cómo se ve claramente, el filtro es un típico ejemplo de uso de Decorator. Com
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{diagramas/secuencia_3.pdf}
-  \caption{\normalfont Nota: \texttt{corremos filter(bares, filtroDist200Wifi10Comida20.cumple)}, por simplicidad ponemos sólo una llamada a cumple}
+  \caption{\normalfont Nota: \texttt{corremos filter(bares, filtroDist200Wifi10Comida20.cumple)}, por simplicidad ponemos sólo una llamada a cumple.
+Además, donde dice "votos", debería decir "valoracionPorcentualPorFeature", pero lo escribimos así para hacerlo más corto y que el diagrama no quede mal.
+	
+	}
 \end{figure}
 
 

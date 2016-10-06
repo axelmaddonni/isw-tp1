@@ -26,7 +26,7 @@ class FiltroDeEnchufes(FiltroExtra):
         FiltroExtra.__init__(self, elFiltro)
         self.minimo = minimo
     def cumple(self, bar):
-        return bar.votos("Enchufes") >= self.minimo and \
+        return bar.valoracionPorcentualPorFeature("enchufes") >= self.minimo and \
                self.elFiltro.cumple(bar)
 
 
@@ -35,20 +35,20 @@ class FiltroDeWifi(FiltroExtra):
         FiltroExtra.__init__(self, elFiltro)
         self.minimo = minimo
     def cumple(self, bar):
-        return bar.votos("Wifi") >= self.minimo and self.elFiltro.cumple(bar)
+        return bar.valoracionPorcentualPorFeature("wifi") >= self.minimo and self.elFiltro.cumple(bar)
 
 class FiltroDeComida(FiltroExtra):
     def __init__(self, elFiltro, minimo):
         FiltroExtra.__init__(self, elFiltro)
         self.minimo = minimo
     def cumple(self, bar):
-        return bar.votos("Comida") >= self.minimo and self.elFiltro.cumple(bar)
+        return bar.valoracionPorcentualPorFeature("comida") >= self.minimo and self.elFiltro.cumple(bar)
 
 class FiltroDePrecio(FiltroExtra):
     def __init__(self, elFiltro, minimo):
         FiltroExtra.__init__(self, elFiltro)
         self.minimo = minimo
     def cumple(self, bar):
-        return bar.votos("Precio") >= self.minimo and self.elFiltro.cumple(bar)
+        return bar.valoracionPorcentualPorFeature("precio") >= self.minimo and self.elFiltro.cumple(bar)
 
 
