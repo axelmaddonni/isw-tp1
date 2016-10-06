@@ -223,6 +223,8 @@ def valorarBar():
         votosPorFeature.update(voto)
     comentario = request.form['textoNuevoComentario']
     user = user_loader(current_user.get_id())
+    if not user.is_authenticated():
+        return redirect(url_for('vista')  + "?barDireccion=" + direccionBar + "&usuarioDireccion=" + direccionUsuario)
     nuevaValoracion = Valoracion (votosPorFeature, comentario, user)
     ValoradorDeBares.valorarBar(perfilDeBar, votosPorFeature, comentario, user)
     form = VistaDeBarForm(request.form)
