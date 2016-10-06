@@ -121,10 +121,12 @@ class BuscadorDeBares:
 class ConjuntoDePerfiles:
   def __init__(self, bares):
     self.losBaresPorDir = dict([(bar.bar().ubicacion().direccion(), bar) for bar in bares])
-  def agregarBares(self, bares):
-    for bar in bares:
-      key = bar.ubicacion().direccion()
-      self.losBaresPorDir[key] = PerfilDeBar(bar)
+  def agregarBares(self, bar):
+    key = bar.ubicacion().direccion()
+    if key not in self.losBaresPorDir:
+        self.losBaresPorDir[key] = PerfilDeBar(bar)
+    else:
+        raise KeyError("Ya existe esa direccion")
   def borrarBar(self, bar):
     key = bar.ubicacion().direccion()
     if key in self.losBaresPorDir:
