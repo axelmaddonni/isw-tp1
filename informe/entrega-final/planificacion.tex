@@ -226,6 +226,16 @@ También agregaremos la opción de crear cuentas, ya que la alternativa de hardc
 
 \subsection{Segundo Sprint: Seguimiento}
 
+\begin{figure}[H]
+ \centering
+  \includegraphics[width=\textwidth]{diagramas/iteration_burndown2.pdf}
+  \caption{}
+  \label{fig:burndown2}
+\end{figure}
+
+A diferencia del primer sprint, el flujo de trabajo que muestra el gráfico no es demasiado satisfactorio. Pasamos mucho tiempo antes de empezar a bajar las horas de trabajo pendientes. Esto se debió en parte a una mayor carga de trabajo con respecto al primer sprint, pues la intención era aumentar nuestra \emph{velocity}, habida cuenta que nuestro conocimiento del problema era mayor tras realizar la primer iteración. Sin embargo, no ponderamos lo suficiente otros factores externos, como una mayor demanda de la Facultad dado que era época de parciales y entregas de otras materias.
+
+No obstante a esto, logramos recuperarnos y llevar a cabo el trabajo propuesto para este sprint.
 
 %%%%%% FUTUROS SPRINTS
 \subsection{Retrospectiva}
@@ -236,7 +246,20 @@ También agregaremos la opción de crear cuentas, ya que la alternativa de hardc
  \item y también extender la aplicación con otras funcionalidades (no centrales inicialmente) que pueden ser claves en la mecánica del negocio, como interactuar con redes sociales.
 \end{itemize}
 
+\par Además de esto, para la user story ``Votación'' del segundo sprint, tuvimos que realizar una ligera simplificación: en lugar de calificar con estrellas como habíamos explicado antes, decidimos calificar con números del 1 al 10. Este sistema nos resultó más rápido para implementar inicialmente y tiene la ventaja de que mantiene el mismo nivel de granularidad (en ambos casos hay 10 puntajes posibles). Sin embargo, como es un requerimiento del Product Owner que el voto se realice con estrellas, volveremos a poner ``Votación'' en el backlog, con el propósito de modificar esta cuestión
+
 \par A continuación presentamos las User Stories que actualmente nos quedan en el backlog.
+
+\subsubsection*{Votación}
+  \userstory{usuario que critica un bar}{poder calificar a un bar con una cantidad de estrellas del $\frac{1}{2}$ (peor) al $5$ (mejor) en todas sus features}{dar una valoración rápida y concreta que ayude al resto de la comunidad en sus futuras búsquedas.}
+  \critdeacep{Cuando un bar es calificado por un usuario, el nuevo voto deberá verse reflejado cuando la página del bar sea cargada posteriormente.}
+  \tasks{
+    \begin{enumerate}
+      \item Backend: Adaptar el sistema de votos actual para que en lugar de usar un número del 1 al 10 utilice una cantidad de estrellas del 1 al 5 con granularidad $\frac{1}{2}$ (1)
+      \item Frontend: Que cada \emph{feature} para votar tenga una barra de 5 estrellas que permita seleccionar el puntaje deseado con el mouse, y que se lo comunique a el backend (3)
+      \item[] \textit{Total de horas hombre:} 4
+    \end{enumerate}
+  }
 
 \subsubsection*{Volver a página de resultados}
   \userstory{usuario de la aplicación}{poder volver a los resultados obtenidos en una búsqueda desde la vista de un bar seleccionado a partir de la misma}{poder acceder a las vistas de otros bares obtenidos en la búsqueda sin tener que volver a realizarla}
