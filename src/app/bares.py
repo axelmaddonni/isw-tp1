@@ -123,8 +123,8 @@ class ConjuntoDePerfiles:
     self.losBaresPorDir = dict([(bar.bar().ubicacion().direccion(), bar) for bar in bares])
   def agregarBares(self, bares):
     for bar in bares:
-      key = bar.bar().ubicacion().direccion()
-      self.losBaresPorDir[key] = bar
+      key = bar.ubicacion().direccion()
+      self.losBaresPorDir[key] = PerfilDeBar(bar)
   def borrarBar(self, bar):
     key = bar.ubicacion().direccion()
     if key in self.losBaresPorDir:
