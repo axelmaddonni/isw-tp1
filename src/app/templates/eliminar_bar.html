@@ -10,7 +10,7 @@
 
   <table id="tabla1" align ="center">
     <tr><td>
-      {% if mod %}  
+      {% if esDuenio or mod %}  
       <p>¿Está seguro que desea eliminar a {{ nombre }}?</p>
         <button onclick="goBack()">Cancelar</button>
           <script>
@@ -22,7 +22,7 @@
           <p><input type=submit class='button1' value=Aceptar></p>
         </form>
                      {% else %}
-                        <p>Sólo un Mod puede eliminar bares.</p>
+                        <p>No esta habilitado a eliminar este bar.</p>
                      {% endif %}
       </td></tr>
   </table>

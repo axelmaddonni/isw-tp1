@@ -203,12 +203,14 @@ def editar():
     direccion = request.args.get('barDireccion')
     form = EditarForm(request.form)
     if request.method == 'POST' and form.validate():
+
         conjuntoDePerfiles.modificarNombreBar(direccion,
                 str(form.nombre_dado.data))
         return render_template('editar_resultado.html',
                            positivo = True)
     user = user_loader(current_user.get_id())
-    return user.accept(Renderer())('editar_bar.html', form=form, direccion=direccion, nombre=conjuntoDePerfiles.obtenerBar(direccion).nombre())
+    esDuenio = conjuntoDePerfiles.obtenerBar(direccion).esDuenio(user)
+    return user.accept(Renderer())('editar_bar.html', esDuenio=esDuenio, form=form, direccion=direccion, nombre=conjuntoDePerfiles.obtenerBar(direccion).nombre())
 
 
 @app.route('/valorarBar', methods=['POST'])
@@ -244,7 +246,9 @@ def eliminar():
             return render_template('eliminar_resultado.html', positivo = False)
 
     user = user_loader(current_user.get_id())
-    return user.accept(Renderer())('eliminar_bar.html', direccion=direccion, nombre=nombre)
+    esDuenio = conjuntoDePerfiles.obtenerBar(direccion).esDuenio(user)
+
+    return user.accept(Renderer())('eliminar_bar.html', esDuenio=esDuenio, direccion=direccion, nombre=nombre)
     
 
 @app.route('/')
