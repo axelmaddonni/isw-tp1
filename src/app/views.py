@@ -77,7 +77,7 @@ class AgregarForm(Form):
     nombre_dado = StringField("Nombre")
 
 class EditarForm(Form):
-    nombre_dado = StringField("Nombre")
+    nombre_dado = StringField("Nombre", [validators.required()])
 
 class LoginForm(Form):
     username = TextField('Username', validators=[validators.DataRequired()])
