@@ -220,9 +220,8 @@ def login(invalidCredentials = False):
     if request.method == 'POST' and form.validate():
         username = form.username.data
         try:
-            if not usuarios.check_password(username, form.password.data):
+            if not usuarios.autenticar(username, form.password.data):
                 raise ValueError("Invalid Password")
-            usuarios.autenticar(username)
             login_user(usuarios[username])
             return redirect(url_for("accionesPosibles"))
         except:
