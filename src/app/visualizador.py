@@ -44,7 +44,7 @@ class VisualizadorDeResultados:
             marker['infobox'] = bar[1].bar().nombre()
             markers.append(marker)
             if bar[1].bar().esDuenio(user):
-                misBares.append(bar[1].ubicacion().direccion())
+                misBares.append(bar[1].bar().ubicacion().direccion())
         marker_posicion_usuario = {}
         marker_posicion_usuario['lat'] = self.posicionDelUsuario.latlong()[0]
         marker_posicion_usuario['lng'] = self.posicionDelUsuario.latlong()[1]

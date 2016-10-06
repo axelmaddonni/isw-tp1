@@ -136,6 +136,7 @@ def agregar():
             return render_template('agregar_resultado.html', positivo = True)
         except:
             traceback.print_exc()
+            print("Estoy en agregar")
             return render_template('agregar_resultado.html', positivo = False)
 
     user = user_loader(current_user.get_id())
