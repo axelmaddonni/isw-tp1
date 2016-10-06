@@ -17,6 +17,14 @@
 {% set direccion = elBar.ubicacion().direccion() %}
 
 <table id="perfil" style= "width: 500px; position: absolute; top: 35%; left: 30%" >
+<button onclick="goBack()">Volver</button>
+<script>
+function goBack() {
+    window.history.back();
+}
+</script>
+
+
 
 <!-- Tarjeta de Perfil -->
 <tr>
