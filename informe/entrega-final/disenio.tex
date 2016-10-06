@@ -52,7 +52,41 @@ Analicemos y justifiquemos el diagrama parte por parte.
 
 \subsubsection{Filtro de bares filtrando por una única característica}
 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{diagramas/secuencia_2.pdf}
+  \caption{\normalfont Diagrama de secuencia. Nota: corremos, \texttt{filter(bares, filtroDist200.cumple)}, por simplicidad ponemos sólo una llamada a cumple}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.7\textwidth]{diagramas/objetos_2.pdf}
+  \caption{\normalfont Diagrama de objetos.}
+\end{figure}
+
+Cómo se ve claramente, el filtro es un típico ejemplo de uso de Decorator. Como se ve, unBuscador recibe un conjunto de perfiles de bares. Como aclaramos en la nota, lo que hacemos es simplemente llamar a \texttt{filter}, pero ejemplificamos lo que sucede con un perfil específico. En este caso, la distancia del bar es menor que 200, entonces devuelve True.
+
 \subsubsection{Filtro de bares filtrando por tres característica}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{diagramas/secuencia_3.pdf}
+  \caption{\normalfont Nota: \texttt{corremos filter(bares, filtroDist200Wifi10Comida20.cumple)}, por simplicidad ponemos sólo una llamada a cumple}
+\end{figure}
+
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{diagramas/objetos_3.pdf}
+  \caption{\normalfont Diagrama de objetos.}
+\end{figure}
+
+
+Igual que arriba, se ve que es un típico ejemplo de uso de Decorator.
+
+Como aclaramos en la nota, lo que hacemos es simplemente llamar a \texttt{filter}, pero ejemplificamos lo que sucede con un perfil específico. En este caso, la distancia al bar es menor que 200, pero la valoración del Wifi es 4, que es menor que 10, con lo cual esa llamada va a devolver False, valor que se va a propagar hacia atrás.
+
+En cuanto al diagrama de objetos es igual que antes. El buscador tiene adentro al conjunto de bares que a su vez tiene adentro a unPerfil. Sin embargo, los filtros solo conocen a los perfiles que le llegan como parámetro.
 
 \subsubsection{Visualización de resultados}
 
