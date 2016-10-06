@@ -58,7 +58,7 @@ Sería bueno que cada una de ellas tenga una sección aparte en el informe detal
 ## Mathias
 
 - [ ] Diagramas de secuencias y objetos de lo de axel.
-- [ ] Borrar editar direccion de bar.
+- [x] Borrar editar direccion de bar.
 
 ## Gonza
 
