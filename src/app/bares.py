@@ -50,6 +50,8 @@ class Bar:
     return usuario in self.__duenios
   def editarUbicacion(self, nuevaUbicacion):
     self.__ubicacion = nuevaUbicacion
+  def editarNombre(self, nuevoNombre):
+    self.__nombre = nuevoNombre
   def agregarDuenio(self, nuevoDuenio):
     self.__duenios.append(nuevoDuenio)
 
@@ -117,7 +119,16 @@ class ConjuntoDePerfiles:
   def direcciones(self):
     return self.losBaresPorDir.keys()
   def bares(self):
-    return map(lambda x: x[1], self.losBaresPorDir.values())
+    return self.losBaresPorDir.values()
+  def modificarDirBar(self, direccionVieja, direccionNueva):
+    if len(direccionNueva) != 0:
+      bar = self.obtenerBar(direccionVieja)
+      self.losBaresPorDir[direccionNueva] = self.losBaresPorDir.pop(direccionVieja)
+      bar.editarUbicacion(Ubicacion(direccionNueva))
+  def modificarNombreBar(self, direccion, nombreNuevo):
+    if len(nombreNuevo) != 0:
+      bar = self.obtenerBar(direccion)
+      bar.editarNombre(nombreNuevo)
 
 bar1 = Bar('Mumbai', Ubicacion('Honduras 5684, CABA, Argentina',), True, False)
 bar2 = Bar('Niceto', Ubicacion('Av Cnel. Niceto Vega 5510, CABA, Argentina'), False, True)
