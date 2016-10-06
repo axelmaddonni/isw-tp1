@@ -64,7 +64,7 @@ class BuscarForm(Form):
                 if not (0 <= field.data <= 100):
                     raise ValidationError('El puntaje va entre 0 y 100.')
         except:
-            raise ValidationError('Ha ocurrido un error por favor ingresa un numero valido.')
+            raise ValidationError('Ha ocurrido un error por favor ingrese un numero valido.')
 
 
     def validate_valor3(form, field):
@@ -78,7 +78,7 @@ class BuscarForm(Form):
                 if not (0 <= field.data <= 100):
                     raise ValidationError('El puntaje va entre 0 y 100.')
         except:
-            raise ValidationError('Ha ocurrido un error por favor ingresa un numero valido.')
+            raise ValidationError('Ha ocurrido un error por favor ingrese un numero valido.')
 
 class VistaDeBarForm(Form):
     direccion_data = StringField('Direccion')
