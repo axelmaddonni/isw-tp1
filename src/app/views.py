@@ -233,7 +233,7 @@ def eliminar():
     nombre = request.args.get('nombre')
     if request.method == 'POST':
         try:
-            bar = cconjuntoDePerfiles.obtenerBar(direccion)
+            bar = conjuntoDePerfiles.obtenerBar(direccion)
             conjuntoDePerfiles.borrarBar(bar)
             return render_template('eliminar_resultado.html', positivo = True)
         except:
