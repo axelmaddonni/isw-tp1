@@ -73,8 +73,8 @@ class VistaDeBarForm(Form):
     direccion_data = StringField('Direccion')
 
 class AgregarForm(Form):
-    direccion_dada = StringField('Direccion')
-    nombre_dado = StringField("Nombre")
+    direccion_dada = StringField('Direccion', [validators.required()])
+    nombre_dado = StringField("Nombre", [validators.required()])
 
 class EditarForm(Form):
     nombre_dado = StringField("Nombre", [validators.required()])
@@ -136,7 +136,6 @@ def agregar():
             return render_template('agregar_resultado.html', positivo = True)
         except:
             traceback.print_exc()
-            print("Estoy en agregar")
             return render_template('agregar_resultado.html', positivo = False)
 
     user = user_loader(current_user.get_id())
