@@ -206,7 +206,7 @@ Como se ve, hay muchos objetos que interactúan. Esto no quiere decir que el aco
 
 \par Un bar sólo puede ser agregado por un Mod\footnote{Actualmente; en la etapa de planificación contemplamos la opción de que los usuarios que no sean moderadores contribuyan al proceso de incorporación de bares a futuro.}; si un usuario que no es Mod intenta añadir un bar se encuentra con un mensaje negativo en vez de las formas para incorporar bares\footnote{Esto se logra mediante un patrón \textit{visitor} en el Renderer de HTML previamente descrito.}.
 
-\par Si el usuario efectivamente es un Mod y llena las formas de manera válida, se genera el bar y su perfil, que se agregan al conjunto de bares mediante el mensaje \texttt{agregarBares}.
+\par Si el usuario efectivamente es un Mod y llena las formas de manera válida, se genera el bar y se le pasa el mensaje \texttt{agregarBares} al conjuntoDePerfiles, que construye el perfil del bar y lo incorpora al conjunto de perfiles existentes.
 
 \par Actualmente las formas son muy simples y contienen sólo Nombre y Dirección del bar.
 A futuro podrían agregarse más campos, incorporarse imágenes y demás.
