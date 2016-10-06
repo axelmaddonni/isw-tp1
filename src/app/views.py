@@ -74,7 +74,6 @@ class AgregarForm(Form):
     nombre_dado = StringField("Nombre")
 
 class EditarForm(Form):
-    direccion_dada = StringField('Direccion')
     nombre_dado = StringField("Nombre")
 
 class LoginForm(Form):
@@ -114,6 +113,7 @@ def buscar(error = False):
                                locations=markers,
                                polylines=polylines,
                                misBares = misBares,
+                               diccionario = {1:2,3:5}
                                )
         except:
             traceback.print_exc()
@@ -145,15 +145,14 @@ def agregar():
 def editar():
     direccion = request.args.get('barDireccion')
     form = EditarForm(request.form)
+    print(direccion)
     if request.method == 'POST' and form.validate():
         conjuntoDePerfiles.modificarNombreBar(direccion,
                 str(form.nombre_dado.data))
-        conjuntoDePerfiles.modificarDirBar(direccion,
-                str(form.direccion_dada.data))
         return render_template('editar_resultado.html',
                            positivo = True)
     user = user_loader(current_user.get_id())
-    return user.accept(Renderer())('editar_bar.html', form=form, direccion=direccion, nombre=buscador.obtenerBBDD().obtenerBar(direccion).nombre())
+    return user.accept(Renderer())('editar_bar.html', form=form, direccion=direccion, nombre=conjuntoDePerfiles.obtenerBar(direccion).nombre())
 
 @app.route('/eliminar', methods=['GET', 'POST'])
 @homeRedirect
