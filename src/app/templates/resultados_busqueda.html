@@ -39,7 +39,7 @@
                   {% endif %}
                 </div>
                 
-                <a href = "/vista?barDireccion={{direccion}}">Ver más</a></p>
+                <a href = "/vista?barDireccion={{direccion}}&usuarioDireccion={{dirusuario.direccion()}}">Ver más</a></p>
                 
               </div>
               
@@ -51,7 +51,7 @@
                         "simple-map",
                         lat=dirusuario.latlong()[0],
                         lng=dirusuario.latlong()[1],
-                        markers=locations,
+                        markers=markers,
                         maptype_control=0,
                         zoom = 15,
                         cls = "mapStyle",
