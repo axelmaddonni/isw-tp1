@@ -1,11 +1,12 @@
 all: informe
 
 informe: informe.tex
-	pdflatex informe.tex
-	pdflatex informe.tex
+	pdflatex -interaction nonstopmode informe.tex
+	pdflatex -interaction nonstopmode informe.tex
+	pdflatex -interaction nonstopmode informe.tex
 
 view:
-	zathura informe-primera-entrega.pdf
+	zathura informe.pdf
 
 open:
 	make && make view
