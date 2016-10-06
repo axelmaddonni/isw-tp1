@@ -57,6 +57,13 @@ Analicemos y justifiquemos el diagrama parte por parte.
 
 
 
+{\color{red}
+\begin{itemize}
+  \item[\footnotesize{VisualizadorDeResultados}] asd asd
+\end{itemize}
+}
+
+
 \subsection{Diagramas de Objetos y Secuencia}
 
 \subsubsection{Calificar bares}
@@ -106,6 +113,10 @@ En cuanto al diagrama de objetos es igual que antes. El buscador tiene adentro a
 
 \subsubsection{Visualización de resultados}
 
+Ahora pasaremos a ver la parte de visualización de resultados. Esta parte fue modelada con una clase llamada VisualizadorDeResultados, que permite encapsular la parte de generación de resultados. En los diagramas no mostramos la parte ``implementativa'' que es la que se ocupa de llamar a Flask para generar el HTML porque creemos que no suma.
+
+Sin embargo, mostramos la parte más vital, que es la de creación de filtro y de búsqueda de resultados. Veamos como es.
+
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{diagramas/secuencia_4.pdf}
@@ -117,6 +128,8 @@ En cuanto al diagrama de objetos es igual que antes. El buscador tiene adentro a
   \includegraphics[width=0.7\textwidth]{diagramas/objetos_4.pdf}
   \caption{\normalfont Diagrama de objetos.}
 \end{figure}
+
+Como se ve, hay muchos objetos que interactúan. Esto no quiere decir que el acoplamiento sea alto, debido a que los objetos que interactúan tiene sentido que interactuen para mostrar los resultados.
 
 \subsubsection{Autenticar Usuario}
 
