@@ -19,8 +19,14 @@ Analicemos y justifiquemos el diagrama parte por parte.
 \end{itemize}
 
 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{diagramas/filtro_clases.png}
+  \caption{\normalfont Diagrama de clases del subsistema de filtro.}
+\end{figure}
+
 \begin{itemize}
-\item[Filtro] Para la clase filtro vamos a utilizar el patrón Decorator. Filtro es una clase abstracta, que tiene un mensaje llamado cumple, que recibe un PerfilDeBar y chequea que cumpla su condición. En caso de que la cumpla, va a devolver True, en caso que no, False.
+\item[Filtro] Para la clase filtro vamos a utilizar el patrón Decorator. Filtro es una clase abstracta, que tiene un mensaje llamado cumple, que recibe un PerfilDeBar y chequea que cumpla su condición. En caso de que la cumpla, va a devolver True, en caso que no, False. Al final del trabajo hablamos más en detalle sobre porqu\'e tomamos las desiciones que tomamos.
 
 \item[FiltroVacio] Va a ser el filtro trivial que nos va a permitir finalizar la composición de filtros, como indica el patron Decorator. Su implementación de cumple va a ser \texttt{return True;}.
 
@@ -29,6 +35,11 @@ Analicemos y justifiquemos el diagrama parte por parte.
 \item[FiltroDeX] Van a ser las clases concretas que nos van a permitir filtrar por las diferentes características de un PerfilDeBar. Un comentario importante: la signatura de cumple en nuestra implementación de FiltroDeDistancia difiere un poco de la presentada en el diagrama, pero tiene que ver con temas implementativos de la API de Google Maps que no pudimos evitar; aunque debe tenerse en cuenta que la idea de alto nivel es la misma.
 \end{itemize}
 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{diagramas/usuario_clases.png}
+  \caption{\normalfont Diagrama de clases del subsistema de filtro.}
+\end{figure}
 
 \begin{itemize}
 \item[ConjuntoDeUsuarios] Como su nombre lo indica, representa el conjunto de usuarios del sistema. Adicionalmente, esta clase es la encargada de validar las credenciales provistas para loguearlos y autenticarlos.
