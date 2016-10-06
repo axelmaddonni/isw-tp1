@@ -241,7 +241,9 @@ def eliminar():
             traceback.print_exc()
             return render_template('eliminar_resultado.html', positivo = False)
 
-    return render_template('eliminar_bar.html', direccion=direccion, nombre=nombre)
+    user = user_loader(current_user.get_id())
+    return user.accept(Renderer())('eliminar_bar.html', direccion=direccion, nombre=nombre)
+    
 
 @app.route('/')
 @app.route('/home', methods=['GET', 'POST'])
