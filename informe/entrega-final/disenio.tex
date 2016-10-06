@@ -2,12 +2,23 @@
 
 Primero veamos como se comporta el sistema en general. Para eso, utilizaremos un diagrama de clases.
 
-{\color{red} Poner \url{https://www.draw.io/#G0B3FgdUXk8fTrcExpNDN6cl9Manc} cuando esté completo.}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{diagramas/diagrama_clases.png}
+  \caption{\normalfont Diagrama de clases del sistema completo.}
+\end{figure} 
 
 Analicemos y justifiquemos el diagrama parte por parte.
 
 \begin{itemize}
 \item[Ubicación] Va a ser la clase que nos va a abstraer de las diferentes posibles representaciones para la ubicación de un bar, en particular el String que representa su dirección, y su latitud y longitud que va a ser útil para calcular distancias, y en general para interactuar con la API de Google Maps, que vamos a usar fuertemente.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\textwidth]{diagramas/bar_clases.png}
+  \caption{\normalfont Diagrama de clases del subsistema de bares.}
+\end{figure}
 
 \item[Bar] Va a ser la clase que va representar a los bares de la realidad. Los bares tienen una ubicación y una lista de dueños.
 
@@ -72,6 +83,13 @@ Enchufes, etcétera), un comentario y el usuario que realizo los mismos. Como de
 \item[ValoradorDeBares] Es el objeto encargado de manejar el sistema de valoración. Se creó con el objetivo de aumentar la cohesión en nuestro diseño y quitarle responsabilidades relacionadas al chequeo de las normas de valoración a los bares (Verificar que el usuario no haya votado previamente, entre otras que podrían agregarse, como chequear que este logueado, que no sea dueño del bar, etcétera) lo cual en nuestra opinión no modelaba la realidad.
 
 \end{itemize}
+
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{diagramas/visualizador_clases.png}
+  \caption{\normalfont Diagrama de clases del subsistema de visualización de resultados.}
+\end{figure}
 
 {\color{red}
 \begin{itemize}
@@ -195,7 +213,7 @@ Agregar esto no sería nada difícil, sólo habría que agregar un campo mas a l
 
 En caso que se quisiera filtrar además por la feature de los espectáculos en vivo, se deberá agregar una nueva clase que herede de FiltrosExtra y filtre por esta categoría.
 
-Como se ve, las modificiaciones involucran solo agregar código (y modificar Valoración, que es correcto que deba modificarse), con lo que el diseño es resiliente frente a este eje de cambio.
+Como se ve, las modificiaciones involucran sólo agregar código (y modificar Valoración, que es correcto que deba modificarse), con lo que el diseño es resiliente frente a este eje de cambio.
 
 \subsubsection{El diseño y comportamiento de los distintos filtros de búsqueda de bares}
 
