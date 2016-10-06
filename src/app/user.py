@@ -74,7 +74,7 @@ class UsuarioRegistrado (Privilegio):
         return False
 
     def is_authenticated(self):
-        return usuarios.is_authenticated(self.username)
+        return usuarios.is_authenticated(self.atr.username)
 
     def accept(self, visitor):
         return visitor.renderRegistrado()
@@ -93,7 +93,7 @@ class Mod (Privilegio):
         return False
 
     def is_authenticated(self):
-        return usuarios.is_authenticated(self.username)
+        return usuarios.is_authenticated(self.atr.username)
 
     def accept(self, visitor):
         return visitor.renderMod()
@@ -190,5 +190,3 @@ if __name__ == "__main__":
     assert(not usuarios["User" ].get_id() == "User")
     usuarios["User"] = "UserPass"
     assert(usuarios["User" ].get_id() == "User")
-    assert(usuarios.check_password("User", "UserPass"))
-    assert(usuarios.check_password("Mod", "Mod"))
