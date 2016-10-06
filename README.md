@@ -53,6 +53,7 @@ Sería bueno que cada una de ellas tenga una sección aparte en el informe detal
 ## Gabriel
 
 - [ ] Lo de arriba
+- [ ] Explicar lo de user en el informe (esta en rojo).
 
 ## Mathias
 
@@ -62,3 +63,4 @@ Sería bueno que cada una de ellas tenga una sección aparte en el informe detal
 ## Gonza
 
 - [ ] Lo de arriba y limpiar el código.
+- [ ] Agregar visualización en el diagrama de clase.
