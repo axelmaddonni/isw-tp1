@@ -27,7 +27,7 @@ Extraido del mail de Fernando:
 
 Mínimamente se esperan diagramas para ver cómo los objetos que encontraron interactúan para:
 
-- [ ] Calificar bares [?]
+- [ ] Calificar bares [MATHIAS]
 - [x] Filtro de Bares filtrando por una única característica [GONZALO]
 - [x] Filtro de bares filtrando por dos o más características. [GONZALO]
 - [ ] Visualización de resultados. [GONZALO]
@@ -53,11 +53,14 @@ Sería bueno que cada una de ellas tenga una sección aparte en el informe detal
 ## Gabriel
 
 - [ ] Lo de arriba
+- [ ] Explicar lo de user en el informe (esta en rojo).
 
 ## Mathias
 
-- [ ] ???
+- [ ] Diagramas de secuencias y objetos de lo de axel.
+- [ ] Borrar editar direccion de bar.
 
 ## Gonza
 
 - [ ] Lo de arriba y limpiar el código.
+- [ ] Agregar visualización en el diagrama de clase.
