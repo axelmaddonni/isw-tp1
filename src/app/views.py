@@ -148,7 +148,8 @@ def vista():
     direccion = request.args.get('barDireccion')
     form = VistaDeBarForm(request.form)
     perfilDeBar = conjuntoDePerfiles.obtenerPerfilDeBar(direccion)
-    return render_template('vista_de_bar.html', form=form, perfilDeBar=perfilDeBar)
+    user = user_loader(current_user.get_id())
+    return user.accept(Renderer())('vista_de_bar.html', form=form, perfilDeBar=perfilDeBar)
 
 @app.route('/editar', methods=['GET', 'POST'])
 @homeRedirect
@@ -247,7 +248,7 @@ def registrar(invalidCredentials = False):
         username = form.username.data
         try:
             usuarios[username] = form.password.data
-            usuarios.autenticar(username)
+            usuarios.autenticar(username, form.password.data)
             login_user(usuarios[username])
             return usuarios[username].accept(Renderer())("registrar_resultado.html", positivo = True)
         except:
