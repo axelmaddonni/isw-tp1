@@ -205,6 +205,13 @@ Como se ve, hay muchos objetos que interactúan. Esto no quiere decir que el aco
 
 \subsubsection{Incorporación de bares}
 
+\par Un bar sólo puede ser agregado por un Mod\footnote{Actualmente; en la etapa de planificación contemplamos la opción de que los usuarios que no sean moderadores contribuyan al proceso de incorporación de bares a futuro.}; si un usuario que no es Mod intenta añadir un bar se encuentra con un mensaje negativo en vez de las formas para incorporar bares\footnote{Esto se logra mediante un patrón \textit{visitor} en el Renderer de HTML previamente descrito.}.
+
+\par Si el usuario efectivamente es un Mod y llena las formas de manera válida, se genera el bar y su perfil, que se agregan al conjunto de bares mediante el mensaje \texttt{agregarBares}.
+
+\par Actualmente las formas son muy simples y contienen sólo Nombre y Dirección del bar.
+A futuro podrían agregarse más campos, incorporarse imágenes y demás.
+
 \subsubsection{Incorporación de nuevas características de bares}
 
 Como nosotros tomamos la decisión de diseño de que las features no sean ``positivas o negativas'', si no porcentuales, la feature que agregaríamos valoraría la calidad de los espectáculos, y en caso de que no haya, valdrá 0.
