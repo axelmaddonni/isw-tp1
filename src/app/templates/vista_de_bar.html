@@ -179,7 +179,8 @@ function goBack() {
             <td>
 
               <form id="valorarBar" action="/valorarBar" method="post">
-                <input hidden="1" name="direccion" value= "{{direccion}}"></input>
+                <input hidden="1" name="direccionBar" value= "{{direccion}}"></input>
+                <input hidden="1" name="direccionUsuario" value= "{{usuarioDireccion}}"></input>
                 <textarea rows = 3 cols = 30 name="textoNuevoComentario" form="valorarBar">Ingrese su comentario... </textarea>
                 <input type="submit"/>
               </form>
@@ -242,7 +243,6 @@ function goBack() {
           </td>
         </tr>
       </table>
-
   </td>
 </tr>
 
