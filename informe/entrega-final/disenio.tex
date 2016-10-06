@@ -68,6 +68,24 @@ Analicemos y justifiquemos el diagrama parte por parte.
 
 \subsubsection{Calificar bares}
 
+En esta sección mostraremos los diagramas correspondientes a la valoración de un bar. una valoración es un objeto que contiene un conjunto de votos sobre distintos features (Wifi, Enchufes, etcétera), un comentario y el usuario que realizo los mismos.
+
+Aquí se puede observar como una valoración realizada por Juan Perez para el bar Niceto es enviada al Valorador para que chequee si Juan Perez esta habilitado a Valorar (Actualmente chequea unicamente si el usuario no voto previamente en el mismo bar) y en caso afirmativo agrega la valoración al $Perfil Del Bar$.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{diagramas/secuencia_1.pdf}
+  \caption{\normalfont Diagrama de secuencia.}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.7\textwidth]{diagramas/objetos_1.pdf}
+  \caption{\normalfont Diagrama de objetos.}
+\end{figure}
+
+Creamos el $Valorador De Bares$ con el objetivo de aumentar la cohesion en nuestro diseño y quitarle responsabilidades relacionadas al chequeo de las normas de valoración a los bares (Verificar que el usuario no haya votado previamente, entre otras que podrían agregarse, como chequear que este logueado, que no sea dueño del bar, etcétera) lo cual en nuestra opinión no modelaba la realidad.
+
 \subsubsection{Filtro de bares filtrando por una única característica}
 
 
