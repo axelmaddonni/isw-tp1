@@ -113,7 +113,6 @@ def buscar(error = False):
                                locations=markers,
                                polylines=polylines,
                                misBares = misBares,
-                               diccionario = {1:2,3:5}
                                )
         except:
             traceback.print_exc()
