@@ -3,7 +3,7 @@ import googlemaps
 from datetime import datetime
 import json
 from app.filtros import *
-from app.user import usuarios
+from app.user import usuarios, Usuario
 
 # Como usar: https://developers.google.com/maps/web-services/?hl=es
 # Mas: https://github.com/googlemaps/google-maps-services-python
@@ -58,14 +58,33 @@ class Bar:
 class PerfilDeBar:
   def __init__(self, bar):
     self.elBar = bar
-    self.__votos = { "Wifi": 80, "Enchufes": 10, "Comida": 30, "Precio": 50}
-    self.__comentarios = [ 'Este bar es genial!', 'Un servicio de porqueria.' ]
+    self.__valoraciones = [ Valoracion( { "wifi":8, "comida":10, "enchufes":3, "precio":4 }, "Este bar tiene buen morfi pero no tiene muchos enchufes. Lo recomiendo", Usuario("Goloso") ) ]
   def bar(self):
     return self.elBar
+  def valoraciones(self):
+    return self.__valoraciones
+  def valoracionPorcentualPorFeature(self, feature):
+    promedio = 0;
+    for valoracion in self.__valoraciones:
+      promedio = promedio + valoracion.votos(feature)
+    return (promedio / len(self.__valoraciones)) * 10
+
+class Valoracion:
+  def __init__(self, votosPorFeature, comentario, usuario):
+    self.__usuario = usuario
+    self.__votos = votosPorFeature
+    self.__comentario = comentario
+  def usuario(self):
+    return self.__usuario
   def votos(self, feature):
     return self.__votos[feature]
-  def comentarios(self):
-    return self.__comentarios
+  def comentario(self):
+    return self.__comentario
+
+class ValoradorDeBares:
+  def valorarBar(perfilDeBar, votos, comentario, usuario):
+    nuevaValoracion = Valoracion(votos, comentario, usuario)
+    perfilDeBar.valoraciones().append(nuevaValoracion)
 
 class BuscadorDeBares:
   def __init__(self, conj):
@@ -141,4 +160,3 @@ bar1.agregarDuenio(usuarios["Pedro"])
 
 conjuntoDePerfiles = ConjuntoDePerfiles([PerfilDeBar(bar1), PerfilDeBar(bar2), PerfilDeBar(bar3), PerfilDeBar(bar4)])
 buscador = BuscadorDeBares(conjuntoDePerfiles)
-

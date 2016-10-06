@@ -39,17 +39,7 @@
                   {% endif %}
                 </div>
                 
-                
-                <a href = "javascript:void(0)" onclick = "document.getElementById('{{ direccion.replace(' ', '') }}').style.display='block';document.getElementById('fade').style.display='block'">Ver más</a></p>
-                
-                <div id="{{ direccion.replace(' ', '') }}" class="answer"> 
-                  {% include 'perfil_de_bar.html' %} 
-                  <a href = "javascript:void(0)" onclick = "document.getElementById('{{ direccion.replace(' ', '') }}').style.display='none';document.getElementById('fade').style.display='none'">X</a>
-                </div>
-                
-                <div id="fade" class="black_overlay"></div>
-                
-                
+                <a href = "/vista?barDireccion={{direccion}}">Ver más</a></p>
                 
               </div>
               
@@ -85,5 +75,3 @@
   </body>
 </html>
 
-<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
-<script src="{{ url_for('static', filename='js/index.js') }}"></script>

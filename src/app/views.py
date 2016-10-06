@@ -5,7 +5,7 @@ from flask_wtf import Form
 from flask_bcrypt import Bcrypt
 from wtforms import TextField, PasswordField, BooleanField, IntegerField, StringField, SelectField, validators, ValidationError
 from app import app
-from app.bares import Ubicacion, Bar, BuscadorDeBares, buscador, PerfilDeBar, gmaps ,conjuntoDePerfiles
+from app.bares import Ubicacion, Bar, BuscadorDeBares, buscador, PerfilDeBar, gmaps ,conjuntoDePerfiles, Valoracion, ValoradorDeBares
 from app.filtros import *
 from app.visualizador import *
 from app.user import usuarios, Usuario, Renderer
@@ -16,6 +16,7 @@ import traceback
 bcrypt = Bcrypt()
 login_manager = LoginManager()
 login_manager.anonymous_user = Usuario
+
 
 class BuscarForm(Form):
     choices_ = [
@@ -68,6 +69,8 @@ class BuscarForm(Form):
             if not (0 <= field.data <= 100):
                 raise ValidationError('El puntaje va entre 0 y 100.')
 
+class VistaDeBarForm(Form):
+    direccion_data = StringField('Direccion')
 
 class AgregarForm(Form):
     direccion_dada = StringField('Direccion')
@@ -138,13 +141,21 @@ def agregar():
     user = user_loader(current_user.get_id())
     return user.accept(Renderer())("agregar.html", form = form)
 
+
+@app.route('/vista', methods=['GET', 'POST'])
+@homeRedirect
+def vista():
+    direccion = request.args.get('barDireccion')
+    form = VistaDeBarForm(request.form)
+    perfilDeBar = conjuntoDePerfiles.obtenerPerfilDeBar(direccion)
+    return render_template('vista_de_bar.html', form=form, perfilDeBar=perfilDeBar)
+
 @app.route('/editar', methods=['GET', 'POST'])
 @homeRedirect
 @login_required
 def editar():
     direccion = request.args.get('barDireccion')
     form = EditarForm(request.form)
-    print(direccion)
     if request.method == 'POST' and form.validate():
         conjuntoDePerfiles.modificarNombreBar(direccion,
                 str(form.nombre_dado.data))
@@ -152,6 +163,23 @@ def editar():
                            positivo = True)
     user = user_loader(current_user.get_id())
     return user.accept(Renderer())('editar_bar.html', form=form, direccion=direccion, nombre=conjuntoDePerfiles.obtenerBar(direccion).nombre())
+
+
+@app.route('/valorarBar', methods=['POST'])
+@homeRedirect
+def valorarBar():
+    direccion = request.form['direccion']
+    perfilDeBar = conjuntoDePerfiles.obtenerPerfilDeBar(direccion)
+    votosPorFeature = {}
+    for feature in ['wifi', 'enchufes', 'comida', 'precio']:
+        voto = { feature: int(request.form[feature]) }
+        votosPorFeature.update(voto)
+    comentario = request.form['textoNuevoComentario']
+    user = user_loader(current_user.get_id())
+    nuevaValoracion = Valoracion (votosPorFeature, comentario, user)
+    ValoradorDeBares.valorarBar(perfilDeBar, votosPorFeature, comentario, user)
+    form = VistaDeBarForm(request.form)
+    return redirect(url_for('vista')  + "?barDireccion=" + direccion)
 
 @app.route('/eliminar', methods=['GET', 'POST'])
 @homeRedirect
@@ -178,9 +206,11 @@ def accionesPosibles():
         user = user_loader(current_user.get_id())
         return user.accept(Renderer())("home.html")
 
+
 @login_manager.user_loader
 def user_loader(user_id):
     return usuarios[user_id]
+
 
 @app.route("/login/<invalidCredentials>", methods=['GET', 'POST'])
 @app.route("/login", methods=["GET", "POST"])

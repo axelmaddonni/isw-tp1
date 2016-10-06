@@ -1,0 +1,227 @@
+<head>
+<title>ISW1 - TP1</title>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css') }}">
+
+<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+<script src="{{ url_for('static', filename='js/index.js') }}"></script>
+
+</head>
+<body>
+
+<div align="center"><a href="/" >ISW1 - TP1</a></div>
+
+{% set elBar = perfilDeBar.bar() %}
+{% set nombre = elBar.nombre() %}
+{% set direccion = elBar.ubicacion().direccion() %}
+
+<table id="perfil" style= "width: 500px; position: absolute; top: 35%; left: 30%" >
+
+<!-- Tarjeta de Perfil -->
+<tr>
+  <td colspan=3>
+      <div class="card">
+        <figure class="panel meta" id ="cover">
+          <picture>
+            <img class="avatar" src="https://a2ua.com/bar/bar-007.jpg" width="128" height="128"/>
+          </picture>
+          <figcaption>
+
+            <h1 class="name">{{ nombre }}</h1>
+            <h3 class="title">{{ direccion }}</h3>
+          </figcaption>
+        </figure>
+        
+        <div class="panel info" id="calificaciones">
+          <dl>
+            <dt>Wifi</dt>
+            <dd>{{ perfilDeBar.valoracionPorcentualPorFeature("wifi") }}</dd>
+            <dt>Enchufes</dt>
+            <dd>{{ perfilDeBar.valoracionPorcentualPorFeature("enchufes") }}</dd>
+            <dt>Comida</dt>
+            <dd>{{ perfilDeBar.valoracionPorcentualPorFeature("comida") }}</dd>
+            <dt>Precio</dt>
+            <dd>{{ perfilDeBar.valoracionPorcentualPorFeature("precio") }}</dd>
+          </dl>
+        </div>
+    </div>
+  </td>
+</tr>
+
+<tr>
+
+  <!-- Camino Minimo -->
+  <td>
+      <button type="button" id="camino" class="button1" style="display: none" 
+      onclick="$('#comentarios').hide();$('#nuevoComentario').hide();$('#como_llegar').toggle();">
+      Cómo llegar?
+      </button>
+  </td>
+
+
+  <!-- Nuevo Comentario -->
+  <td>
+      <button type="button" id="comentar" class="button1" style="display: none" 
+      onclick="$('#comentarios').hide();$('#como_llegar').hide();$('#nuevoComentario').toggle();" >
+      Dejá tu opinión!
+      </button>
+  </td>
+
+  <!-- Ver Anteriores -->
+  <td>
+      <button type="button" id="verComentarios" class="button1" style="display: none" onclick="$('#nuevoComentario').hide();$('#como_llegar').hide();$('#comentarios').toggle();" >
+      Ver Comentarios
+      </button>
+  </td>
+
+</tr>
+
+<!-- Fila para nuevo comentario o mostrar los anteriores -->
+<tr>
+  <td colspan=3>
+
+      <table id="nuevoComentario" style="display: none">
+      <tr>
+        <td>
+        <table> 
+          <tr>
+            <td>
+              <b>Wifi</b>
+            </td>
+            <td>
+              <select name = "wifi" form="valorarBar">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+              </select>
+            </td>
+          </tr>
+
+          <tr>
+            <td>
+              <b>Enchufes</b>
+            </td>
+            <td>
+              <select name = "enchufes" form="valorarBar">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+              </select>
+            </td>
+          </tr>
+
+          <tr>
+            <td>
+              <b>Comida</b>
+            </td>
+            <td>
+              <select name= "comida" form="valorarBar">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+              </select>
+            </td>
+          </tr>
+
+          <tr>
+            <td>
+              <b>Precio</b>
+            </td>
+            <td>
+              <select name= "precio" form="valorarBar">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+              </select>
+            </td>
+          </tr>
+
+          <tr>
+            <td>
+
+              <form id="valorarBar" action="/valorarBar" method="post">
+                <input hidden="1" name="direccion" value= "{{direccion}}"></input>
+                <textarea rows = 3 cols = 30 name="textoNuevoComentario" form="valorarBar">Ingrese su comentario... </textarea>
+                <input type="submit"/>
+              </form>
+
+            </td>
+          </tr>
+        </table>
+        </td>
+      </tr>
+      </table>
+
+      <table id="comentarios" style="display: none">
+      <tr>
+        <td>
+          <table class="spaceUnder"> 
+            <tr> 
+              <td>
+                <b>Comentarios</b>
+              </td>
+            </tr>
+            {% for valoracion in perfilDeBar.valoraciones()[::-1][:10] %}
+            <tr>
+              <td> {{ valoracion.usuario().get_id() }} </td>
+              <td>
+                <div class="comment">
+                  {{ valoracion.comentario() }} <br>
+                  <i>
+                  Wifi: {{ valoracion.votos("wifi") }}
+                  Enchufes: {{ valoracion.votos("enchufes") }}
+                  Comida: {{ valoracion.votos("comida") }}
+                  Precio: {{ valoracion.votos("precio") }}
+                  </i>
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
+          </table>
+        </td>
+      </tr>
+      </table>
+
+      <table id="como_llegar" style="display: none">
+        <tr>
+          <td>
+            Mapa (Manu metelo aca)
+          </td>
+        </tr>
+      </table>
+
+  </td>
+</tr>
+
+</table>
+</body>
+
