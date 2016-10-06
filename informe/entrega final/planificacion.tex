@@ -1,3 +1,5 @@
+En esta sección analizamos primero generalidades sobre la planificación y luego entramos a ver en detalle el Sprint Backlog de cada iteración. A cada uno lo sigue un breve apartado sobre el seguimiento de la respectiva iteración, mostrando el burndown chart correspondiente. Finalmente realizamos la retrospectiva. 
+
 \subsection{Comentarios preliminares sobre las User Stories}
 \par Es un requerimiento que la comunidad sea la encargada de subir los bares. 
 Sin embargo, es de esperar\footnote{En base a nuestra experiencia personal navegando por internet.} que los usuarios eventualmente agreguen bares repetidos, inexistentes, con información errónea o abusen del sistema de diversas formas (e.g. spam).
@@ -26,13 +28,25 @@ Adicionalmente, el usuario puede aplicar filtros por feature, eliminando resulta
 
 \par La User Story a la que le asignamos 1 Story Point es a ``Borrar Comentarios'', ya que consiste sólo en agregar un botón a la interfaz de comentarios y removerlo de la estructura que lo contiene, ambas tareas muy sencillas. Para decidir el resto de los Story Points de los User Stories utilizamos la técnica de Planning Poker.
 
+\subsection{Roles de usuario}
+\par Consideramos que la siguiente elección de roles nos da una granularidad suficiente para nuestro problema:
+
+\begin{itemize}
+  \item usuario que busca un bar: un usuario cuyo objetivo es encontrar un bar.
+  \item usuario que critica un bar: un usuario que quiere criticar un bar, lo cual puede hacerlo a través de comentarios y calificaciones.
+  \item usuario con cuenta y usuario sin cuenta: son respectivamente los roles para usuarios que están o no registrados, y que realizan acciones relacionadas a este sistema de registro.
+  \item moderador: usuario con privilegios especiales que le permiten agregar, editar y eliminar todos los bares.
+  \item dueño de bar: usuario con privilegios especiales para editar o eliminar el o los bares que posee.
+  \item usuario que usa Facebook y usuario que usa Twitter: son los roles asociados a la interacción con redes sociales.
+\end{itemize}
+
 %%%%%% PRIMER SPRINT %%%%%%
-\subsection{Primer Sprint}
+\subsection{Primer Sprint: Sprint Backlog}
 \par Para el primer Sprint elegimos las User Stories esenciales para implementar la funcionalidad básica de buscar un bar cercano: la búsqueda en sí, la vista de bares y sus features, agregar bares (sólo como Moderador, ya que es más simple y con esto alcanza en una primera instancia), el log-in\footnote{Si bien podremos loguearnos a cuentas ya existentes, aún no podremos crear nuevas. Hardcodearemos algunas, y nos loguearemos a éstas.} y la promoción a Moderador.
 Estas dos últimas son necesarias ya que un bar sólo puede ser agregado por un Moderador.
 
 \subsubsection*{Buscar bares}
-  \userstory{usuario de la aplicación}{buscar bares cerca de mí}{poder conocer qué bares cercanos tienen wifi y enchufes.}
+  \userstory{usuario que busca un bar}{buscar bares cerca de mí}{poder conocer qué bares cercanos tienen wifi y enchufes.}
   \critdeacep{Al enviar la posición actual del usuario al sistema, este debe devolver la lista de bares a menos de 400m.}
   \valores{10}{8}{1.25}
   \tasks{
@@ -70,7 +84,7 @@ Estas dos últimas son necesarias ya que un bar sólo puede ser agregado por un 
   }
 
 \subsubsection*{Vista del bar}
-  \userstory{usuario de la aplicación}{poder acceder a la página de un bar en la aplicación}{ver sus características con mayor detalle}
+  \userstory{usuario que busca o critica un bar}{poder acceder a la página de un bar en la aplicación}{ver sus características con mayor detalle}
   \critdeacep{La vista del bar debe contener todos los datos actualizados: nombre, foto, ubicación, features y comentarios.}
   \valores{10}{3}{3.33}
   \tasks{
@@ -82,7 +96,7 @@ Estas dos últimas son necesarias ya que un bar sólo puede ser agregado por un 
   }
 
 \subsubsection*{Log-in}
-  \userstory{usuario de la aplicación}{loguearme}{acceder a funcionalidades disponibles sólo a usuarios con cuenta.}
+  \userstory{usuario con cuenta}{loguearme}{acceder a funcionalidades disponibles sólo a usuarios con cuenta.}
   \critdeacep{Al ingresar un usuario y contraseña válidas, el sistema debe iniciar una sesión con ese usuario.}
   \valores{8}{5}{1.6}
   \tasks{
@@ -104,8 +118,21 @@ Estas dos últimas son necesarias ya que un bar sólo puede ser agregado por un 
     \end{enumerate}
   }
 
+\subsection{Primer Sprint: Seguimiento}
+
+\begin{figure}[H]
+ \centering
+  \includegraphics[width=\textwidth]{diagramas/iteration_burndown1.pdf}
+  \caption{}
+  \label{fig:burndown1}
+\end{figure}
+
+La subida en la cantidad de horas restantes que puede observarse el 06/09 se explica porque se nos había pasado por alto asignarle la estimación de horas a la User Story ``Vista de bar'' al momento de crearla. El 06/09 fue cuando corregimos dicho error.
+
+En general quedamos muy conformes con el flujo de trabajo durante este primer sprint. Como puede verse en el gráfico logramos mantenernos al día, cumpliendo con todos los objetivos propuestos.
+
 %%%%%% SEGUNDO SPRINT %%%%%%
-\subsection{Segundo Sprint}
+\subsection{Segundo Sprint: Sprint Backlog}
 \par En el segundo Sprint buscamos expandir significativamente el proceso de búsqueda y vista de bares, incorporando filtros por feature y distancia, permitiendo editar información de bares (nuevamente, sólo como Moderador), calificarlos, comentar y obtener el trayecto óptimo hasta el bar.
 También agregaremos la opción de crear cuentas, ya que la alternativa de hardcodearlas es engorrosa.
 
@@ -124,7 +151,7 @@ También agregaremos la opción de crear cuentas, ya que la alternativa de hardc
   }
 
 \subsubsection*{Votación}
-  \userstory{usuario de la aplicación}{poder calificar a un bar con una cantidad de estrellas del $\frac{1}{2}$ (peor) al $5$ (mejor) en todas sus features}{dar una valoración rápida y concreta que ayude al resto de la comunidad en sus futuras búsquedas.}
+  \userstory{usuario que critica un bar}{poder calificar a un bar con una cantidad de estrellas del $\frac{1}{2}$ (peor) al $5$ (mejor) en todas sus features}{dar una valoración rápida y concreta que ayude al resto de la comunidad en sus futuras búsquedas.}
   \critdeacep{Cuando un bar es calificado por un usuario, el nuevo voto deberá verse reflejado cuando la página del bar sea cargada posteriormente.}
   \valores{9}{2}{4.5}
   \tasks{
@@ -136,7 +163,7 @@ También agregaremos la opción de crear cuentas, ya que la alternativa de hardc
   }
 
 \subsubsection*{Comentar}
-  \userstory{usuario de la aplicación}{escribir comentarios sobre los bares que visito}{compartir detalles que considere importantes para ayudar al resto de la comunidad en futuras búsquedas.}
+  \userstory{usuario que critica un bar}{escribir comentarios sobre los bares que visito}{compartir detalles que considere importantes para ayudar al resto de la comunidad en futuras búsquedas.}
   \critdeacep{Al escribir y aceptar un nuevo comentario, éste debe aparecer en la vista del bar.}
   \valores{7}{2}{4.5}
   \tasks{
@@ -149,7 +176,7 @@ También agregaremos la opción de crear cuentas, ya que la alternativa de hardc
   }
 
 \subsubsection*{?`Cómo llegar?}
-  \userstory{usuario de la aplicación}{conocer la ruta más rápida para llegar al bar deseado desde mi posición actual}{minimizar mi pérdida de tiempo y esfuerzo.}
+  \userstory{usuario que busca un bar}{conocer la ruta más rápida para llegar al bar deseado desde mi posición actual}{minimizar mi pérdida de tiempo y esfuerzo.}
   \critdeacep{En la vista de un bar deberá haber un botón que permita ver el camino al bar desde mi posición. Éste deberá ser efectivamente el camino óptimo.}
   \valores{9}{3}{3}
   \tasks{
@@ -162,7 +189,7 @@ También agregaremos la opción de crear cuentas, ya que la alternativa de hardc
 
 
 \subsubsection*{Filtrar por distancia}
-  \userstory{usuario de la aplicación}{filtrar los resultados de una búsqueda de bares por máxima distancia}{buscar y distinguir bares según la distancia a la que se encuentran}
+  \userstory{usuario que busca un bar}{filtrar los resultados de una búsqueda de bares por máxima distancia}{buscar y distinguir bares según la distancia a la que se encuentran}
   \critdeacep{Al modificar la preferencia de distancia máxima de búsqueda, los bares resultantes deberán encontrarse a menor o igual distancia que la seleccionada.}
   \valores{8}{2}{4}
   \tasks{
@@ -174,7 +201,7 @@ También agregaremos la opción de crear cuentas, ya que la alternativa de hardc
   }
 
 \subsubsection*{Filtrar búsquedas por feature}
-  \userstory{usuario de la aplicación}{filtrar los resultados de una búsqueda según el puntaje de las distintas features de los bares}{poder descartar de los resultados los bares que tengan una puntuación indeseable en ciertas categorías}
+  \userstory{usuario que busca un bar}{filtrar los resultados de una búsqueda según el puntaje de las distintas features de los bares}{poder descartar de los resultados los bares que tengan una puntuación indeseable en ciertas categorías}
   \critdeacep{Al seleccionar un filtro, los resultados de la búsqueda ejecutada que aparecen deben pasar las condiciones impuestas por los filtros, y deben ser todos los que las cumplen.}
   \valores{8}{3}{2.66}
   \tasks{
@@ -186,7 +213,7 @@ También agregaremos la opción de crear cuentas, ya que la alternativa de hardc
   }
 
 \subsubsection*{Creación de cuenta}
-  \userstory{usuario de la aplicación}{crear una cuenta}{poder loguearme y acceder a funcionalidades sólo disponibles a usuarios logueados.}
+  \userstory{usuario sin cuenta}{crear una cuenta}{poder loguearme y acceder a funcionalidades sólo disponibles a usuarios logueados.}
   \critdeacep{Al ingresar un usuario y contraseña y confirmar la contraseña, si el usuario no existe en el sistema, se creará un nuevo usuario, que podrá loguearse de ahí en adelante.}
   \valores{9}{3}{3}
   \tasks{
@@ -197,22 +224,30 @@ También agregaremos la opción de crear cuentas, ya que la alternativa de hardc
     \end{enumerate}
   }
 
+\subsection{Segundo Sprint: Seguimiento}
+
+
 %%%%%% FUTUROS SPRINTS
-\subsection{En el backlog}
-%Podria agregarse interaccion con redes sociales
-\par Quedan diversas funcionalidades a ser agregadas a la aplicación. 
-En un tercer Sprint se podrían agregar las sugerencias, que permitirían a los usuarios contribuir aún más; en un cuarto Sprint se podría incorporar funciones a las cuentas, agregando un historial de comentarios y bares valorados, bares favoritos, puntuación basada en la contribución, posiblemente permitiendo a un usuario convertirse en Moderador, etc. 
+\subsection{Retrospectiva}
+\par Si bien en estas dos primeras iteraciones del proyecto pudimos desarrollar el núcleo de las funcionalidades relacionadas con la búsqueda de bares, la aplicación aún dista mucho de estar completamente terminada. Quedan un gran número de cosas por hacer:
+\begin{itemize}
+ \item algunas que son claves pues hacen a los requerimientos iniciales de la aplicación, como por ejemplo que los usuarios puedan sugerir nuevos bares; 
+ \item otras que apuntan más a un refinamiento de lo que ya hay, como hacer más cómoda la búsqueda de bares evitando que el usuario tenga que volver a buscar un bar cada vez que retorna de ver un perfil, o que los usuarios con cuenta tengan un historial de comentarios y calificaciones;
+ \item y también extender la aplicación con otras funcionalidades (no centrales inicialmente) que pueden ser claves en la mecánica del negocio, como interactuar con redes sociales.
+\end{itemize}
+
+\par A continuación presentamos las User Stories que actualmente nos quedan en el backlog.
 
 \subsubsection*{Volver a página de resultados}
   \userstory{usuario de la aplicación}{poder volver a los resultados obtenidos en una búsqueda desde la vista de un bar seleccionado a partir de la misma}{poder acceder a las vistas de otros bares obtenidos en la búsqueda sin tener que volver a realizarla}
   \valores{5}{3}{1.66}
 
 \subsubsection*{Sugerir un nuevo bar}
-  \userstory{usuario de la aplicación}{sugerir que se agregue un nuevo bar}{que pueda ser aprobado por un mod y de esta forma sea agregado al catálogo}
+  \userstory{usuario con cuenta}{sugerir que se agregue un nuevo bar}{que pueda ser aprobado por un mod y de esta forma sea agregado al catálogo}
   \valores{7}{5}{1.4}
 
 \subsubsection*{Sugerir dueño de un bar}
-  \userstory{usuario de la aplicación}{proponerme como dueño de un bar que ya se encuentra en el sistema}{ser reconocido como dueño del bar y poder actualizar su información libremente.}
+  \userstory{usuario con cuenta}{proponerme como dueño de un bar que ya se encuentra en el sistema}{ser reconocido como dueño del bar y poder actualizar su información libremente.}
   \valores{5}{5}{1}
 
 \subsubsection*{Aprobar la creación de un bar}
@@ -227,4 +262,16 @@ En un tercer Sprint se podrían agregar las sugerencias, que permitirían a los 
   \userstory{moderador}{remover comentarios}{hacer cumplir las condiciones de uso de la aplicación.}
   \valores{3}{1}{3}
 
+\subsubsection*{Interactuar con Facebook}
+  \userstory{usuario que usa Facebook}{compartir el perfil del bar en mi muro de Facebook}{mis contactos de Facebook conozcan el bar y sepan mi opinión al respecto.}
+
+\subsubsection*{Interactuar con Twitter}
+  \userstory{usuario que usa Twitter}{twittear el perfil del bar}{mis contactos de Twitter conozcan el bar y sepan mi opinión al respecto.}
+
 \subsection{Modificaciones respecto de la primer entrega}
+Se realizaron las siguientes modificaciones menores a partir de las correcciones recibidas tras la primer entrega de las user stories:
+\begin{itemize}
+  \item Tratamos de ser más realistas en cuanto a lo que falta por hacer, no dar ``la sensación de tener toda la aplicación terminada en dos sprints''.
+  \item Pasamos de tener un único rol genérico para los usuarios a varios más específicos.
+  \item Agregamos al backlog User Stories relacionadas con la interacción con redes sociales. 
+\end{itemize}
