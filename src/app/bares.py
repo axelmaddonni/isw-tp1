@@ -66,13 +66,13 @@ class PerfilDeBar:
     return self.__comentarios
 
 class BuscadorDeBares:
-  def __init__(self, bbddBares):
-    self.BBDDBares = bbddBares
+  def __init__(self, conj):
+    self.elConjunto = conj
     self.distanciasCache = { }
   def obtenerBBDD(self):
-    return self.BBDDBares
+    return self.elConjunto
   def distancias_cache(self, dir_usuario):
-    direcciones = list(self.BBDDBares.direcciones())
+    direcciones = list(self.elConjunto.direcciones())
     try:
         resultado = gmaps.distance_matrix(
                 dir_usuario.direccion(),
@@ -89,17 +89,17 @@ class BuscadorDeBares:
     return self.distanciasCache
 
   def buscar(self, filtro):
-    direcciones = list(self.BBDDBares.direcciones())
+    direcciones = list(self.elConjunto.direcciones())
 
     direccionesYPerfiles = [ \
         (self.distanciasCache[direcciones[i]], \
-        self.BBDDBares.obtenerPerfilDeBar(direcciones[i])) \
+        self.elConjunto.obtenerPerfilDeBar(direcciones[i])) \
         for i in range(len(direcciones))]
 
     return list(filter(lambda x: filtro.cumple(x[1]), direccionesYPerfiles))
 
 
-class BaseDeDatosDeBares:
+class ConjuntoDePerfiles:
   def __init__(self, bares):
     self.losBaresPorDir = dict([(bar.bar().ubicacion().direccion(), bar) for bar in bares])
   def agregarBares(self, bares):
@@ -117,7 +117,7 @@ class BaseDeDatosDeBares:
   def direcciones(self):
     return self.losBaresPorDir.keys()
   def bares(self):
-    return self.losBaresPorDir.values()
+    return map(lambda x: x[1], self.losBaresPorDir.values())
 
 bar1 = Bar('Mumbai', Ubicacion('Honduras 5684, CABA, Argentina',), True, False)
 bar2 = Bar('Niceto', Ubicacion('Av Cnel. Niceto Vega 5510, CABA, Argentina'), False, True)
@@ -128,6 +128,6 @@ bar1.agregarDuenio(usuarios["Pedro"])
 
 # Ponele votaciones cualquiera.
 
-bbddBares = BaseDeDatosDeBares([PerfilDeBar(bar1), PerfilDeBar(bar2), PerfilDeBar(bar3), PerfilDeBar(bar4)])
-buscador = BuscadorDeBares(bbddBares)
+conjuntoDePerfiles = ConjuntoDePerfiles([PerfilDeBar(bar1), PerfilDeBar(bar2), PerfilDeBar(bar3), PerfilDeBar(bar4)])
+buscador = BuscadorDeBares(conjuntoDePerfiles)
 

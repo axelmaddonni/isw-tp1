@@ -5,7 +5,7 @@ from flask_wtf import Form
 from flask_bcrypt import Bcrypt
 from wtforms import TextField, PasswordField, BooleanField, IntegerField, StringField, SelectField, validators, ValidationError
 from app import app
-from app.bares import Ubicacion, Bar, BuscadorDeBares, buscador, PerfilDeBar, gmaps
+from app.bares import Ubicacion, Bar, BuscadorDeBares, buscador, PerfilDeBar, gmaps ,conjuntoDePerfiles
 from app.filtros import *
 from app.visualizador import *
 from app.user import usuarios, Usuario, Renderer
@@ -129,7 +129,7 @@ def agregar():
         try:
             nombre_del_bar = str(form.nombre_dado.data)
             direccion_del_bar = Ubicacion(form.direccion_dada.data)
-            buscador.obtenerBBDD().agregarBares([PerfilDeBar(Bar(nombre_del_bar, direccion_del_bar))])
+            conjuntoDePerfiles.agregarBares([PerfilDeBar(Bar(nombre_del_bar, direccion_del_bar))])
             return render_template('agregar_resultado.html', positivo = True)
         except:
             traceback.print_exc()
@@ -145,7 +145,7 @@ def editar():
     direccion = request.args.get('barDireccion')
     form = EditarForm(request.form)
     if request.method == 'POST' and form.validate():
-        bar = buscador.obtenerBBDD().obtenerBar(direccion)
+        bar = conjuntoDePerfiles.obtenerBar(direccion)
         bar.editarUbicacion(Ubicacion(str(form.direccion_dada.data)))
 
         return render_template('editar_resultado.html',
@@ -161,8 +161,8 @@ def eliminar():
     nombre = request.args.get('nombre')
     if request.method == 'POST':
         try:
-            bar = buscador.obtenerBBDD().obtenerBar(direccion)
-            buscador.obtenerBBDD().borrarBar(bar)
+            bar = cconjuntoDePerfiles.obtenerBar(direccion)
+            conjuntoDePerfiles.borrarBar(bar)
             return render_template('eliminar_resultado.html', positivo = True)
         except:
             traceback.print_exc()
