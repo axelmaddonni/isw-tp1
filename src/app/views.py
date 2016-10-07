@@ -143,8 +143,11 @@ def agregar():
         try:
             nombre_del_bar = str(form.nombre_dado.data)
             direccion_del_bar = Ubicacion(form.direccion_dada.data)
-            conjuntoDePerfiles.agregarBares([Bar(nombre_del_bar, direccion_del_bar)])
+            conjuntoDePerfiles.agregarBares(Bar(nombre_del_bar, direccion_del_bar))
             return render_template('agregar_resultado.html', positivo = True)
+        except KeyError:
+            traceback.print_exc()
+            return render_template('agregar_resultado.html', positivo = False, yaExiste = True)
         except:
             traceback.print_exc()
             return render_template('agregar_resultado.html', positivo = False)
