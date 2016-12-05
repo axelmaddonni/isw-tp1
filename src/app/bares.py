@@ -13,7 +13,7 @@ from app.user import usuarios, Usuario
 # Si algo les da error que no anda, avisenme.
 # Para sacar una clave para lo que quieran:
 #    https://console.developers.google.com/?hl=es-419
-GOOGLE_MAPS_KEY = "AIzaSyBN8fuLr8PXqvxNrZ_WtcIhqo9K5XKqWDw"
+GOOGLE_MAPS_KEY = ""
 gmaps = googlemaps.Client(key=GOOGLE_MAPS_KEY)
 
 class Ubicacion:
